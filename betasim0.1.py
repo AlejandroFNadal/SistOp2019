@@ -22,9 +22,11 @@ class Proceso: #Contiene los datos esenciales de un proceso
         print(str(self.id)+"       "+str(self.Pro_tam)+"       "+str(self.Prioridad)+"       "+str(self.TiempoArribo)+"       "+str(self.Secuencia))
 
 class Interface:
+    def __init__(self):
+        self.conn = None
     def create_connection(self,db_file):
         """ create a database connection to a SQLite database """
-        self.conn = None
+        
         try:
             self.conn = sqlite3.connect(db_file)
             print("Successfully connected to Database")
@@ -35,10 +37,12 @@ class Interface:
         #Esta funcion comprueba si la particion fija introducida puede caber en donde se la puso. Falta hacer
         return True
     def cargar_preset(self):
-        
+        ##Esta funcion devuelve una lista con tres sublistas. La sublista preset, la sublista particiones y la sublista procesos.
+        currentPreset=self.retrieve_cantidadPresets()+1
         particiones=[]
         procesos=[]
         tempParticion=[]
+        data=[] #lista a devolver
         continuar=True
         memoria=[]#Lista que describe la memoria byte por byte
         print("Inserte una descripcion de su preconfiguracion")
@@ -55,6 +59,7 @@ class Interface:
         algoritmo=int(input())
         print("Particiones fijas o variables:[f/V]")#En CLI, la mayuscula implica que es una opcion automatica
         fija_variable=input()
+        
         if fija_variable == "f":
 
             #Aca se cargan particiones fijas
@@ -82,7 +87,8 @@ class Interface:
         else:
             fija_variable="v"
             numero_particiones=0
-
+        data.append([currentPreset,descripcion,tamMemoria,sistopmem,fija_variable,numero_particiones,algoritmo])
+        data.append(particiones)
         #Aca se cargan procesos
         continuar=True
         idproceso=0
@@ -96,12 +102,18 @@ class Interface:
             print("Ingrese secuencia de eventos. C es CPU, I es entrada, O es salida. Ej: C10-I3-C5-S23")
             secuencia=input()
             procesos.append([idproceso,psize,prioridad,tiempoArribo,secuencia])
+            print("Quiere agregar otro proceso [y/n]")
+            if input() != "y":
+                continuar=False
+        data.append(procesos)
+        return data
     def show_menu(self):
         print("1.Crear nueva preconfiguracion")
         print("2.Mostrar lista de parametros iniciales preexistentes")
         decision=int(input())
         if decision == 1:
-            self.cargar_preset()
+            preset=self.cargar_preset()
+            self.guardarEnBDPreset(preset)
     def retrieve_data(self,procesador):
         self.cur=self.conn.cursor()
         self.cur.execute("SELECT * FROM Procesos")
@@ -112,6 +124,11 @@ class Interface:
     def retrieve_cantidadPresets(self):
         self.cur=self.conn.cursor()
         return self.cur.execute("SELECT COUNT(*) FROM Preset").fetchall()[0][0]
+    def guardarEnBDPreset(self,datos):
+        self.cur=self.conn.cursor()
+        print(datos[0])
+        self.cur.execute("INSERT INTO Preset(id,desc,memoria,porc_so,fija_variable,cant_part,algoritmo) VALUES(?,?,?,?,?,?,?)",(datos[0][0],datos[0][1],datos[0][2],datos[0][3],datos[0][4],datos[0][5],datos[0][6]))
+        self.conn.commit()
             
         
 #Este main solo representa una prueba de las clases existentes, no se planea implementar de esta forma.
@@ -119,7 +136,6 @@ if __name__ == '__main__':
     conexion=Interface()
     conn=conexion.create_connection("/root/Documents/UTN/SistOp2019/SistOp.db")
     Core=Procesador()
-    print(conexion.retrieve_cantidadPresets())
     conexion.show_menu()
     
     #conexion.retrieve_data(Core)
