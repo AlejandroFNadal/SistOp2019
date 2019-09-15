@@ -129,7 +129,9 @@ class Interface:
         print(datos[0])
         self.cur.execute("INSERT INTO Preset(id,desc,memoria,porc_so,fija_variable,cant_part,algoritmo) VALUES(?,?,?,?,?,?,?)",(datos[0][0],datos[0][1],datos[0][2],datos[0][3],datos[0][4],datos[0][5],datos[0][6]))
         self.conn.commit()
-            
+        for i in datos[2]:
+            self.cur.execute("INSERT INTO Procesos(id,psize,preset,prioridad,tiempo_arribo,Secuencia) VALUES(?,?,?,?,?,?)",(i[0],i[1],datos[0][0],i[2],i[3],i[4]))
+            self.conn.commit()
         
 #Este main solo representa una prueba de las clases existentes, no se planea implementar de esta forma.
 if __name__ == '__main__':
