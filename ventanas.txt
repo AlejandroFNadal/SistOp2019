@@ -1,0 +1,31 @@
+ENTRADA
+Nombre: Menu_Principal
+Opciones:
+	-Crear nuevo preset
+	-Seleccionar preset para comenzar
+
+Nombre: Cargar_preseleccion
+Opciones:
+	-Id: automatico
+	-Descripcion
+	-Algoritmo
+	-Cantidad_memoria
+	-Particiones_Fijas_o_variables
+	-Cantidad_particiones
+	-Porcentaje de uso de sistema operativo
+Nombre: Cargar_procesos
+Opciones:
+	-Id: automatico
+	-Tamaño:
+	-Tiempo de arribo
+	-Prioridad
+	-Rafagas
+	
+SALIDA:
+Nombre:Principal
+Opciones:
+	-Gantt
+	-Tablas: Procesos
+	-Tablas: Particiones
+	-Estadisticas
+
