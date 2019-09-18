@@ -1,0 +1,7 @@
+crear planificador python -m venv nombre
+
+voy dentro del entorno creado a la carpeta Script\activate y ahi se activa el entorno
+
+voy a la carpeta en este caso a carpeta ui
+
+pyuic5 nombrearchivo.ui -o nombrearchivo.py

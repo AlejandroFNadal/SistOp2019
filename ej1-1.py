@@ -5,9 +5,9 @@
 #contendrá la siguiente información (id partición, dirección de comienzo de la partición, estado de la partición).
 #Mostrar la información contenida en la tabla de particiones.
 #Ejercicio Practico 1.1 Sist Op
-print("Ingrese tamano de memoria");
+print("Ingrese tamano de memoria")
 tamMemoria=int(input())
-print("Ingrese cantidad de particiones");
+print("Ingrese cantidad de particiones")
 cantParticiones=int(input())
 
 sistOp=tamMemoria//10
@@ -40,7 +40,7 @@ imprimememoria(memoria)
 tamanoRestanteMemoria=tamMemoria-sistOp
 continuar = True
 while continuar and cantParticiones > 0:
-    print("Desea crear otra particion? Y/N")
+    print("Desea crear otra particion? Y/N") #Seria asignar tamaño a particion?
     decision=input()
     if decision == "Y":
         print("Ingresar tamano de particion")
