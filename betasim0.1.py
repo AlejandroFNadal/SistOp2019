@@ -18,6 +18,13 @@ class Proceso: #Contiene los datos esenciales de un proceso
     	self.Prioridad=datos[2]
     	self.TiempoArribo=datos[3]
     	self.Secuencia=datos[4]
+    	self.estado=None
+    	self.rafaga_usada=None
+    	self.tiempo_arribo=None
+    	self.tiempo_espera=None
+    	self.tiempo_inicio_ejecucion=None
+    	self.prioridad=None
+    	self.particion=None
     def muestra_proceso(self):
         print(str(self.id)+"       "+str(self.Pro_tam)+"       "+str(self.Prioridad)+"       "+str(self.TiempoArribo)+"       "+str(self.Secuencia))
 
