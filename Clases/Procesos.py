@@ -11,7 +11,8 @@ class Proceso:  # Contiene los datos esenciales de un proceso
         self.tiempo_ejecucion = None
         self.tiempo_inicio_ejecucion = None
         self.particion = None
-
+    def get_prioridad(self):
+        return self.prioridad
     def muestra_proceso(self):
         print(str(self.id) +
               "       " +
