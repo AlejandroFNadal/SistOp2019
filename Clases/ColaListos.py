@@ -20,6 +20,8 @@ class ColaListos:
     def imprimir_consola(self):
         for x in self.cola_listos:
             x.print_proceso_fake()
+    def multinivel(self):
+        return self.cola_listos
             
 
 cola1=ColaListos()
