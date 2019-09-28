@@ -1,7 +1,7 @@
 class Procesador:  # contendra gran parte de las tareas generales
     def __init__(self):
         self.procesos_listos = []
-
+        self.proceso_actual=None
     def add_proceso(self, proceso):
         self.procesos_listos.append(proceso)
 
