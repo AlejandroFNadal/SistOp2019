@@ -1,5 +1,6 @@
 import sqlite3
 from sqlite3 import Error
+from Procesos import *
 
 class Interface:
     def __init__(self):
