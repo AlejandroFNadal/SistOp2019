@@ -1,13 +1,24 @@
 from Procesos import *
 
 class prueba:
-    def __init__(self,a,b):
-        self.d1=a
-        self.d2=b#prioridad
+    def __init__(self,id,prioridad,tamano,tiempo_restante,quantum):
+        self.id=id
+        self.prioridad=prioridad#prioridad
+        self.tamano = tamano
+        self.tiempo_restante=tiempo_restante
+        self.quantum=quantum
     def print_proceso_fake(self):
-        print(self.d1)
+        print(self.id)
     def get_prioridad(self):
-        return self.d2
+        return self.prioridad
+    def get_tamano(self):
+        return self.tamano
+    def get_tiempo_restante(self):
+        return self.tiempo_restante
+    def get_quantum(self):
+        return self.quantum
+    def set_quantum(self,valor):
+        self.quantum=valor
 
 
     
@@ -23,20 +34,17 @@ class ColaListos:
     def imprimir_consola(self):
         for x in self.cola_listos:
             x.print_proceso_fake()
-<<<<<<< HEAD
     def multinivel(self):
         return self.cola_listos
-=======
     def round_robin(self):
         return self.cola_listos
 
->>>>>>> 28ba5bedfef30d8e109a944b57d071f3cd3bd934
             
 
-cola1=ColaListos()
-p1=prueba(1,2)
-p2=prueba(3,4)
-cola1.anade_proceso(p2)
-cola1.anade_proceso(p1)
-cola1.prioridades()
-cola1.imprimir_consola()
+#cola1=ColaListos()
+#p1=prueba(1,2)
+#p2=prueba(3,4)
+#cola1.anade_proceso(p2)
+#cola1.anade_proceso(p1)
+#cola1.prioridades()
+#cola1.imprimir_consola()
