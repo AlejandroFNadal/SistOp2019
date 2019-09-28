@@ -8,6 +8,9 @@ class prueba:
         print(self.d1)
     def get_prioridad(self):
         return self.d2
+
+
+    
 class ColaListos:
     def __init__(self):
         self.cola_listos=[]
@@ -20,8 +23,14 @@ class ColaListos:
     def imprimir_consola(self):
         for x in self.cola_listos:
             x.print_proceso_fake()
+<<<<<<< HEAD
     def multinivel(self):
         return self.cola_listos
+=======
+    def round_robin(self):
+        return self.cola_listos
+
+>>>>>>> 28ba5bedfef30d8e109a944b57d071f3cd3bd934
             
 
 cola1=ColaListos()
