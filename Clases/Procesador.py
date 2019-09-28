@@ -1,0 +1,11 @@
+class Procesador:  # contendra gran parte de las tareas generales
+    def __init__(self):
+        self.procesos_listos = []
+
+    def add_proceso(self, proceso):
+        self.procesos_listos.append(proceso)
+
+    def show_procesos(self):
+        print("ID    Pro_Tam    Prioridad  Tiempo de Arribo  Secuencia")
+        for x in self.procesos_listos:
+            x.muestra_proceso()
