@@ -16,6 +16,9 @@ class prueba:
         return self.tamano
     def get_tiempo_restante(self):
         return self.tiempo_restante
+    def set_tiempo_restante(self,valor):
+        self.tiempo_restante=valor
+        
     def get_quantum(self):
         return self.quantum
     def set_quantum(self,valor):
