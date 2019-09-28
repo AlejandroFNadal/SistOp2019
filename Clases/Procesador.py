@@ -11,5 +11,7 @@ class Procesador:  # contendra gran parte de las tareas generales
             x.muestra_proceso()
     def get_proceso_actual(self):
         return self.proceso_actual
-    def set_proceso_actual(self,proc)
+    def set_proceso_actual(self,proc):
         self.proceso_actual=proc
+
+

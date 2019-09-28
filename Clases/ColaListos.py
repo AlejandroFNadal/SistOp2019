@@ -1,5 +1,5 @@
 from Procesos import *
-
+from Procesador import *
 
 class prueba:
     def __init__(self,id,prioridad,tamano,tiempo_restante,quantum):
@@ -44,15 +44,41 @@ class ColaListos:
             x.print_proceso_fake()
     def multinivel(self):
         return self.cola_listos
-    def round_robin(self):
+    def round_robin(self, quantum, procesador):
+        
+        self.quantum = quantum
+        aux = procesador.get_proceso_actual()
+        if aux != None:
+            tiempo_r = aux.get_tiempo_restante()
+            q = aux.get_quantum()
+            if tiempo_r >0 and q >0:
+                tiempo_r -=1
+                q -= 1
+                aux.set_tiempo_restante(tiempo_r)
+                aux.set_quantum(q) 
+                procesador.set_proceso_actual(aux)
+            elif tiempo_r >0 and q ==0:
+                tiempo_r -= 1
+                aux.set_tiempo_restante(tiempo_r)
+                self.anade_proceso(aux)
+                if cola_listos !=[]:
+                    proc = cola_listos[0]
+                    proc.set_quantum= self.quantum
+                    procesador.set_proceso_actual(proc)
+            else:
+                if tiempo_r == 0:
+                    print("pasa a bloqueado o terminado")
+                    # pasa a bloqueado o terminado
         return self.cola_listos
 
-            
-
-#cola1=ColaListos()
+p1,p2,p3 = procesosfalsitos()            
+procesador1 = Procesador()
+cola1=ColaListos()
 #p1=prueba(1,2)
 #p2=prueba(3,4)
-#cola1.anade_proceso(p2)
-#cola1.anade_proceso(p1)
+cola1.anade_proceso(p2)
+cola1.anade_proceso(p1)
 #cola1.prioridades()
 #cola1.imprimir_consola()
+
+
