@@ -1,5 +1,5 @@
 from Procesos import *
-from Procesador import *
+#from Procesador import *
 
 class prueba:
     def __init__(self,id,prioridad,tamano,tiempo_restante,quantum):
@@ -35,7 +35,9 @@ class ColaListos:
         self.cola_listos=[]
     def anade_proceso(self,proc):
         self.cola_listos.append(proc)
-    def fcfs(self):
+    def get_cola_listos(self):
+        return self.cola_listos
+    def fcfs(self,procesador):
         return self.cola_listos
     def prioridades(self):
         self.cola_listos.sort(key=lambda x: x.get_prioridad(),reverse=True)
@@ -61,8 +63,8 @@ class ColaListos:
                 tiempo_r -= 1
                 aux.set_tiempo_restante(tiempo_r)
                 self.anade_proceso(aux)
-                if cola_listos !=[]:
-                    proc = cola_listos[0]
+                if self.cola_listos !=[]:
+                    proc = self.cola_listos[0]
                     proc.set_quantum= self.quantum
                     procesador.set_proceso_actual(proc)
             else:
@@ -71,14 +73,6 @@ class ColaListos:
                     # pasa a bloqueado o terminado
         return self.cola_listos
 
-p1,p2,p3 = procesosfalsitos()            
-procesador1 = Procesador()
-cola1=ColaListos()
-#p1=prueba(1,2)
-#p2=prueba(3,4)
-cola1.anade_proceso(p2)
-cola1.anade_proceso(p1)
-#cola1.prioridades()
-#cola1.imprimir_consola()
+
 
 

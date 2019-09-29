@@ -12,8 +12,13 @@ if __name__ == '__main__':
     conn = conexion.create_connection(
         "/root/Documents/UTN/SistOp2019/SistOp.db")
     Core = Procesador()
-    conexion.show_menu()
+    preset,procesos,particiones=conexion.show_menu()
+    Core.Simular(preset,procesos,particiones)
 
+    #aux=Core.get_proceso_actual()
+    #tr=aux.get_tiempo_restante()
+    #quan=aux.get_quantum()
+    
     # conexion.retrieve_data(Core)
     # a=Proceso(1,30,10,10,10)
     # Core.add_proceso(a)

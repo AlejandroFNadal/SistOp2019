@@ -13,6 +13,8 @@ class Proceso:  # Contiene los datos esenciales de un proceso
         self.particion = None
         self.tiempo_restante=None
         self.quantum=None
+    def get_tiempo_arribo(self):
+        return self.tiempo_arribo
     def get_prioridad(self):
         return self.prioridad
     def muestra_proceso(self):

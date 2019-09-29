@@ -5,6 +5,9 @@ from Procesos import *
 class Interface:
     def __init__(self):
         self.conn = None
+        self.preset = None
+        self.procesos = None
+        self.particiones = None
 
     def create_connection(self, db_file):
         """ create a database connection to a SQLite database """
@@ -102,12 +105,14 @@ class Interface:
 
     def show_menu(self):
         print("1.Crear nueva preconfiguracion")
-        print("2.Mostrar lista de parametros iniciales preexistentes")
+        print("2.Mostrar lista de parametros iniciales preexistentes e incializar")
         decision = int(input())
         if decision == 1:
             preset = self.cargar_preset()
             self.guardarEnBDPreset(preset)
-
+        if decision == 2:
+            return self.preset,self.procesos,self.particiones
+            
     def retrieve_data(self, procesador):
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM Procesos")
