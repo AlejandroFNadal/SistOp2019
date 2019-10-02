@@ -1,5 +1,5 @@
 from ColaListos import ColaListos
-
+from Memoria import *
 
 class Procesador:  # contendra gran parte de las tareas generales
     def __init__(self):
@@ -42,9 +42,9 @@ class Procesador:  # contendra gran parte de las tareas generales
             if x.get_tiempo_arribo() == self.reloj_total:
                 self.cola_nuevos.append(x)
 
-    def cargar_cola_listos(self, algoritmo, procesos, particiones):
+    def cargar_cola_listos(self, algoritmo, procesos, particiones,memoria):
         for x in self.cola_nuevos:
-            if comprobar_memoria(x):
+            if memoria.comprobar_memoria(x):
                 self.procesos_listos.anade_proceso(x)
 
     # ambas interacciones, ida y vuelta
@@ -56,14 +56,14 @@ class Procesador:  # contendra gran parte de las tareas generales
         intprocesos = procesos  # para manejar paso por copia en lugar de referencia
         alg_planificacion = 1  # agregar luego como un valor de preset, traer de la BD
         cola_listos_principal = ColaListos()
+        mem1=Memoria(preset[2],preset[4]) #tamano, fija_variable
         if alg_planificacion == 3:  # MQL
             CL1 = ColaListos()
             CL2 = ColaListos()
             CL3 = ColaListos()
         while intprocesos != []:
             self.cargar_cola_nuevos(intprocesos)
-            self.cargar_cola_listos(
-                alg_planificacion, intprocesos, particiones)
+            self.cargar_cola_listos(alg_planificacion, intprocesos, particiones,mem1)
             self.bloqueados_listos(self.procesos_listos, self.cola_bloqueados)
             self.generar_tabla()
             self.cuenta_tiempo()

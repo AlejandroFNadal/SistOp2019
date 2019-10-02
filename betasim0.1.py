@@ -3,7 +3,7 @@ from sqlite3 import Error
 from Clases.Procesos import *
 from Clases.Procesador import *
 from Clases.Interface import *
-
+from Clases.Memoria import *
 
 # Este main solo representa una prueba de las clases existentes, no se
 # planea implementar de esta forma.
