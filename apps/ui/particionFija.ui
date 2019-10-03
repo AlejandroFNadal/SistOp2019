@@ -17,9 +17,9 @@
    <widget class="QLabel" name="tamMem_6">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>110</y>
-      <width>111</width>
+      <x>20</x>
+      <y>70</y>
+      <width>91</width>
       <height>41</height>
      </rect>
     </property>
@@ -27,26 +27,7 @@
      <string>NombreConf:</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBoxNumPart_2">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>310</y>
-      <width>71</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-    <property name="maximum">
-     <number>5</number>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonReiniciarConf_5">
+   <widget class="QPushButton" name="btn_terminar">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -62,20 +43,7 @@
      <string>Terminar</string>
     </property>
    </widget>
-   <widget class="QLabel" name="tamMem_10">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>300</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PuntoInicion:</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonAceptarConf_2">
+   <widget class="QPushButton" name="btn_agregar">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -94,8 +62,8 @@
    <widget class="QLabel" name="tamMem_8">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>220</y>
+      <x>20</x>
+      <y>110</y>
       <width>111</width>
       <height>41</height>
      </rect>
@@ -107,14 +75,14 @@
    <widget class="QLabel" name="tamMem_11">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>380</y>
+      <x>20</x>
+      <y>270</y>
       <width>111</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>PuntoFin:</string>
+     <string>Tamaño Particion:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_7">
@@ -140,20 +108,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="tamMem_7">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>160</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TipoParticion:</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonReiniciarConf_2">
+   <widget class="QPushButton" name="btn_reiniciar">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -169,11 +124,11 @@
      <string>Reiniciar</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBoxNumPart_3">
+   <widget class="QSpinBox" name="sB_tamParticion">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>390</y>
+      <x>140</x>
+      <y>280</y>
       <width>71</width>
       <height>41</height>
      </rect>
@@ -184,28 +139,18 @@
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
     <property name="maximum">
-     <number>5</number>
+     <number>99</number>
     </property>
    </widget>
    <widget class="QLabel" name="label_NombreConf">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>120</y>
-      <width>141</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_TipoParticion">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>170</y>
+      <x>150</x>
+      <y>80</y>
       <width>141</width>
       <height>21</height>
      </rect>
@@ -217,14 +162,83 @@
    <widget class="QLabel" name="label_MemoriaRes">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>230</y>
+      <x>150</x>
+      <y>120</y>
       <width>141</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
      <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="tamMem_10">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>160</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cantidad Particion:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="tamMem_12">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>210</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Numero Particion:</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tW_ParticionFija">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>340</y>
+      <width>281</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="columnCount">
+     <number>2</number>
+    </property>
+    <column>
+     <property name="text">
+      <string>Id</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Tamano</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>290</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Kb</string>
     </property>
    </widget>
   </widget>

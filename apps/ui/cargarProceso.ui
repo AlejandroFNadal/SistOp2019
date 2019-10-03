@@ -14,7 +14,7 @@
    <string>Cargar Proceso</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="btn_AgregarProceso">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -30,7 +30,7 @@
      <string>Agregar</string>
     </property>
    </widget>
-   <widget class="QLabel" name="tamMem_2">
+   <widget class="QLabel" name="sB_Arribo">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -39,11 +39,16 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>Arribo:</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBoxTamMemo">
+   <widget class="QSpinBox" name="spinBox_Arribo">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -75,7 +80,7 @@
      <string>Terminar</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="btn_Reiniciar">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -91,7 +96,7 @@
      <string>Reiniciar</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBoxTamMemo_4">
+   <widget class="QSpinBox" name="sBTamanoProceso">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -106,8 +111,11 @@
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
    </widget>
-   <widget class="QSpinBox" name="spinBoxTamMemo_2">
+   <widget class="QSpinBox" name="sB_Prioridad">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -121,6 +129,12 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>3</number>
     </property>
    </widget>
    <widget class="QLabel" name="label_7">
@@ -155,6 +169,11 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>Prioridad:</string>
     </property>
@@ -164,7 +183,7 @@
      <rect>
       <x>200</x>
       <y>360</y>
-      <width>161</width>
+      <width>211</width>
       <height>41</height>
      </rect>
     </property>
@@ -178,8 +197,13 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
     <property name="text">
-     <string>Tamano:</string>
+     <string>Tamaño:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -190,6 +214,11 @@
       <width>81</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>RCPU:</string>
