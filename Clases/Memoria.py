@@ -7,8 +7,8 @@ class Memoria:
         self.algoritmo_asignacion=None #1.BestF, 2 FirstF, 3 WorstF
         self.lista_vacios = []
         self.ultimo_id = 0
-    def comprobar_memoria(self,proc):
-        if self.tipo_particion and self.algoritmo_asignacion == 1:# es fija, bestF
+    def asign_bestfit_fija(self,proc):
+        
             diferencia=sys.maxsize
             best_part=None
             for part in self.lista_particiones:
@@ -19,51 +19,78 @@ class Memoria:
                         best_part = part.get_id_par()
             if best_part != None:
                 self.lista_particiones[best_part].asignar_proceso(proc) #falta hacer asignar_proceso
-            
-        if self.tipo_particion and self.algoritmo_asignacion == 2: # es fija, FIrstF
-            first_part = None
-            pos = 0
-            while first_part == None and ( pos < len(self.lista_particiones) ):
-                if self.lista_particiones[pos].get_tamano() > proc.get_tamano_proc() and self.lista_particiones[0].get_estado():
-                    first_part = self.lista_particiones[pos].get_id_par()
-                pos += 1                
-            if first_part != None:
-                self.lista_particiones[first_part].asignar_proceso(proc)
-
-        if not self.tipo_particion and self.algoritmo_asignacion == 2: # es variable, FirstF
-            band = False
-            pos = 0
-            while  band == False and (pos < len(self.lista_vacios) ):
-                if self.lista_vacios[pos][2] > proc.get_tamano_proc():
-                    part_nueva = Particion(self.ultimo_id,proc.get_id(),proc.get_tamano_proc(),self.lista_vacios[pos][0],self.lista_vacios[pos][1],True)
-                    pos_LO = 0 #pos_LO = posicion lista ordenada
-                    while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() >= self.lista_particiones[pos_LO].get_dir_fin():
-                        pos_LO =+ 1
-                    self.lista_particiones.insert(pos_LO,part_nueva)
-                    band = True
-                pos +=1
-            if band == False:
-                self.compactar_memoria()
-                #falta repetir lo de arriba
-            self.generar_lista_vacios()
-
-        if not self.tipo_particion and self.algoritmo_asignacion == 3: # es variable, worstF
-            aux_variable = sorted(self.lista_vacios, key = self.obt_tam_part, reversed = True )
-            band_asignacion = False
-            if aux_variable[0][3] > proc.get_tamano_proc():
-                part_nueva = Particion(self.ultimo_id,proc.get_id(),proc.get_tamano_proc(),aux_variable[0][0],aux_variable[0][1],True)
+                return True
+            else: 
+                return False
+    def asign_firstfit_fija(self,proc):
+        first_part = None
+        pos = 0
+        while first_part == None and ( pos < len(self.lista_particiones) ):
+            if self.lista_particiones[pos].get_tamano() > proc.get_tamano_proc() and self.lista_particiones[0].get_estado():
+                first_part = self.lista_particiones[pos].get_id_par()
+            pos += 1                
+        if first_part != None:
+            self.lista_particiones[first_part].asignar_proceso(proc)
+            return True
+        else:
+            return False
+    def asign_firstfit_variable(self,proc):
+        band = False
+        pos = 0
+        while  band == False and (pos < len(self.lista_vacios) ):
+            if self.lista_vacios[pos][2] > proc.get_tamano_proc():
+                part_nueva = Particion(self.ultimo_id,proc.get_id(),proc.get_tamano_proc(),self.lista_vacios[pos][0],self.lista_vacios[pos][1],True)
                 pos_LO = 0 #pos_LO = posicion lista ordenada
                 while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() >= self.lista_particiones[pos_LO].get_dir_fin():
                     pos_LO =+ 1
-                    if part_nueva.get_dir_in() < self.lista_particiones[pos_LO].get_dir_fin():
-                        band_asignacion = True
+                self.lista_particiones.insert(pos_LO,part_nueva)
+                band = True
+            pos +=1
+            self.generar_lista_vacios()
+        return band
+    def asign_worstfit_variable(self,proc):
+        aux_variable = sorted(self.lista_vacios, key = self.obt_tam_part, reversed = True )
+        band_asignacion = False
+        if aux_variable[0][3] > proc.get_tamano_proc():
+            part_nueva = Particion(self.ultimo_id,proc.get_id(),proc.get_tamano_proc(),aux_variable[0][0],aux_variable[0][1],True)
+            pos_LO = 0 #pos_LO = posicion lista ordenada
+            while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() >= self.lista_particiones[pos_LO].get_dir_fin():
+                pos_LO =+ 1
+                if part_nueva.get_dir_in() < self.lista_particiones[pos_LO].get_dir_fin():
+                    band_asignacion = True
 
-                if band_asignacion:
-                    self.lista_particiones.insert(pos_LO,part_nueva)
-                    self.generar_lista_vacios()
-            else:
+            if band_asignacion:
+                self.lista_particiones.insert(pos_LO,part_nueva)
+                self.generar_lista_vacios()
+                return True
+        else:
+            return False
+        
+    def comprobar_memoria(self,proc):
+        state=False #variable que indica si hubo exito en asignacion de memoria
+        if self.tipo_particion and self.algoritmo_asignacion == 1:# es fija, bestF
+            state=self.asign_bestfit_fija(proc)
+        if self.tipo_particion and self.algoritmo_asignacion == 2: # es fija, FIrstF
+            state=self.asign_firstfit_fija(proc)
+        if not self.tipo_particion and self.algoritmo_asignacion == 2: # es variable, FirstF
+            if self.asign_firstfit_variable(proc) == False: #No hubo lugar donde crear particion
                 self.compactar_memoria()
-                #falta repetir lo de arriba
+                if self.asign_firstfit_variable:
+                    state=True
+                else:
+                    state=False
+            else:
+                state=True
+        if not self.tipo_particion and self.algoritmo_asignacion == 3: # es variable, worstF
+            if self.asign_worstfit_variable(proc)==False:
+                self.compactar_memoria()
+                if self.asign_worstfit_variable(proc)==False:
+                    state =False
+                else:
+                    state=True
+            else:
+                state=True
+        return state
 
     def generar_lista_vacios(self):
         pos = 0
@@ -83,13 +110,13 @@ class Memoria:
 
 
 class Particion:
-    def __init__(self,idp, idproc, tamano, dir_in,dir_fin):
+    def __init__(self,idp, idproc, tamano, dir_in,dir_fin, estado):
         self.id_par=idp
         self.id_proc = idproc
         self.tamano_part=tamano
         self.dir_in=dir_in
         self.dir_fin=dir_fin
-        self.estado=False #ocupada o libre
+        self.estado=estado #ocupada o libre
     def get_estado(self):
         return self.estado
     def get_tamano(self):
@@ -99,3 +126,7 @@ class Particion:
     def asignar_proceso(self,idp):
         self.id_proc = idp
         self.estado = True
+    def get_dir_fin(self):
+        return self.dir_fin
+    def get_dir_in(self):
+        return self.dir_in
