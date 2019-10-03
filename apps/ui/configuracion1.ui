@@ -2,8 +2,16 @@
 <ui version="4.0">
  <class>configuracion1</class>
  <widget class="QMainWindow" name="configuracion1">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>962</width>
+    <height>781</height>
+   </rect>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Configuracion de Arranque</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label">
@@ -251,93 +259,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBoxNumPart_2">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>340</y>
-      <width>71</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-    <property name="maximum">
-     <number>5</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="tamMem_11">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>340</y>
-      <width>61</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PuntoFin:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>340</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Particion Fija</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="tamMem_10">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>340</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PuntoInicion:</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="spinBoxNumPart_3">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>340</y>
-      <width>71</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-    <property name="maximum">
-     <number>5</number>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButtonAceptarConf">
     <property name="geometry">
      <rect>
@@ -390,7 +311,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>907</width>
+     <width>962</width>
      <height>26</height>
     </rect>
    </property>
