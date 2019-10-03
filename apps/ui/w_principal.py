@@ -24,10 +24,6 @@ class Ui_MainWindow(object):
         self.comboBox.setGeometry(QtCore.QRect(280, 120, 311, 22))
         self.comboBox.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.comboBox.setObjectName("comboBox")
-        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(620, 160, 141, 28))
-        self.pushButton_4.setStyleSheet("background-color: rgb(214, 214, 214);")
-        self.pushButton_4.setObjectName("pushButton_4")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(100, 120, 211, 20))
         self.label.setObjectName("label")
@@ -147,9 +143,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Planificador de Procesos"))
         self.btn_agregarProceso.setText(_translate("MainWindow", "agregar Proceso"))
-        self.pushButton_4.setText(_translate("MainWindow", "procesar"))
         self.label.setText(_translate("MainWindow", "Seleccione preconfiguracion"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Id"))
