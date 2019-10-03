@@ -42,9 +42,28 @@ class Memoria:
                     self.lista_particiones.insert(pos_LO,part_nueva)
                     band = True
                 pos +=1
+            if band == False:
+                self.compactar_memoria()
+                #falta repetir lo de arriba
             self.generar_lista_vacios()
 
-        if not self.tipo_particion and self.algoritmo_asignacion == 3:
+        if not self.tipo_particion and self.algoritmo_asignacion == 3: # es variable, worstF
+            aux_variable = sorted(self.lista_vacios, key = self.obt_tam_part, reversed = True )
+            band_asignacion = False
+            if aux_variable[0][3] > proc.get_tamano_proc():
+                part_nueva = Particion(self.ultimo_id,proc.get_id(),proc.get_tamano_proc(),aux_variable[0][0],aux_variable[0][1],True)
+                pos_LO = 0 #pos_LO = posicion lista ordenada
+                while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() >= self.lista_particiones[pos_LO].get_dir_fin():
+                    pos_LO =+ 1
+                    if part_nueva.get_dir_in() < self.lista_particiones[pos_LO].get_dir_fin():
+                        band_asignacion = True
+
+                if band_asignacion:
+                    self.lista_particiones.insert(pos_LO,part_nueva)
+                    self.generar_lista_vacios()
+            else:
+                self.compactar_memoria()
+                #falta repetir lo de arriba
 
     def generar_lista_vacios(self):
         pos = 0
@@ -56,8 +75,11 @@ class Memoria:
             pos += 1
 
             
+    def obt_tam_part(self,elem):
+        return elem[2]
 
-
+    def compactar_memoria(self):
+        pass
 
 
 class Particion:
