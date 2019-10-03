@@ -37,15 +37,15 @@ class Procesador:  # contendra gran parte de las tareas generales
     def comprobar_memoria(self, proceso, fija_variable):
         if fija_variable == 1:
             print("Bananas")
-    def cargar_cola_nuevos(self, procesos):
+    def cargar_cola_nuevos(self, procesos):#Term0.1
         for x in procesos:
             if x.get_tiempo_arribo() == self.reloj_total:
                 self.cola_nuevos.append(x)
 
     def cargar_cola_listos(self, algoritmo, procesos, particiones,memoria):
-        for x in self.cola_nuevos:
-            if memoria.comprobar_memoria(x):
-                self.procesos_listos.anade_proceso(x)
+        for proc in self.cola_nuevos:
+            if memoria.comprobar_memoria(proc):
+                self.procesos_listos.anade_proceso(proc)
 
     # ambas interacciones, ida y vuelta
     def bloqueados_listos(self, procesos_listos, cola_bloqueados): pass
@@ -54,7 +54,7 @@ class Procesador:  # contendra gran parte de las tareas generales
 
     def Simular(self, preset, procesos, particiones):
         intprocesos = procesos  # para manejar paso por copia en lugar de referencia
-        alg_planificacion = 1  # agregar luego como un valor de preset, traer de la BD
+        alg_planificacion = preset[7]  # agregar luego como un valor de preset, traer de la BD
         cola_listos_principal = ColaListos()
         mem1=Memoria(preset[2],preset[4]) #tamano, fija_variable
         if alg_planificacion == 3:  # MQL
@@ -62,7 +62,7 @@ class Procesador:  # contendra gran parte de las tareas generales
             CL2 = ColaListos()
             CL3 = ColaListos()
         while intprocesos != []:
-            self.cargar_cola_nuevos(intprocesos)
+            self.cargar_cola_nuevos(intprocesos)#esta llamada deberia funcionar ya
             self.cargar_cola_listos(alg_planificacion, intprocesos, particiones,mem1)
             self.bloqueados_listos(self.procesos_listos, self.cola_bloqueados)
             self.generar_tabla()

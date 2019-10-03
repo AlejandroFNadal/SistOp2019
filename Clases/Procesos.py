@@ -1,7 +1,7 @@
 class Proceso:  # Contiene los datos esenciales de un proceso
     def __init__(self, datos):
         self.id = datos[0]
-        self.pro_tam = datos[1]
+        self.tamano_proc = datos[1]
         self.prioridad = datos[2]
         self.tiempo_arribo = datos[3]
         self.rafaga_tot = datos[4]
@@ -17,10 +17,12 @@ class Proceso:  # Contiene los datos esenciales de un proceso
         return self.tiempo_arribo
     def get_prioridad(self):
         return self.prioridad
+    def get_tamano_proc(self):
+        return self.tamano_proc
     def muestra_proceso(self):
         print(str(self.id) +
               "       " +
-              str(self.pro_tam) +
+              str(self.tamano_proc) +
               "       " +
               str(self.prioridad) +
               "       " +
