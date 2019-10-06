@@ -75,7 +75,7 @@ class Memoria:
         if not self.tipo_particion and self.algoritmo_asignacion == 2: # es variable, FirstF
             if self.asign_firstfit_variable(proc) == False: #No hubo lugar donde crear particion
                 self.compactar_memoria()
-                if self.asign_firstfit_variable:
+                if self.asign_firstfit_variable(proc) == True: 
                     state=True
                 else:
                     state=False
@@ -90,7 +90,7 @@ class Memoria:
                     state=True
             else:
                 state=True
-        return state
+        return state #Nos devolveria false si no tuvo exito, y True si tuvo exito
 
     def generar_lista_vacios(self):
         pos = 0
@@ -105,9 +105,19 @@ class Memoria:
     def obt_tam_part(self,elem):
         return elem[2]
 
-    def compactar_memoria(self):
-        pass
+    def compactar_memoria(self):  #supongo que la lista_vacios esta ordenada
+        pos = 0
+        while pos < ( len(self.lista_vacios) -1):
+            if self.lista_vacios[pos][0] == ( self.lista_vacios[pos+1][0] -1 ): 
+                self.lista_vacios[pos][1] = self.lista_vacios[pos+1][1] # asignamos a la direccion de fin del primer elemento la direccion de fin del segundo elemento
+                self.lista_vacios[pos][2] = self.lista_vacios[pos][2] + self.lista_vacios[pos+1][2] #realizamos una suma de los tamaños
+                self.lista_vacios.pop(pos+1)
+            else:
+                pos =+ 1
 
+        #Se suma POS unicamente si no compacto entre 2 elementos
+        #por que si compacto entre 2 elementos estaria eliminando un elemento de lista vacios
+        #y si elimino un elemento de ahi, estaria decrementando en 1  en len(self.lista_vacios)
 
 class Particion:
     def __init__(self,idp, idproc, tamano, dir_in,dir_fin, estado):

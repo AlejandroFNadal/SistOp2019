@@ -30,13 +30,6 @@ class Procesador:  # contendra gran parte de las tareas generales
     def set_proceso_actual(self, proc):
         self.proceso_actual = proc
 
-    def crear_particion(self, tamano): pass
-
-    def compactar_memoria(self): pass
-
-    def comprobar_memoria(self, proceso, fija_variable):
-        if fija_variable == 1:
-            print("Bananas")
     def cargar_cola_nuevos(self, procesos):#Term0.1
         for x in procesos:
             if x.get_tiempo_arribo() == self.reloj_total:
