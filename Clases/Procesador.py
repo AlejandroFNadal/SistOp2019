@@ -41,7 +41,17 @@ class Procesador:  # contendra gran parte de las tareas generales
                 self.procesos_listos.anade_proceso(proc)
 
     # ambas interacciones, ida y vuelta
-    def bloqueados_listos(self, procesos_listos, cola_bloqueados): pass
+    def bloqueados_listos(self, procesos_listos, cola_bloqueados):
+        aux=0
+        for proc in cola_bloqueados:
+            pos=proc.get_num_rafaga_actual()
+            sig_elem_rafaga=proc.get_rafaga_tot()[pos+1]
+            if proc.get_tiempo_restante() == 0 and sig_elem_rafaga[0]=="E": #esto ultimo es el elemento siguiente de la rafaga, la primera parte
+                proc.set_tiempo_restante(int(sig_elem_rafaga[1])) #cambiamos su tiempo restante
+                proc.set_estado(2)#cambiamos su estado a listo
+                procesos_listos.append(proc)#lo anadimos a la cola de listos
+                self.cola_bloqueados.pop(aux)#lo sacamos de la cola de bloqueados
+            aux+=1
     def generar_tabla(self): pass
     def cuenta_tiempo(self): pass
 
@@ -56,7 +66,7 @@ class Procesador:  # contendra gran parte de las tareas generales
             CL3 = ColaListos()
         while intprocesos != []:
             self.cargar_cola_nuevos(intprocesos)#esta llamada deberia funcionar ya
-            self.cargar_cola_listos(alg_planificacion, intprocesos, particiones,mem1)
+            self.cargar_cola_listos(alg_planificacion, intprocesos, particiones,mem1)#esto tambien, pareceria estar completamente implementado
             self.bloqueados_listos(self.procesos_listos, self.cola_bloqueados)
             self.generar_tabla()
             self.cuenta_tiempo()

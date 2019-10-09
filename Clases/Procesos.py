@@ -13,6 +13,11 @@ class Proceso:  # Contiene los datos esenciales de un proceso
         self.particion = None
         self.tiempo_restante=None
         self.quantum=None
+        self.num_rafaga_actual=None
+    def get_rafaga_tot(self):
+        return self.rafaga_tot
+    def set_tiempo_restante(self,x):
+        self.tiempo_restante = x
     def get_tiempo_arribo(self):
         return self.tiempo_arribo
     def get_prioridad(self):
@@ -29,3 +34,9 @@ class Proceso:  # Contiene los datos esenciales de un proceso
               str(self.tiempo_arribo) +
               "       " +
               str(self.rafaga_tot))
+    def get_tiempo_restante(self):
+        return self.tiempo_restante
+    def set_estado(self,x):
+        self.estado=x
+    def get_num_rafaga_actual(self):
+        return self.num_rafaga_actual

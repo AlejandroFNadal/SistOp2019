@@ -108,7 +108,7 @@ class Memoria:
     def compactar_memoria(self):  #supongo que la lista_vacios esta ordenada
         pos = 0
         while pos < ( len(self.lista_vacios) -1):
-            if self.lista_vacios[pos][0] == ( self.lista_vacios[pos+1][0] -1 ): 
+            if self.lista_vacios[pos][0] == ( self.lista_vacios[pos+1][0] -1 ): #Ale: aca estamos restando -1 a un
                 self.lista_vacios[pos][1] = self.lista_vacios[pos+1][1] # asignamos a la direccion de fin del primer elemento la direccion de fin del segundo elemento
                 self.lista_vacios[pos][2] = self.lista_vacios[pos][2] + self.lista_vacios[pos+1][2] #realizamos una suma de los tamaños
                 self.lista_vacios.pop(pos+1)
