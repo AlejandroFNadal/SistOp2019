@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(980, 817)
+        MainWindow.resize(1028, 817)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.comboBox_seleccionPreConf = QtWidgets.QComboBox(self.centralwidget)
@@ -129,9 +129,13 @@ class Ui_MainWindow(object):
         self.btn_avanzar.setFont(font)
         self.btn_avanzar.setStyleSheet("background-color: rgb(221, 221, 221);")
         self.btn_avanzar.setObjectName("btn_avanzar")
+        self.verticalScrollBar = QtWidgets.QScrollBar(self.centralwidget)
+        self.verticalScrollBar.setGeometry(QtCore.QRect(1000, 19, 20, 681))
+        self.verticalScrollBar.setOrientation(QtCore.Qt.Vertical)
+        self.verticalScrollBar.setObjectName("verticalScrollBar")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 980, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1028, 26))
         self.menubar.setObjectName("menubar")
         self.menuMenu = QtWidgets.QMenu(self.menubar)
         self.menuMenu.setObjectName("menuMenu")

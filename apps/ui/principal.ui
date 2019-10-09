@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>980</width>
+    <width>1028</width>
     <height>817</height>
    </rect>
   </property>
@@ -336,13 +336,26 @@
      <string>&gt;&gt;&gt;&gt;</string>
     </property>
    </widget>
+   <widget class="QScrollBar" name="verticalScrollBar">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>19</y>
+      <width>20</width>
+      <height>681</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>980</width>
+     <width>1028</width>
      <height>26</height>
     </rect>
    </property>
