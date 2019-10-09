@@ -15,7 +15,7 @@ class W_Main(QMainWindow):
 
 		self.dialogs = list()
 
-		self.ventana.btn_agregarProceso.clicked.connect(self.asd)
+		self.ventana.actionCrear_procesos.triggered.connect(self.asd)
 		self.ventana.actionConfiguracion_2.triggered.connect(self.menuConfiguracion1)
 
 	def asd(self):
