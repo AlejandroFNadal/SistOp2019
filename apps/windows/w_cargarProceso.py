@@ -8,7 +8,7 @@ class W_cargarProceso(QMainWindow):
 		#QMainWindow.__init__(self)
 		self.ventana = Ui_cargarProceso()
 		self.ventana.setupUi(self)
-
+		self.ventana.label_2.setVisible(0)
 		self.ventana.btn_AgregarProceso.clicked.connect(self.agregarProceso)
 
 
@@ -27,6 +27,8 @@ class W_cargarProceso(QMainWindow):
 		prioridad=self.ventana.sB_Prioridad.value()
 		if p.fullmatch(rafaga) == None:
 			self.ventana.lineEdit_rcpu.setStyleSheet("color : red")
+			self.ventana.label_2.setVisible(1)
 		else:
+			self.ventana.label_2.setVisible(0)
 			datos=[nombre,arribo,prioridad,tamano_proc,rafaga]
 			return datos

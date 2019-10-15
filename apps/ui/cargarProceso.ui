@@ -240,11 +240,43 @@
    <widget class="QLineEdit" name="lineEdit_Nombre">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>200</x>
       <y>110</y>
       <width>171</width>
       <height>22</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>53</x>
+      <y>410</y>
+      <width>381</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ej:E4-C2-S4-C1 (siempre debe terminar en rafaga de CPU</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>310</y>
+      <width>191</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="text">
+     <string>Formato rafaga erroneo</string>
     </property>
    </widget>
   </widget>
@@ -254,7 +286,7 @@
      <x>0</x>
      <y>0</y>
      <width>452</width>
-     <height>26</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAyuda">
