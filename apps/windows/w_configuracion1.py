@@ -31,7 +31,7 @@ class W_Configuracion1(QMainWindow):
 		tamanoSO = int(self.ventana.spinBoxTamSo.text())
 		if self.ventana.radioButtonFija.isChecked() == True:
 			particion = "fija"
-			ventana = W_ParticionFija(ventana=self.ventana)
+			ventana = W_ParticionFija(ventana=self.ventana)#le paso al constructor la ventana entera
 			self.dialogs.append(ventana)
 			ventana.show()
 		elif self.radioButtonVariable.isChecked():
