@@ -34,7 +34,7 @@ class W_Configuracion1(QMainWindow):
 			ventana = W_ParticionFija(ventana=self.ventana)#le paso al constructor la ventana entera
 			self.dialogs.append(ventana)
 			ventana.show()
-		elif self.radioButtonVariable.isChecked():
+		else:
 			particion = "variable"
 
 		datos = [nombreConf, tamanoMemoria, algoritmo, tamanoSO, particion]
