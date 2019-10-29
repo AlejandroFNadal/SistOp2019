@@ -41,7 +41,7 @@ class W_Configuracion1(QMainWindow):
 			nombreConf = self.ventana.lineEdit_Nombre.text()
 			tamanoMemoria = int(self.ventana.spinBoxTamMemo.text())
 			algoritmo = self.ventana.selectAlg.currentText()
-			amanoSO = int(self.ventana.spinBoxTamSo.text())
+			tamanoSO = int(self.ventana.spinBoxTamSo.text())
 			if self.ventana.radioButtonFija.isChecked() == True:
 				particion = "fija"
 				ventana = W_ParticionFija(ventana=self.ventana)#le paso al constructor la ventana entera
