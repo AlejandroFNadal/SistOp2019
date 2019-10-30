@@ -15,10 +15,15 @@ class W_Main(QMainWindow):
 
 		self.dialogs = list()
 
-		self.ventana.actionCrear_procesos.triggered.connect(self.asd)
+		self.ventana.actionCrear_procesos.triggered.connect(self.crearProceso)
 		self.ventana.actionConfiguracion_2.triggered.connect(self.menuConfiguracion1)
+		self.ventana.actionSalir.triggered.connect(self.salir)
+		self.ventana.actionAyuda.triggered.connect(self.ayuda)
+		self.ventana.actionAcerca_de.triggered.connect(self.AcercaDe)
+		self.ventana.btn_comenzar.clicked.connect(self.comenzar)
 
-	def asd(self):
+
+	def crearProceso(self):
 		ventana = W_cargarProceso()
 		self.dialogs.append(ventana)
 		ventana.show()
@@ -27,3 +32,15 @@ class W_Main(QMainWindow):
 		ventana = W_Configuracion1()
 		self.dialogs.append(ventana)
 		ventana.show()
+
+	def salir(self):
+		self.close()
+
+	def ayuda(self):
+		pass
+
+	def AcercaDe(self):
+		pass
+
+	def comenzar(self):
+		pass
