@@ -6,6 +6,8 @@ from apps.windows.w_cargarProceso import W_cargarProceso
 
 from apps.windows.w_configuracion1 import W_Configuracion1 
 
+#importar sqlite
+
 class W_Main(QMainWindow):
 	def __init__(self):
 		QMainWindow.__init__(self)
