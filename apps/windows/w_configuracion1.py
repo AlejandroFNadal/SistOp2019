@@ -30,7 +30,9 @@ class W_Configuracion1(QMainWindow):
 		#self.ventana.tanbla.hide() ver ocultar tabla en configuracion.
 
 	
-
+	def reiniciar(self):
+		ventana = W_Configuracion1()
+		ventana.show()
 
 	def config(self):
 		#if self.radioButtonFija.isCheked(True):
