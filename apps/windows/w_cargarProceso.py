@@ -41,7 +41,9 @@ class W_cargarProceso(QMainWindow):
 		else:
 			self.ventana.label_2.setVisible(0)
 			datos=[nombre,arribo,prio,tamano_proc,rafaga]
-			new_proceso = Proceso(id_batch = nombre, tam_proc = tamano_proc, prioridad = prio, rafagaCPU = rafaga, tiempo_arribo = arribo)
+			new_proceso = Proceso(id_proc= 1, id_batch = nombre, tam_proc = tamano_proc, prioridad = prio, rafagaCPU = rafaga, tiempo_arribo = arribo)
+			session.add(new_proceso)
+			session.commit()
 			rafaga=self.ventana.lineEdit_rcpu.clear()
 			arribo=self.ventana.spinBox_Arribo.setValue(0)
 			tamano_proc=self.ventana.sBTamanoProceso.setValue(1)
@@ -59,8 +61,8 @@ class W_cargarProceso(QMainWindow):
 	
 	def terminar(self):
 		self.close()
-#	
-	#def clave():
-    	#cv = session.query(Proceso).order_by(Proceso.id.desc()).first()
-		#if cv is not None 
-#
+	'''
+	def clave():
+    	cv = session.query(Proceso).order_by(Proceso.id_proc.desc()).first()
+		if cv is not None 
+		'''
