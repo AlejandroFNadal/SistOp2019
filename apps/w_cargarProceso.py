@@ -59,8 +59,7 @@ class W_cargarProceso(QMainWindow):
 	
 	def terminar(self):
 		self.close()
-#	
-	#def clave():
-    	#cv = session.query(Proceso).order_by(Proceso.id.desc()).first()
-		#if cv is not None 
-#
+	
+	def clave():
+    	cv = session.query(Proceso).order_by(Proceso.id.desc()).first()
+		if cv is not None 
