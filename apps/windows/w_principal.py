@@ -26,7 +26,7 @@ class W_Main(QMainWindow):
 		self.ventana.actionAcerca_de.triggered.connect(self.AcercaDe)
 		self.ventana.btn_comenzar.clicked.connect(self.comenzar)
 		self.ventana.spinBox_quantum.setHidden(True)
-
+		self.ventana.pushButton.clicked.connect(self.actualizar)
 		procesos = session.query(Proceso).all()
 		presets = session.query(Presets).all()
 
@@ -36,7 +36,7 @@ class W_Main(QMainWindow):
 		self.mostrarDesc(presets)
 		#self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
 		
-		algoritmo = ["River", "Boca", "RR"]
+		algoritmo = ["FCFS", "RR", "MVQ"]
 
 		for a in algoritmo:
 			s =	self.ventana.comboBox_seleccionAlgoritmo.addItem(str(a))
@@ -64,6 +64,13 @@ class W_Main(QMainWindow):
 		self.dialogs.append(ventanaConfig)
 		ventanaConfig.show()
 		
+	def actualizar(self):
+		presets = session.query(Presets).all()
+		self.ventana.comboBox_seleccionPreConf.clear()
+		for p in presets: #recorre presets y lista descripcion
+			
+			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
+
 
 	def salir(self):
 		self.close()
