@@ -28,12 +28,16 @@ class W_cargarProceso(QMainWindow):
 		#ventana.show()
 		rafaga=self.ventana.lineEdit_rcpu.text()
 		p=re.compile('(((E\d)|(C\d)|(S\d))-)*(C\d)') #expresion regular de las rafaga
+<<<<<<< HEAD
 		nombre=self.ventana.lineEdit_Nombre.text()
 		#r = session.query(Proceso).order_by(Proceso.id_proc.desc()).first()
 		#if r is not None:
     	#		cv += r[0]
 		#else:
     	#		cv = 1
+=======
+		nombre=self.ventana.lineEdit_Nombre.text()	
+>>>>>>> master
 		
 		if self.first_load and p.fullmatch(rafaga) != None:
 			self.first_load=False
