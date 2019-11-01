@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from crearDB import Presets, Base, Particiones, Proceso
 
-engine = create_engine('sqlite:///SistOp2.db')
+engine = create_engine('sqlite:///SistOp.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind = engine)
 session = DBSession()
@@ -28,20 +28,27 @@ class W_cargarProceso(QMainWindow):
 		#ventana.show()
 		rafaga=self.ventana.lineEdit_rcpu.text()
 		p=re.compile('(((E\d)|(C\d)|(S\d))-)*(C\d)') #expresion regular de las rafaga
-		nombre=self.ventana.lineEdit_Nombre.text()	
+		nombre=self.ventana.lineEdit_Nombre.text()
+		#r = session.query(Proceso).order_by(Proceso.id_proc.desc()).first()
+		#if r is not None:
+    	#		cv += r[0]
+		#else:
+    	#		cv = 1
+		
 		if self.first_load and p.fullmatch(rafaga) != None:
 			self.first_load=False
 			self.ventana.lineEdit_Nombre.setEnabled(False)
 		arribo=self.ventana.spinBox_Arribo.value()
 		tamano_proc=self.ventana.sBTamanoProceso.value()
 		prio=self.ventana.sB_Prioridad.value()
+		
 		if p.fullmatch(rafaga) == None:
 			self.ventana.lineEdit_rcpu.setStyleSheet("color : red")
 			self.ventana.label_2.setVisible(1)
 		else:
 			self.ventana.label_2.setVisible(0)
 			datos=[nombre,arribo,prio,tamano_proc,rafaga]
-			new_proceso = Proceso(id_proc= 1, id_batch = nombre, tam_proc = tamano_proc, prioridad = prio, rafagaCPU = rafaga, tiempo_arribo = arribo)
+			new_proceso = Proceso(id_batch = str(nombre), tam_proc = int(tamano_proc), prioridad = int(prio), rafagaCPU = str(rafaga), tiempo_arribo = int(arribo))
 			session.add(new_proceso)
 			session.commit()
 			rafaga=self.ventana.lineEdit_rcpu.clear()
@@ -62,7 +69,8 @@ class W_cargarProceso(QMainWindow):
 	def terminar(self):
 		self.close()
 	'''
-	def clave():
-    	cv = session.query(Proceso).order_by(Proceso.id_proc.desc()).first()
-		if cv is not None 
-		'''
+	def clave(self):
+    	r = session.query(Proceso).order_by(Proceso.id_proc.desc()).first()
+		if r is None:
+    		cv += r[0]
+	'''	
