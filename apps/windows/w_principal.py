@@ -32,9 +32,9 @@ class W_Main(QMainWindow):
 
 		
 		
-		for p in presets: #recorre presets y lista descripcion
-			
-			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
+		#for p in presets: #recorre presets y lista descripcion
+		self.mostrarDesc(presets)
+		#self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
 		
 		algoritmo = ["River", "Boca", "RR"]
 
@@ -49,16 +49,21 @@ class W_Main(QMainWindow):
 
 
 
-	
+	def mostrarDesc(self, presets):
+		for p in presets: #recorre presets y lista descripcion
+			
+			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
+
 	def crearProceso(self):
 		ventana = W_cargarProceso()
 		self.dialogs.append(ventana)
 		ventana.show()
 	
 	def menuConfiguracion1(self):
-		ventana = W_Configuracion1()
-		self.dialogs.append(ventana)
-		ventana.show()
+		ventanaConfig = W_Configuracion1()
+		self.dialogs.append(ventanaConfig)
+		ventanaConfig.show()
+		
 
 	def salir(self):
 		self.close()
