@@ -39,7 +39,7 @@ class W_Main(QMainWindow):
 		algoritmo = ["River", "Boca", "RR"]
 
 		for a in algoritmo:
-			s =	self.ventana.comboBox_seleccionAlgoritmo.addItem(str(a))
+				self.ventana.comboBox_seleccionAlgoritmo.addItem(str(a))
 		
 		for p in procesos:#prueba: recorre procesos y lista los procesos, aca estoy probando q onda
 			rowPosition = self.ventana.tableWidget.rowCount()
