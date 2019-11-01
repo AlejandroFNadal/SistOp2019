@@ -1,3 +1,4 @@
+from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 
 from apps.ui.w_particionFija import Ui_ParticionFija
@@ -35,6 +36,13 @@ class W_ParticionFija(QMainWindow):
 				self.ventana.label_MemoriaRes.setText(str(self.cant_mem_rest))
 				self.cant_part_rest -= 1
 				print("- Particion creada de ",tam_part," Kb") 
+
+				#aca lo que hace es ir tomando cada tam de particion y agregar a la fila
+				#tratar de construir una funcion que haga esto y llamar para que quede mas limpio... helppp
+				rowPosition = self.ventana.tW_ParticionFija.rowCount()
+				self.ventana.tW_ParticionFija.insertRow(rowPosition)
+				self.ventana.tW_ParticionFija.setItem(rowPosition , 1, QtWidgets.QTableWidgetItem(str(tam_part)))
+
 				print("- Memoria restante: ", self.cant_mem_rest)
 				print("- Particiones restantes: ", self.cant_part_rest)
 				print("\n")

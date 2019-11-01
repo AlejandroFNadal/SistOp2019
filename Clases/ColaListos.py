@@ -37,7 +37,7 @@ class ColaListos:
         self.cola_listos.append(proc)
     def get_cola_listos(self):
         return self.cola_listos
-    def fcfs(self,procesador):
+    def fcfs(self):
         return self.cola_listos
     def prioridades(self):
         self.cola_listos.sort(key=lambda x: x.get_prioridad(),reverse=True)
@@ -46,6 +46,8 @@ class ColaListos:
             x.print_proceso_fake()
     def multinivel(self):
         return self.cola_listos
+    def elimina_elemento(self, num):
+        self.cola_listos.pop(num)
     def round_robin(self, quantum, procesador):
         
         self.quantum = quantum
@@ -72,6 +74,16 @@ class ColaListos:
                     print("pasa a bloqueado o terminado")
                     # pasa a bloqueado o terminado
         return self.cola_listos
+    
+    def ordenar(self,algoritmo,quantum,procesador):
+        if algoritmo ==0:
+            self.fcfs()
+        if algoritmo == 1:
+            self.round_robin(quantum,procesador)
+        if algoritmo == 2:
+            self.prioridades()
+        if algoritmo == 3:
+            self.multinivel()
 
 
 
