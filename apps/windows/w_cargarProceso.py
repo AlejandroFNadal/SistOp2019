@@ -29,12 +29,14 @@ class W_cargarProceso(QMainWindow):
 		rafaga=self.ventana.lineEdit_rcpu.text()
 		p=re.compile('(((E\d)|(C\d)|(S\d))-)*(C\d)') #expresion regular de las rafaga
 		nombre=self.ventana.lineEdit_Nombre.text()	
+		
 		if self.first_load and p.fullmatch(rafaga) != None:
 			self.first_load=False
 			self.ventana.lineEdit_Nombre.setEnabled(False)
 		arribo=self.ventana.spinBox_Arribo.value()
 		tamano_proc=self.ventana.sBTamanoProceso.value()
 		prio=self.ventana.sB_Prioridad.value()
+		
 		if p.fullmatch(rafaga) == None:
 			self.ventana.lineEdit_rcpu.setStyleSheet("color : red")
 			self.ventana.label_2.setVisible(1)

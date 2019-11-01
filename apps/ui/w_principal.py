@@ -2,10 +2,9 @@
 
 # Form implementation generated from reading ui file 'principal.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.1
+# Created by: PyQt5 UI code generator 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
-
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -105,7 +104,7 @@ class Ui_MainWindow(object):
         self.label_5.setGeometry(QtCore.QRect(550, 150, 61, 20))
         self.label_5.setObjectName("label_5")
         self.comboBox_cargarProceso = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox_cargarProceso.setGeometry(QtCore.QRect(710, 110, 261, 22))
+        self.comboBox_cargarProceso.setGeometry(QtCore.QRect(730, 110, 261, 22))
         self.comboBox_cargarProceso.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.comboBox_cargarProceso.setObjectName("comboBox_cargarProceso")
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
@@ -133,9 +132,12 @@ class Ui_MainWindow(object):
         self.verticalScrollBar.setGeometry(QtCore.QRect(1000, 19, 20, 681))
         self.verticalScrollBar.setOrientation(QtCore.Qt.Vertical)
         self.verticalScrollBar.setObjectName("verticalScrollBar")
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(730, 160, 79, 25))
+        self.pushButton.setObjectName("pushButton")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1028, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1028, 20))
         self.menubar.setObjectName("menubar")
         self.menuMenu = QtWidgets.QMenu(self.menubar)
         self.menuMenu.setObjectName("menuMenu")
@@ -209,6 +211,7 @@ class Ui_MainWindow(object):
         self.label_6.setText(_translate("MainWindow", "Seleccione carga de proceso"))
         self.btn_retroceder.setText(_translate("MainWindow", "<<<<"))
         self.btn_avanzar.setText(_translate("MainWindow", ">>>>"))
+        self.pushButton.setText(_translate("MainWindow", "Actualizar"))
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.menuAyuda.setTitle(_translate("MainWindow", "Ayuda"))
         self.actionSalir.setText(_translate("MainWindow", "Salir"))
@@ -219,3 +222,5 @@ class Ui_MainWindow(object):
         self.actionAbrir.setText(_translate("MainWindow", "Abrir"))
         self.actionGuardar.setText(_translate("MainWindow", "Guardar"))
         self.actionCrear_procesos.setText(_translate("MainWindow", "Crear procesos"))
+
+
