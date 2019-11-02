@@ -28,16 +28,7 @@ class W_cargarProceso(QMainWindow):
 		#ventana.show()
 		rafaga=self.ventana.lineEdit_rcpu.text()
 		p=re.compile('(((E\d)|(C\d)|(S\d))-)*(C\d)') #expresion regular de las rafaga
-<<<<<<< HEAD
-		nombre=self.ventana.lineEdit_Nombre.text()
-		#r = session.query(Proceso).order_by(Proceso.id_proc.desc()).first()
-		#if r is not None:
-    	#		cv += r[0]
-		#else:
-    	#		cv = 1
-=======
 		nombre=self.ventana.lineEdit_Nombre.text()	
->>>>>>> master
 		
 		if self.first_load and p.fullmatch(rafaga) != None:
 			self.first_load=False
@@ -45,21 +36,28 @@ class W_cargarProceso(QMainWindow):
 		arribo=self.ventana.spinBox_Arribo.value()
 		tamano_proc=self.ventana.sBTamanoProceso.value()
 		prio=self.ventana.sB_Prioridad.value()
+		cont = 0
+		#Se realiza Busqueda y ordenamiento para definir la nueva clave
+		a = session.query(Proceso).order_by(Proceso.id_proc).all()
+		for s in a:
+			cont = s.id_proc
 		
 		if p.fullmatch(rafaga) == None:
 			self.ventana.lineEdit_rcpu.setStyleSheet("color : red")
 			self.ventana.label_2.setVisible(1)
 		else:
 			self.ventana.label_2.setVisible(0)
-			datos=[nombre,arribo,prio,tamano_proc,rafaga]
-			new_proceso = Proceso(id_batch = str(nombre), tam_proc = int(tamano_proc), prioridad = int(prio), rafagaCPU = str(rafaga), tiempo_arribo = int(arribo))
+			datos=[nombre,tamano_proc,prio,rafaga,arribo]
+			new_proceso = Proceso(id_proc = cont+1, id_batch = str(nombre), tam_proc = int(tamano_proc), prioridad = int(prio), rafagaCPU = str(rafaga), tiempo_arribo = int(arribo))
 			session.add(new_proceso)
 			session.commit()
+		
 			rafaga=self.ventana.lineEdit_rcpu.clear()
 			arribo=self.ventana.spinBox_Arribo.setValue(0)
 			tamano_proc=self.ventana.sBTamanoProceso.setValue(1)
 			prio=self.ventana.sB_Prioridad.setValue(1)
 			return datos
+		
 		
 
 	def reiniciarProceso(self):
@@ -73,8 +71,14 @@ class W_cargarProceso(QMainWindow):
 	def terminar(self):
 		self.close()
 	'''
-	def clave(self):
-    	r = session.query(Proceso).order_by(Proceso.id_proc.desc()).first()
-		if r is None:
-    		cv += r[0]
+	def cargarProcBD(self, datos):
+		p = Proceso()
+		p.id_batch = datos[0]
+		p.tam_proc = datos[1]
+		p.prioridad = datos[2]
+		p.rafagaCPU = datos[3]
+		p.tiempo_arribo = datos[4]
+		session.add(p)
+		session.commit()
 	'''	
+	

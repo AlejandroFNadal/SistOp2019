@@ -35,6 +35,7 @@ class W_Main(QMainWindow):
 		#for p in presets: #recorre presets y lista descripcion
 		self.mostrarDesc(presets)
 		#self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
+		self.mostrarProc(procesos)
 		
 		algoritmo = ["FCFS", "RR", "MVQ"]
 
@@ -49,10 +50,19 @@ class W_Main(QMainWindow):
 
 
 
+
 	def mostrarDesc(self, presets):
 		for p in presets: #recorre presets y lista descripcion
 			
 			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
+	
+	def mostrarProc(self, procesos):
+		lista_proc =[]
+		for p in procesos:
+    		 lista_proc.append(p.id_batch)
+		lista_ord = dict.fromkeys(lista_proc).keys()
+		for l in lista_ord:
+    			self.ventana.comboBox_cargarProceso.addItem(str(l))
 
 	def crearProceso(self):
 		ventana = W_cargarProceso()
@@ -70,6 +80,9 @@ class W_Main(QMainWindow):
 		for p in presets: #recorre presets y lista descripcion
 			
 			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
+		procesos = session.query(Proceso).all()
+		self.ventana.comboBox_cargarProceso.clear()
+		self.mostrarProc(procesos)
 
 
 	def salir(self):

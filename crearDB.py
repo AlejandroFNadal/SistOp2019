@@ -1,6 +1,6 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
@@ -29,7 +29,7 @@ class Particiones(Base):
 class Proceso(Base):
     __tablename__='proceso'
     id_proc = Column(Integer, primary_key =True)
-    id_batch = Column(String(50), primary_key = True)
+    id_batch = Column(String(50))
     tam_proc = Column(Integer)
     prioridad = Column(Integer)
     rafagaCPU = Column(String(50))
