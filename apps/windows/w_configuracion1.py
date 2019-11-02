@@ -60,7 +60,15 @@ class W_Configuracion1(QMainWindow):
 		if int(self.ventana.spinBox_cantParticion.value()) > 1 and p.fullmatch(aux)== None:
 			nombreConf = self.ventana.lineEdit_Nombre.text()
 			tamanoMemoria = int(self.ventana.spinBoxTamMemo.text())
-			algoritmo = self.ventana.selectAlg.currentText()
+			cant_part = self.ventana.spinBox_cantParticion.value()
+			selec_alg = self.ventana.selectAlg.currentText()
+			if selec_alg == "BestFit":
+				algoritmo = 1
+			elif selec_alg == "FirstFit":
+    			 algoritmo = 2
+			else:
+    			 algoritmo = 3
+    				
 			tamanoSO = int(self.ventana.spinBoxTamSo.text())
 			if self.ventana.radioButtonFija.isChecked() == True:
 				particion = "fija"
@@ -71,7 +79,7 @@ class W_Configuracion1(QMainWindow):
 				particion = "variable"
 				
 
-			datos = [nombreConf, tamanoMemoria, algoritmo, tamanoSO, particion]
+			datos = [nombreConf, tamanoMemoria,tamanoSO, particion, cant_part, algoritmo]
 			self.grabarPresetBD(datos)
 			self.close()
 		else:
@@ -81,9 +89,14 @@ class W_Configuracion1(QMainWindow):
 	def grabarPresetBD(self,datos):#agrega datos a la bd
 
 		p = Presets()
-		#p.id=6
+		
 		p.descripcion = datos[0]
-		#p.tam_mem = 12
+		p.tamMemoria = datos[1]
+		p.sistOpMem = datos[2]
+		p.fija_variable = datos[3]
+		p.cant_part  = datos[4]
+		p.algoritmo_as = datos[5]
+		
 		session.add(p)
 		session.commit()
 		

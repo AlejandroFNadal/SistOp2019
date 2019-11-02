@@ -13,15 +13,15 @@ class Presets(Base):
     descripcion = Column(String(250))
     tamMemoria = Column(Integer)
     sistOpMem = Column(Integer)
-    fija_variable = Column(String(1))
+    fija_variable = Column(String(10))
     cant_part = Column(Integer)
     algoritmo_as = Column(Integer)
-    algoritmo_pla = Column(Integer)
+    
 
 class Particiones(Base):
     __tablename__='particiones'
     id_part = Column(Integer, primary_key = True)
-    batch = Column(String(50))
+    batch = Column(String(50)) # Es la descripcion del Presets
     tam_part = Column(Integer)
     dir_ini = Column(Integer)
     dir_fin = Column(Integer)
