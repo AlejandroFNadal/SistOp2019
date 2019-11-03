@@ -1,4 +1,4 @@
-from PyQt5 import QtGui, QtWidgets
+from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtWidgets import QMainWindow
 
 from apps.ui.w_principal import Ui_MainWindow
@@ -11,6 +11,7 @@ from crearDB import session, Proceso, Presets
 
 
 class W_Main(QMainWindow):
+	#---- inicio constructor ---#
 	def __init__(self):
 		QMainWindow.__init__(self)
 		self.ventana = Ui_MainWindow()
@@ -25,8 +26,13 @@ class W_Main(QMainWindow):
 		self.ventana.actionAyuda.triggered.connect(self.ayuda)
 		self.ventana.actionAcerca_de.triggered.connect(self.AcercaDe)
 		self.ventana.btn_comenzar.clicked.connect(self.comenzar)
-		self.ventana.spinBox_quantum.setHidden(True)
+		
 		self.ventana.pushButton.clicked.connect(self.actualizar)
+
+		self.ventana.spinBox_quantum.setEnabled(False)
+		
+		
+
 		procesos = session.query(Proceso).all()
 		presets = session.query(Presets).all()
 
@@ -37,10 +43,14 @@ class W_Main(QMainWindow):
 		#self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
 		self.mostrarProc(procesos)
 		
-		algoritmo = ["FCFS", "RR", "MVQ"]
+		
 
-		for a in algoritmo:
-				self.ventana.comboBox_seleccionAlgoritmo.addItem(str(a))
+		self.ventana.comboBox_seleccionAlgoritmo.addItems(["FCFS", "RR", "MVQ"])
+
+
+		
+
+		self.ventana.comboBox_seleccionAlgoritmo.currentIndexChanged.connect(self.obtener)
 		
 		for p in procesos:#prueba: recorre procesos y lista los procesos, aca estoy probando q onda
 			rowPosition = self.ventana.tableWidget.rowCount()
@@ -48,7 +58,7 @@ class W_Main(QMainWindow):
 			self.ventana.tableWidget.setItem(rowPosition , 0, QtWidgets.QTableWidgetItem(str(p.id_proc)))
 			self.ventana.tableWidget.setItem(rowPosition , 1, QtWidgets.QTableWidgetItem(str(p.tiempo_arribo)))
 
-
+	#----- fin constructor ----#
 
 
 	def mostrarDesc(self, presets):
@@ -84,6 +94,12 @@ class W_Main(QMainWindow):
 		self.ventana.comboBox_cargarProceso.clear()
 		self.mostrarProc(procesos)
 
+	def obtener(self, i):
+
+		for count in range(self.ventana.comboBox_seleccionAlgoritmo.count()):
+			print(self.ventana.comboBox_seleccionAlgoritmo.itemText(count))
+		print("Current index",i,"selection changed ",self.ventana.comboBox_seleccionAlgoritmo.currentText())
+		print("item")
 
 	def salir(self):
 		self.close()
