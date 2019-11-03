@@ -10,17 +10,19 @@ class W_ParticionFija(QMainWindow):
 		#QMainWindow.__init__(self)
 		self.ventana = Ui_ParticionFija()
 		self.ventana.setupUi(self)
-
-		self.cant_mem_rest = int( int(ventana.spinBoxTamMemo.text()) - (int(ventana.spinBoxTamMemo.text())*( int(ventana.spinBoxTamSo.text()))/100 ) )
+		self.mem_SO = int((int(ventana.spinBoxTamMemo.text())*( int(ventana.spinBoxTamSo.text()))/100 ) )
+		self.cant_mem_rest = int( int(ventana.spinBoxTamMemo.text()) - self.mem_SO	 )
 		self.ventana.label_NombreConf.setText(ventana.lineEdit_Nombre.text()) #seteo los campos
 		self.ventana.label_MemoriaRes.setText(str(self.cant_mem_rest))
-		#self.ventana.label_CantParticion.setText(ventana.spinBox_cantParticion.text()) #no esta implementado todavia
-		#self.ventana.label_NumParticion.setText("1") 									#no esta implementado todavia
+		self.ventana.label_cantPart.setText(str(ventana.spinBox_cantParticion.text()))
+
 		self.cant_part_rest = int(ventana.spinBox_cantParticion.text())-1 # se le resta 1 por que una particion es del SO
-		
+
 		#esto uso para poder reiniciar
 		self.cant_part = self.cant_part_rest
 		self.cant_mem = self.cant_mem_rest
+
+		self.ventana.label_numPart.setText(str(1 + self.cant_part - self.cant_part_rest))
 
 		self.ventana.btn_agregar.clicked.connect(self.agregarParticion)
 		self.ventana.btn_terminar.clicked.connect(self.terminar)
@@ -28,15 +30,15 @@ class W_ParticionFija(QMainWindow):
 
 	def agregarParticion(self):
 		tam_part = int(self.ventana.sB_tamParticion.text())
-		#hay que testear mas fino lo de abajo
 		if self.cant_part_rest > 1:
 			#sumo cant part a tamanio de particion para que cada particion tenga como minimo 1 kb
 			if (self.cant_mem_rest - (self.cant_part_rest + tam_part)) >= 0:
+				self.pasar_datos(tam_part)
 				self.cant_mem_rest = self.cant_mem_rest - tam_part
 				self.ventana.label_MemoriaRes.setText(str(self.cant_mem_rest))
 				self.cant_part_rest -= 1
-				print("- Particion creada de ",tam_part," Kb") 
-
+				self.ventana.label_numPart.setText(str(1 + self.cant_part - self.cant_part_rest))
+				 
 				#aca lo que hace es ir tomando cada tam de particion y agregar a la fila
 				#tratar de construir una funcion que haga esto y llamar para que quede mas limpio... helppp
 				rowPosition = self.ventana.tW_ParticionFija.rowCount()
@@ -51,12 +53,16 @@ class W_ParticionFija(QMainWindow):
 
 			#para colocar en la ultima particion toda la memoria restante
 			if self.cant_part_rest == 1:
-				print("- Particion creada de ",self.cant_mem_rest," Kb")
+				self.pasar_datos(self.cant_mem_rest) #mi tam_part seria la cant de mem restante
 				self.cant_mem_rest = 0
 				self.cant_part_rest -= 1 
 				print("- Memoria restante: ", self.cant_mem_rest)
 				print("- Particiones restantes: ", self.cant_part_rest)
 				print("\n")
+			else:
+			print("<<< Cantidad maxima de particiones colocadas >>> " )
+			self.close()
+			
 		else:
 			print("<<< Cantidad maxima de particiones colocadas >>> " )
 			self.close()
@@ -65,6 +71,7 @@ class W_ParticionFija(QMainWindow):
 		self.cant_mem_rest = self.cant_mem
 		self.ventana.label_MemoriaRes.setText(str(self.cant_mem_rest))
 		self.cant_part_rest = self.cant_part
+		self.ventana.label_numPart.setText(str(1 + self.cant_part - self.cant_part_rest))
 
 	def terminar(self):
 		#Aca deberiamos tener en cuenta si el usuario no completo las particiones.
@@ -74,7 +81,7 @@ class W_ParticionFija(QMainWindow):
 		tam_part = self.cant_mem_rest//self.cant_part_rest
 		#1
 		while self.cant_part_rest > 1:
-			print("- Particion creada de ",tam_part," Kb")
+			self.pasar_datos(tam_part)
 			self.cant_mem_rest = self.cant_mem_rest - tam_part
 			self.cant_part_rest -= 1 
 			print("- Memoria restante: ", self.cant_mem_rest)
@@ -83,7 +90,7 @@ class W_ParticionFija(QMainWindow):
 
 		#2
 		if self.cant_part_rest == 1:
-			print("- Particion creada de ",self.cant_mem_rest," Kb")
+			self.pasar_datos(self.cant_mem_rest)
 			self.cant_mem_rest = 0
 			self.cant_part_rest -= 1 
 			print("- Memoria restante: ", self.cant_mem_rest)
@@ -104,3 +111,13 @@ class W_ParticionFija(QMainWindow):
 		No esta testeado.
 		"""
 		self.close()
+
+
+	def pasar_datos(self,tam_part):
+		batch = self.ventana.label_NombreConf.text()
+		dir_in = ((self.cant_mem - self.cant_mem_rest) + self.mem_SO)
+		dir_fin = (dir_in + tam_part) - 1
+		datos_part = [batch,tam_part,dir_in,dir_fin]
+		print("batch - tamPart - dir_in - dir_fin")
+		print(datos_part)
+		return datos_part

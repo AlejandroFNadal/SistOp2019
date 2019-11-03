@@ -64,7 +64,7 @@
      <rect>
       <x>20</x>
       <y>110</y>
-      <width>111</width>
+      <width>131</width>
       <height>41</height>
      </rect>
     </property>
@@ -77,7 +77,7 @@
      <rect>
       <x>20</x>
       <y>270</y>
-      <width>111</width>
+      <width>131</width>
       <height>41</height>
      </rect>
     </property>
@@ -127,7 +127,7 @@
    <widget class="QSpinBox" name="sB_tamParticion">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>160</x>
       <y>280</y>
       <width>71</width>
       <height>41</height>
@@ -149,7 +149,7 @@
    <widget class="QLabel" name="label_NombreConf">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>160</x>
       <y>80</y>
       <width>141</width>
       <height>21</height>
@@ -162,7 +162,7 @@
    <widget class="QLabel" name="label_MemoriaRes">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>160</x>
       <y>120</y>
       <width>141</width>
       <height>21</height>
@@ -177,7 +177,7 @@
      <rect>
       <x>20</x>
       <y>160</y>
-      <width>111</width>
+      <width>131</width>
       <height>41</height>
      </rect>
     </property>
@@ -190,7 +190,7 @@
      <rect>
       <x>20</x>
       <y>210</y>
-      <width>111</width>
+      <width>131</width>
       <height>41</height>
      </rect>
     </property>
@@ -224,7 +224,7 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>250</x>
       <y>290</y>
       <width>31</width>
       <height>16</height>
@@ -241,6 +241,32 @@
      <string>Kb</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_cantPart">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>170</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_numPart">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>220</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -249,7 +275,7 @@
      <x>0</x>
      <y>0</y>
      <width>461</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAyuda">
