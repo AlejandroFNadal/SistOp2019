@@ -52,6 +52,7 @@ class Procesador:  # contendra gran parte de las tareas generales
         for proc in self.cola_nuevos:
             if memoria.comprobar_memoria(proc):
                 self.procesos_listos.anade_proceso(proc)
+                self.imprime_cola_listos()
         self.procesos_listos.ordenar(algoritmo,quantum,self)
 
 
@@ -114,3 +115,8 @@ class Procesador:  # contendra gran parte de las tareas generales
             time.sleep(1)
         # preset es una lista de preconfiguraciones, procesos
         # es lista de objetos del tipo proceso y particiones es una lista de objetos del tipo particiones
+        #DEBUGGING FUNCTIONS
+    def imprime_cola_listos(self):
+        print("Procesos listos")
+        for x in self.procesos_listos.get_cola_listos():
+            print(x.get_id())

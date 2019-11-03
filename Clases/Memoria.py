@@ -4,11 +4,11 @@ class Memoria:
         self.tamano=tamano
         fin_particion_sist=int(tamano*sistOpMem/100)
         partSistema=Particion(0,0,fin_particion_sist,0,fin_particion_sist,True)
-        self.lista_particiones=[]
+        self.lista_particiones=[partSistema]
         self.tipo_particion=tipo_particion#fija o variable, en texto
         self.algoritmo_asignacion=algoritmo_as #1.BestF, 2 FirstF, 3 WorstF
-        self.lista_vacios = [[fin_particion_sist+1,tamano,tamano-fin_particion_sist]]
-        self.ultimo_id = 0
+        self.lista_vacios = [[fin_particion_sist+1,tamano,tamano-fin_particion_sist-1]]
+        self.ultimo_id = 1
     def asign_bestfit_fija(self,proc):
         
             diferencia=sys.maxsize
@@ -37,18 +37,26 @@ class Memoria:
         else:
             return False
     def asign_firstfit_variable(self,proc):
+        self.imprime_particiones()
         band = False
         pos = 0
+        print("Huecos" + str(self.lista_vacios))
         while  band == False and (pos < len(self.lista_vacios) ):
             if self.lista_vacios[pos][2] > proc.get_tamano_proc():
-                part_nueva = Particion(self.ultimo_id,proc.get_id(),proc.get_tamano_proc(),self.lista_vacios[pos][0],self.lista_vacios[pos][1],True)
+                print("El proceso " +str(proc.get_id())+ " cabe en el hueco de tamano "+str(self.lista_vacios[pos][2]))
+                part_nueva = Particion(self.ultimo_id,proc.get_id(),proc.get_tamano_proc(),self.lista_vacios[pos][0],proc.get_tamano_proc()+self.lista_vacios[pos][0],True)
+                print("Se creo una particion nueva"+str(part_nueva.get_id_par()))
                 pos_LO = 0 #pos_LO = posicion lista ordenada
-                while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() >= self.lista_particiones[pos_LO].get_dir_fin():
+                while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() > self.lista_particiones[pos_LO].get_dir_fin():
                     pos_LO =+ 1
                 self.lista_particiones.insert(pos_LO,part_nueva)
+                print("insercion de particion nueva")
+                self.imprime_particiones()
                 band = True
+                self.lista_vacios.pop(pos)
+                self.generar_lista_vacios()
             pos +=1
-            self.generar_lista_vacios()
+            print("Lista vacios"+str(self.lista_vacios))
         return band
     def asign_worstfit_variable(self,proc):
         aux_variable = sorted(self.lista_vacios, key = self.obt_tam_part, reversed = True )
@@ -104,8 +112,11 @@ class Memoria:
                 dirFin = self.lista_particiones[pos+1].get_dir_in()-1
                 self.lista_vacios.append([dirIn,dirFin,dirFin-dirIn+1])
             pos += 1
-
-            
+        ultima_particion=self.lista_particiones[pos]
+        print("fin ultima particion")
+        print(ultima_particion.get_dir_fin())
+        if ultima_particion.get_dir_fin() < self.tamano:#existe hueco entre la ultima particion y el final
+            self.lista_vacios.append([ultima_particion.get_dir_fin(),self.tamano,self.tamano-ultima_particion.get_dir_fin()-1])
     def obt_tam_part(self,elem):
         return elem[2]
 
@@ -122,7 +133,10 @@ class Memoria:
         #Se suma POS unicamente si no compacto entre 2 elementos
         #por que si compacto entre 2 elementos estaria eliminando un elemento de lista vacios
         #y si elimino un elemento de ahi, estaria decrementando en 1  en len(self.lista_vacios)
-
+    def imprime_particiones(self):#funcion para debug, eliminar luego
+        print("Particiones existentes")
+        for x in self.lista_particiones:
+            print(x.get_id_par())
 class Particion:
     def __init__(self,idp, idproc, tamano, dir_in,dir_fin, estado):
         self.id_par=idp
@@ -136,7 +150,7 @@ class Particion:
     def get_tamano(self):
         return self.tamano_part
     def get_id_par(self):
-        return self.get_id_par
+        return self.id_par
     def asignar_proceso(self,idp):
         self.id_proc = idp
         self.estado = True
