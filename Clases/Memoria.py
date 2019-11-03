@@ -1,11 +1,13 @@
 import sys
 class Memoria:
-    def __init__(self,tamano,tipo_particion):
+    def __init__(self,tamano,tipo_particion,algoritmo_as,sistOpMem):
         self.tamano=tamano
+        fin_particion_sist=int(tamano*sistOpMem/100)
+        partSistema=Particion(0,0,fin_particion_sist,0,fin_particion_sist,True)
         self.lista_particiones=[]
         self.tipo_particion=tipo_particion#fija o variable, en texto
-        self.algoritmo_asignacion=None #1.BestF, 2 FirstF, 3 WorstF
-        self.lista_vacios = []
+        self.algoritmo_asignacion=algoritmo_as #1.BestF, 2 FirstF, 3 WorstF
+        self.lista_vacios = [[fin_particion_sist+1,tamano,tamano-fin_particion_sist]]
         self.ultimo_id = 0
     def asign_bestfit_fija(self,proc):
         
@@ -67,6 +69,8 @@ class Memoria:
             return False
         
     def comprobar_memoria(self,proc):
+        print("Comprobando memoria para proceso: "+str(proc.get_id())+" asignacion:  "+str(self.algoritmo_asignacion))
+        print("Ejecutando comprobacion con memoria del tipo: "+str(self.tipo_particion))
         state=False #variable que indica si hubo exito en asignacion de memoria
         if self.tipo_particion=="fija" and self.algoritmo_asignacion == 1:# es fija, bestF
             state=self.asign_bestfit_fija(proc)

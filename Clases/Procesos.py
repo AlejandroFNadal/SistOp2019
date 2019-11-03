@@ -13,7 +13,7 @@ class Procesos:  # Contiene los datos esenciales de un proceso
         self.particion = None
         self.tiempo_restante=None
         self.quantum=None
-        self.num_rafaga_actual=None
+        self.num_rafaga_actual=0
     def get_rafaga_tot(self):
         return self.rafaga_tot
     def set_tiempo_restante(self,x):

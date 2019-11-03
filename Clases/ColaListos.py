@@ -55,7 +55,8 @@ class ColaListos:
             self.prioridades()
         if algoritmo == 3:
             self.multinivel()
-
+    def isvacio(self):
+        return self.cola_listos == []
 
 
 

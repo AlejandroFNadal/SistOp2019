@@ -47,6 +47,8 @@ class Procesador:  # contendra gran parte de las tareas generales
         return procesos
 
     def cargar_cola_listos(self, algoritmo, procesos, particiones,memoria,quantum):
+        print("Cargar cola listos")
+        print("Cola listos actual:" +str(self.procesos_listos.get_cola_listos()))
         for proc in self.cola_nuevos:
             if memoria.comprobar_memoria(proc):
                 self.procesos_listos.anade_proceso(proc)
@@ -71,7 +73,7 @@ class Procesador:  # contendra gran parte de las tareas generales
         cont=0
         for proc in procesos_listos.get_cola_listos():
             pos=proc.get_num_rafaga_actual()
-            actual_elem_rafaga=proc.get_rafaga_tot(pos)
+            actual_elem_rafaga=proc.get_rafaga_tot()[pos]
             if actual_elem_rafaga[0]!="C" and proc.get_tiempo_restante()==0:
                 proc.set_tiempo_restante=int(proc.get_rafaga_tot(pos+1)[1])
                 cola_bloqueados.append(proc)
@@ -95,12 +97,12 @@ class Procesador:  # contendra gran parte de las tareas generales
         alg_planificacion = preset.algoritmo_as  # agregar luego como un valor de preset, traer de la BD
         cola_listos_principal = ColaListos()
         quantum=5
-        mem1=Memoria(preset.tamMemoria,preset.fija_variable) #tamano, fija_variable
+        mem1=Memoria(preset.tamMemoria,preset.fija_variable,preset.algoritmo_as,preset.sistOpMem) #tamano, fija_variable
         if alg_planificacion == 3:  # MQL
             CL1 = ColaListos()
             CL2 = ColaListos()
             CL3 = ColaListos()
-        while intprocesos != []:
+        while intprocesos != [] and self.procesos_listos.isvacio():
             intprocesos=self.cargar_cola_nuevos(intprocesos)#esta llamada deberia funcionar ya
             print()
             self.cargar_cola_listos(alg_planificacion, intprocesos, particiones,mem1,quantum)
