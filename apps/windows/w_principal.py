@@ -46,11 +46,8 @@ class W_Main(QMainWindow):
 		
 
 		self.ventana.comboBox_seleccionAlgoritmo.addItems(["FCFS", "RR", "MVQ"])
-
-
+		self.ventana.comboBox_seleccionAlgoritmo.currentTextChanged.connect(self.habilitarQuantum)
 		
-
-		self.ventana.comboBox_seleccionAlgoritmo.currentIndexChanged.connect(self.obtener)
 		
 		for p in procesos:#prueba: recorre procesos y lista los procesos, aca estoy probando q onda
 			rowPosition = self.ventana.tableWidget.rowCount()
@@ -94,12 +91,10 @@ class W_Main(QMainWindow):
 		self.ventana.comboBox_cargarProceso.clear()
 		self.mostrarProc(procesos)
 
-	def obtener(self, i):
-
-		for count in range(self.ventana.comboBox_seleccionAlgoritmo.count()):
-			print(self.ventana.comboBox_seleccionAlgoritmo.itemText(count))
-		print("Current index",i,"selection changed ",self.ventana.comboBox_seleccionAlgoritmo.currentText())
-		print("item")
+	def habilitarQuantum(self, i):
+		if i == "RR":
+			self.ventana.spinBox_quantum.setEnabled(True)
+	
 
 	def salir(self):
 		self.close()
