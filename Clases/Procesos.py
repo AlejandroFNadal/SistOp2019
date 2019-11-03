@@ -1,10 +1,10 @@
-class Proceso:  # Contiene los datos esenciales de un proceso
+class Procesos:  # Contiene los datos esenciales de un proceso
     def __init__(self, datos):
         self.id = datos[0]
         self.tamano_proc = datos[1]
         self.prioridad = datos[2]
-        self.tiempo_arribo = datos[3]
-        self.rafaga_tot = datos[4]
+        self.tiempo_arribo = datos[4]
+        self.rafaga_tot = datos[3]
         self.rafaga_usada = None
         self.estado = None
         self.tiempo_espera = None
@@ -49,3 +49,5 @@ class Proceso:  # Contiene los datos esenciales de un proceso
         return self.id
     def get_estado(self):
         return self.estado
+    def set_id(self,value):
+        self.id=value

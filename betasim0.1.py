@@ -1,28 +1,40 @@
 import sqlite3
 from sqlite3 import Error
-from Clases.Procesos import *
 from Clases.Procesador import *
-from Clases.Interface import *
 
-
+from crearDB import Presets, Proceso
 # Este main solo representa una prueba de las clases existentes, no se
 # planea implementar de esta forma.
 if __name__ == '__main__':
-    conexion = Interface()
-    conn = conexion.create_connection(
-        "/root/Documents/UTN/SistOp2019/SistOp.db")
+   
+    preset=Presets()
+    preset.id=1
+    preset.descripcion="Ej1"
+    preset.tamMemoria=100
+    preset.sistOpMem=10
+    preset.fija_variable="variable"
+    preset.cant_part=5
+    preset.algoritmo_as=1
     Core = Procesador()
-    preset,procesos,particiones=conexion.show_menu()
-    Core.Simular(preset,procesos,particiones)
-
-    #aux=Core.get_proceso_actual()
-    #tr=aux.get_tiempo_restante()
-    #quan=aux.get_quantum()
+    #Preset de prueba y procesos de prueba
     
-    # conexion.retrieve_data(Core)
-    # a=Proceso(1,30,10,10,10)
-    # Core.add_proceso(a)
-    # Core.show_procesos()
+    proc1=Proceso()
+    proc1.id_proc=1
+    proc1.id_batch=1
+    proc1.tam_proc=40
+    proc1.prioridad=2
+    proc1.rafagaCPU="E2-S1-C3"
+    proc1.tiempo_arribo=3
 
-    # curr=conn.cursor()
-    #print(curr.execute("SELECT * FROM Procesos2"))
+    proc2=Proceso()
+    proc2.id_proc=2
+    proc2.id_batch=1
+    proc2.tam_proc=30
+    proc2.prioridad=3
+    proc2.rafagaCPU="E1-C4"
+    proc2.tiempo_arribo=2
+    
+    procesos=[proc1,proc2]
+    particiones=[]
+
+    Core.Simular(preset,procesos,particiones)

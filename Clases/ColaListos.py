@@ -1,34 +1,5 @@
-from Procesos import *
-#from Procesador import *
+from Clases.Procesos import *
 
-class prueba:
-    def __init__(self,id,prioridad,tamano,tiempo_restante,quantum):
-        self.id=id
-        self.prioridad=prioridad#prioridad
-        self.tamano = tamano
-        self.tiempo_restante=tiempo_restante
-        self.quantum=quantum
-    def print_proceso_fake(self):
-        print(self.id)
-    def get_prioridad(self):
-        return self.prioridad
-    def get_tamano(self):
-        return self.tamano
-    def get_tiempo_restante(self):
-        return self.tiempo_restante
-    def set_tiempo_restante(self,valor):
-        self.tiempo_restante=valor
-        
-    def get_quantum(self):
-        return self.quantum
-    def set_quantum(self,valor):
-        self.quantum=valor
-
-def procesosfalsitos():
-    p1=prueba(1,3,10,0,0)
-    p2=prueba(2,8,9,0,0)
-    p3=prueba(3,1,3,0,0)
-    return p1,p2,p3
 
 class ColaListos:
     def __init__(self):

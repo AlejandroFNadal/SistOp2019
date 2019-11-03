@@ -3,7 +3,7 @@ class Memoria:
     def __init__(self,tamano,tipo_particion):
         self.tamano=tamano
         self.lista_particiones=[]
-        self.tipo_particion=tipo_particion#True es fija,False es variable
+        self.tipo_particion=tipo_particion#fija o variable, en texto
         self.algoritmo_asignacion=None #1.BestF, 2 FirstF, 3 WorstF
         self.lista_vacios = []
         self.ultimo_id = 0
@@ -68,11 +68,11 @@ class Memoria:
         
     def comprobar_memoria(self,proc):
         state=False #variable que indica si hubo exito en asignacion de memoria
-        if self.tipo_particion and self.algoritmo_asignacion == 1:# es fija, bestF
+        if self.tipo_particion=="fija" and self.algoritmo_asignacion == 1:# es fija, bestF
             state=self.asign_bestfit_fija(proc)
-        if self.tipo_particion and self.algoritmo_asignacion == 2: # es fija, FIrstF
+        if self.tipo_particion=="fija" and self.algoritmo_asignacion == 2: # es fija, FIrstF
             state=self.asign_firstfit_fija(proc)
-        if not self.tipo_particion and self.algoritmo_asignacion == 2: # es variable, FirstF
+        if self.tipo_particion=="variable"and self.algoritmo_asignacion == 2: # es variable, FirstF
             if self.asign_firstfit_variable(proc) == False: #No hubo lugar donde crear particion
                 self.compactar_memoria()
                 if self.asign_firstfit_variable(proc) == True: 
@@ -81,7 +81,7 @@ class Memoria:
                     state=False
             else:
                 state=True
-        if not self.tipo_particion and self.algoritmo_asignacion == 3: # es variable, worstF
+        if self.tipo_particion =="variable" and self.algoritmo_asignacion == 3: # es variable, worstF
             if self.asign_worstfit_variable(proc)==False:
                 self.compactar_memoria()
                 if self.asign_worstfit_variable(proc)==False:
