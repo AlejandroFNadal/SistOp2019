@@ -1,4 +1,4 @@
-from PyQt5 import QtGui, QtWidgets
+from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtWidgets import QMainWindow
 
 from apps.ui.w_principal import Ui_MainWindow
@@ -11,6 +11,7 @@ from crearDB import session, Proceso, Presets
 
 
 class W_Main(QMainWindow):
+	#---- inicio constructor ---#
 	def __init__(self):
 		QMainWindow.__init__(self)
 		self.ventana = Ui_MainWindow()
@@ -25,11 +26,16 @@ class W_Main(QMainWindow):
 		self.ventana.actionAyuda.triggered.connect(self.ayuda)
 		self.ventana.actionAcerca_de.triggered.connect(self.AcercaDe)
 		self.ventana.btn_comenzar.clicked.connect(self.comenzar)
-		self.ventana.spinBox_quantum.setHidden(True)
+		
 		self.ventana.pushButton.clicked.connect(self.actualizar)
+
+		self.ventana.spinBox_quantum.setEnabled(False)
+		
+		
+
 		procesos = session.query(Proceso).all()
 		presets = session.query(Presets).all()
-
+		
 		
 		
 		#for p in presets: #recorre presets y lista descripcion
@@ -37,18 +43,12 @@ class W_Main(QMainWindow):
 		#self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
 		self.mostrarProc(procesos)
 		
-		algoritmo = ["FCFS", "RR", "MVQ"]
-
-		for a in algoritmo:
-				self.ventana.comboBox_seleccionAlgoritmo.addItem(str(a))
 		
-		for p in procesos:#prueba: recorre procesos y lista los procesos, aca estoy probando q onda
-			rowPosition = self.ventana.tableWidget.rowCount()
-			self.ventana.tableWidget.insertRow(rowPosition)
-			self.ventana.tableWidget.setItem(rowPosition , 0, QtWidgets.QTableWidgetItem(str(p.id_proc)))
-			self.ventana.tableWidget.setItem(rowPosition , 1, QtWidgets.QTableWidgetItem(str(p.tiempo_arribo)))
 
+		self.ventana.comboBox_seleccionAlgoritmo.addItems(["FCFS", "RR", "MVQ"])
+		self.ventana.comboBox_seleccionAlgoritmo.currentTextChanged.connect(self.habilitarQuantum)
 
+	#----- fin constructor ----#
 
 
 	def mostrarDesc(self, presets):
@@ -57,12 +57,9 @@ class W_Main(QMainWindow):
 			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
 	
 	def mostrarProc(self, procesos):
-		lista_proc =[]
 		for p in procesos:
-    		 lista_proc.append(p.id_batch)
-		lista_ord = dict.fromkeys(lista_proc).keys()
-		for l in lista_ord:
-    			self.ventana.comboBox_cargarProceso.addItem(str(l))
+			self.ventana.comboBox_cargarProceso.addItem(str(p.id_batch))
+		self.ventana.comboBox_cargarProceso.currentTextChanged.connect(self.listar)
 
 	def crearProceso(self):
 		ventana = W_cargarProceso()
@@ -84,6 +81,10 @@ class W_Main(QMainWindow):
 		self.ventana.comboBox_cargarProceso.clear()
 		self.mostrarProc(procesos)
 
+	def habilitarQuantum(self, i):
+		if i == "RR":
+			self.ventana.spinBox_quantum.setEnabled(True)
+	
 
 	def salir(self):
 		self.close()
@@ -96,3 +97,12 @@ class W_Main(QMainWindow):
 
 	def comenzar(self):
 		pass
+
+	def listar(self, i):
+		 q = session.query(Proceso).filter(Proceso.id_batch == i).all()
+		 for l in q:
+		 	rowPosition = self.ventana.tableWidget.rowCount()
+		 	self.ventana.tableWidget.insertRow(rowPosition)
+		 	self.ventana.tableWidget.setItem(rowPosition , 0, QtWidgets.QTableWidgetItem(str(l.id_proc)))
+		 	self.ventana.tableWidget.setItem(rowPosition , 1, QtWidgets.QTableWidgetItem(str(l.tiempo_arribo)))
+

@@ -37,13 +37,14 @@ class W_Configuracion1(QMainWindow):
 		self.ventana.radioButtonFija.toggled.connect(lambda:self.cambiarSpinbox(self.ventana))
 		self.ventana.radioButtonVariable.toggled.connect(lambda:self.cambiarSpinbox(self.ventana))
 			
-		#self.ventana.tanbla.hide() ver ocultar tabla en configuracion.
+		
 
 	def cambiarSpinbox(self,vent):
 		if vent.radioButtonFija.isChecked():
 			vent.spinBox_cantParticion.setEnabled(True)
 		if vent.radioButtonVariable.isChecked():
 			vent.spinBox_cantParticion.setEnabled(False)
+	
 	def reiniciar(self):
 		ventana = W_Configuracion1()
 		ventana.show()
