@@ -62,16 +62,11 @@ class W_ParticionFija(QMainWindow):
 
 			#para colocar en la ultima particion toda la memoria restante
 			if self.cant_part_rest == 1:
-				self.pasar_datos(self.cant_mem_rest) #mi tam_part seria la cant de mem restante
-				self.cant_mem_rest = 0
-				self.cant_part_rest -= 1 
-				print("- Memoria restante: ", self.cant_mem_rest)
-				print("- Particiones restantes: ", self.cant_part_rest)
-				print("\n")
-			else:
-				print("<<< Cantidad maxima de particiones colocadas >>> " )
-				self.close()
-			
+				self.ultima_part()
+
+		elif self.cant_part_rest == 1:
+				self.ultima_part()
+
 		else:
 			print("<<< Cantidad maxima de particiones colocadas >>> " )
 			self.close()
@@ -136,4 +131,15 @@ class W_ParticionFija(QMainWindow):
 		session.commit()
 		print("batch - tamPart - dir_in - dir_fin")
 		print(datos_part)
+
+	def ultima_part(self):
+		self.pasar_datos(self.cant_mem_rest) #mi tam_part seria la cant de mem restante
+		self.cant_mem_rest = 0
+		self.cant_part_rest -= 1 
+		print("- Memoria restante: ", self.cant_mem_rest)
+		print("- Particiones restantes: ", self.cant_part_rest)
+		print("\n")
+		print("<<< Cantidad maxima de particiones colocadas >>> " )
+		self.close()
+
 		
