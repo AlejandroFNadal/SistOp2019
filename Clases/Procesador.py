@@ -33,26 +33,32 @@ class Procesador:  # contendra gran parte de las tareas generales
         self.proceso_actual = proc
 
     def cargar_cola_nuevos(self, procesos):#Term0.1
-        print("Cargando cola nuevos")
+        #print("Cargando cola nuevos")
         conteliminador=0
         for x in procesos:
-            print("Proceso "+str(x.id_proc)+" Arribo "+str(x.tiempo_arribo))
+            #print("Proceso "+str(x.id_proc)+" Arribo "+str(x.tiempo_arribo))
             if x.tiempo_arribo == self.reloj_total:
                 auxdatos=[x.id_proc,x.tam_proc,x.prioridad,x.rafagaCPU,x.tiempo_arribo]
                 auxproc=Procesos(auxdatos)
                 self.cola_nuevos.append(auxproc)
                 procesos.pop(conteliminador)
-            print("Contador "+str(conteliminador))
+            #print("Contador "+str(conteliminador))
             conteliminador+=1
+        print("Cola Nuevos:")
+        for y in self.cola_nuevos:
+            print("     "+str(y.get_id()))
         return procesos
 
-    def cargar_cola_listos(self, algoritmo, procesos, particiones,memoria,quantum):
+    def cargar_cola_listos(self, algoritmo, particiones,memoria,quantum):#borramos parametro procesos
         print("Cargar cola listos")
         print("Cola listos actual:" +str(self.procesos_listos.get_cola_listos()))
+        cont_cola_nuevos=0
         for proc in self.cola_nuevos:
             if memoria.comprobar_memoria(proc):
                 self.procesos_listos.anade_proceso(proc)
                 self.imprime_cola_listos()
+                self.cola_nuevos.pop(cont_cola_nuevos)
+            cont_cola_nuevos+=1
         self.procesos_listos.ordenar(algoritmo,quantum,self)
 
 
@@ -103,16 +109,15 @@ class Procesador:  # contendra gran parte de las tareas generales
             CL1 = ColaListos()
             CL2 = ColaListos()
             CL3 = ColaListos()
-        while intprocesos != [] and self.procesos_listos.isvacio():
+        while self.reloj_total <6:
             intprocesos=self.cargar_cola_nuevos(intprocesos)#esta llamada deberia funcionar ya
-            print()
-            self.cargar_cola_listos(alg_planificacion, intprocesos, particiones,mem1,quantum)
+            self.cargar_cola_listos(alg_planificacion, particiones,mem1,quantum)
             self.bloqueados_listos(self.procesos_listos, self.cola_bloqueados)
             self.generar_tabla()
             self.cuenta_tiempo()
             print("CLK: "+str(self.reloj_total))
             self.reloj_total+=1
-            time.sleep(1)
+            time.sleep(3)
         # preset es una lista de preconfiguraciones, procesos
         # es lista de objetos del tipo proceso y particiones es una lista de objetos del tipo particiones
         #DEBUGGING FUNCTIONS

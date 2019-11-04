@@ -40,23 +40,26 @@ class Memoria:
         self.imprime_particiones()
         band = False
         pos = 0
-        print("Huecos" + str(self.lista_vacios))
+        print("Huecos al principio" + str(self.lista_vacios))
         while  band == False and (pos < len(self.lista_vacios) ):
-            if self.lista_vacios[pos][2] > proc.get_tamano_proc():
+            if self.lista_vacios[pos][2] > proc.get_tamano_proc():#tamano proceso < tamano hueco
                 print("El proceso " +str(proc.get_id())+ " cabe en el hueco de tamano "+str(self.lista_vacios[pos][2]))
                 part_nueva = Particion(self.ultimo_id,proc.get_id(),proc.get_tamano_proc(),self.lista_vacios[pos][0],proc.get_tamano_proc()+self.lista_vacios[pos][0],True)
+                self.ultimo_id+=1
                 print("Se creo una particion nueva"+str(part_nueva.get_id_par()))
-                pos_LO = 0 #pos_LO = posicion lista ordenada
+                pos_LO = 0 #pos_LO = posicion lista ordenada de particion
                 while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() > self.lista_particiones[pos_LO].get_dir_fin():
-                    pos_LO =+ 1
-                self.lista_particiones.insert(pos_LO,part_nueva)
+                    pos_LO += 1
+                self.lista_particiones.insert(pos_LO+1,part_nueva)#Corrige una cuestion de indices, byEric
                 print("insercion de particion nueva")
                 self.imprime_particiones()
                 band = True
+                print("Bandera firstfit variable: "+str(band))
                 self.lista_vacios.pop(pos)
                 self.generar_lista_vacios()
             pos +=1
-            print("Lista vacios"+str(self.lista_vacios))
+        print("Huecos al final"+str(self.lista_vacios))
+        
         return band
     def asign_worstfit_variable(self,proc):
         aux_variable = sorted(self.lista_vacios, key = self.obt_tam_part, reversed = True )
@@ -105,6 +108,7 @@ class Memoria:
         return state #Nos devolveria false si no tuvo exito, y True si tuvo exito
 
     def generar_lista_vacios(self):
+        self.lista_vacios=[]
         pos = 0
         while pos < len(self.lista_particiones) - 1: #si esta en la lista de particiones, es porque la particion esta ocupada
             if (self.lista_particiones[pos+1].get_dir_in() - self.lista_particiones[pos].get_dir_fin()) > 1:

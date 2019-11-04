@@ -10,11 +10,11 @@ if __name__ == '__main__':
     preset=Presets()
     preset.id=1
     preset.descripcion="Ej1"
-    preset.tamMemoria=100
+    preset.tamMemoria=150
     preset.sistOpMem=10
     preset.fija_variable="variable"
     preset.cant_part=5
-    preset.algoritmo_as=1
+    preset.algoritmo_as=2
     Core = Procesador()
     #Preset de prueba y procesos de prueba
     
@@ -33,8 +33,16 @@ if __name__ == '__main__':
     proc2.prioridad=3
     proc2.rafagaCPU="E3-C4"
     proc2.tiempo_arribo=2
+
+    proc3=Proceso()
+    proc3.id_proc=3
+    proc3.id_batch=1
+    proc3.tam_proc=20
+    proc3.prioridad=3
+    proc3.rafagaCPU="E3-C4"
+    proc3.tiempo_arribo=1
     
-    procesos=[proc1,proc2]
+    procesos=[proc1,proc2,proc3]
     particiones=[]
 
     Core.Simular(preset,procesos,particiones)
