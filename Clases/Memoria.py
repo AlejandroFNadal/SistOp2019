@@ -7,7 +7,7 @@ class Memoria:
         self.lista_particiones=[partSistema]
         self.tipo_particion=tipo_particion#fija o variable, en texto
         self.algoritmo_asignacion=algoritmo_as #1.BestF, 2 FirstF, 3 WorstF
-        self.lista_vacios = [[fin_particion_sist+1,tamano,tamano-fin_particion_sist-1]]
+        self.lista_vacios = [[fin_particion_sist,tamano,tamano-fin_particion_sist]]
         self.ultimo_id = 1
     def asign_bestfit_fija(self,proc):
         
@@ -48,7 +48,7 @@ class Memoria:
                 self.ultimo_id+=1
                 print("Se creo una particion nueva"+str(part_nueva.get_id_par()))
                 pos_LO = 0 #pos_LO = posicion lista ordenada de particion
-                while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() > self.lista_particiones[pos_LO].get_dir_fin():
+                while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() > self.lista_particiones[pos_LO].get_dir_fin ():
                     pos_LO += 1
                 self.lista_particiones.insert(pos_LO+1,part_nueva)#Corrige una cuestion de indices, byEric
                 print("insercion de particion nueva")
@@ -120,7 +120,7 @@ class Memoria:
         print("fin ultima particion")
         print(ultima_particion.get_dir_fin())
         if ultima_particion.get_dir_fin() < self.tamano:#existe hueco entre la ultima particion y el final
-            self.lista_vacios.append([ultima_particion.get_dir_fin(),self.tamano,self.tamano-ultima_particion.get_dir_fin()-1])
+            self.lista_vacios.append([ultima_particion.get_dir_fin(),self.tamano,self.tamano-ultima_particion.get_dir_fin()])
     def obt_tam_part(self,elem):
         return elem[2]
 
