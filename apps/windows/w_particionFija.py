@@ -60,8 +60,8 @@ class W_ParticionFija(QMainWindow):
 				print("- Particiones restantes: ", self.cant_part_rest)
 				print("\n")
 			else:
-			print("<<< Cantidad maxima de particiones colocadas >>> " )
-			self.close()
+				print("<<< Cantidad maxima de particiones colocadas >>> " )
+				self.close()
 			
 		else:
 			print("<<< Cantidad maxima de particiones colocadas >>> " )
