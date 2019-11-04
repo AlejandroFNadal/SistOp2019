@@ -1,8 +1,17 @@
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
-
+from crearDB import Presets, Base, Particiones, Proceso
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from apps.ui.w_particionFija import Ui_ParticionFija
 from apps.ui.w_configuracion import Ui_Configuracion
+
+engine = create_engine('sqlite:///SistOp.db')
+Base.metadata.bind = engine
+DBSession = sessionmaker(bind = engine)
+session = DBSession()
+
+
 
 class W_ParticionFija(QMainWindow):
 	def __init__(self, parent=None, ventana=None): #recibe la ventana entera
@@ -118,6 +127,13 @@ class W_ParticionFija(QMainWindow):
 		dir_in = ((self.cant_mem - self.cant_mem_rest) + self.mem_SO)
 		dir_fin = (dir_in + tam_part) - 1
 		datos_part = [batch,tam_part,dir_in,dir_fin]
+		part = Particiones()
+		part.batch= datos_part[0]
+		part.tam_part = datos_part[1]
+		part.dir_ini = datos_part[2]
+		part.dir_fin = datos_part[3]
+		session.add(part)
+		session.commit()
 		print("batch - tamPart - dir_in - dir_fin")
 		print(datos_part)
-		return datos_part
+		
