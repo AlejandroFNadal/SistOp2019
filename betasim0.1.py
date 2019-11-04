@@ -23,7 +23,7 @@ if __name__ == '__main__':
     proc1.id_batch=1
     proc1.tam_proc=40
     proc1.prioridad=2
-    proc1.rafagaCPU="E2-S1-C3"
+    proc1.rafagaCPU="E4-S1-C3"
     proc1.tiempo_arribo=3
 
     proc2=Proceso()
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     proc2.id_batch=1
     proc2.tam_proc=30
     proc2.prioridad=3
-    proc2.rafagaCPU="E1-C4"
+    proc2.rafagaCPU="E3-C4"
     proc2.tiempo_arribo=2
     
     procesos=[proc1,proc2]
