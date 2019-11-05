@@ -40,25 +40,25 @@ class Memoria:
         self.imprime_particiones()
         band = False
         pos = 0
-        print("Huecos al principio" + str(self.lista_vacios))
+        #print("Huecos al principio" + str(self.lista_vacios))
         while  band == False and (pos < len(self.lista_vacios) ):
             if self.lista_vacios[pos][2] > proc.get_tamano_proc():#tamano proceso < tamano hueco
-                print("El proceso " +str(proc.get_id())+ " cabe en el hueco de tamano "+str(self.lista_vacios[pos][2]))
+                #print("El proceso " +str(proc.get_id())+ " cabe en el hueco de tamano "+str(self.lista_vacios[pos][2]))
                 part_nueva = Particion(self.ultimo_id,proc.get_id(),proc.get_tamano_proc(),self.lista_vacios[pos][0],proc.get_tamano_proc()+self.lista_vacios[pos][0],True)
                 self.ultimo_id+=1
-                print("Se creo una particion nueva"+str(part_nueva.get_id_par()))
+                #print("Se creo una particion nueva"+str(part_nueva.get_id_par()))
                 pos_LO = 0 #pos_LO = posicion lista ordenada de particion
                 while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() > self.lista_particiones[pos_LO].get_dir_fin ():
                     pos_LO += 1
                 self.lista_particiones.insert(pos_LO+1,part_nueva)#Corrige una cuestion de indices, byEric
-                print("insercion de particion nueva")
+                #print("insercion de particion nueva")
                 self.imprime_particiones()
                 band = True
-                print("Bandera firstfit variable: "+str(band))
+                #print("Bandera firstfit variable: "+str(band))
                 self.lista_vacios.pop(pos)
                 self.generar_lista_vacios()
             pos +=1
-        print("Huecos al final"+str(self.lista_vacios))
+        #print("Huecos al final"+str(self.lista_vacios))
         
         return band
     def asign_worstfit_variable(self,proc):
@@ -80,8 +80,8 @@ class Memoria:
             return False
         
     def comprobar_memoria(self,proc):
-        print("Comprobando memoria para proceso: "+str(proc.get_id())+" asignacion:  "+str(self.algoritmo_asignacion))
-        print("Ejecutando comprobacion con memoria del tipo: "+str(self.tipo_particion))
+        #print("Comprobando memoria para proceso: "+str(proc.get_id())+" asignacion:  "+str(self.algoritmo_asignacion))
+        #print("Ejecutando comprobacion con memoria del tipo: "+str(self.tipo_particion))
         state=False #variable que indica si hubo exito en asignacion de memoria
         if self.tipo_particion=="fija" and self.algoritmo_asignacion == 1:# es fija, bestF
             state=self.asign_bestfit_fija(proc)
@@ -117,8 +117,8 @@ class Memoria:
                 self.lista_vacios.append([dirIn,dirFin,dirFin-dirIn+1])
             pos += 1
         ultima_particion=self.lista_particiones[pos]
-        print("fin ultima particion")
-        print(ultima_particion.get_dir_fin())
+        #print("fin ultima particion")
+        #print(ultima_particion.get_dir_fin())
         if ultima_particion.get_dir_fin() < self.tamano:#existe hueco entre la ultima particion y el final
             self.lista_vacios.append([ultima_particion.get_dir_fin(),self.tamano,self.tamano-ultima_particion.get_dir_fin()])
     def obt_tam_part(self,elem):
