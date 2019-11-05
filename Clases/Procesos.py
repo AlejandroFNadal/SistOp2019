@@ -11,7 +11,7 @@ class Procesos:  # Contiene los datos esenciales de un proceso
         self.tiempo_ejecucion = None
         self.tiempo_inicio_ejecucion = None
         self.particion = None
-        self.tiempo_restante=None
+        self.tiempo_restante=0
         self.quantum=None
         self.num_rafaga_actual=0
     def get_rafaga_tot(self):
@@ -29,13 +29,13 @@ class Procesos:  # Contiene los datos esenciales de un proceso
         return self.tamano_proc
     def muestra_proceso(self):
         print(str(self.id) +
-              "       " +
+              "   tamano_proc:    " +
               str(self.tamano_proc) +
-              "       " +
+              "  prioridad:     " +
               str(self.prioridad) +
-              "       " +
+              "   tiempo_arribo:     " +
               str(self.tiempo_arribo) +
-              "       " +
+              "  rafaga_tot:     " +
               str(self.rafaga_tot))
     def get_tiempo_restante(self):
         return self.tiempo_restante
@@ -51,3 +51,5 @@ class Procesos:  # Contiene los datos esenciales de un proceso
         return self.estado
     def set_id(self,value):
         self.id=value
+    def split_rafaga_tot(self):
+        self.rafaga_tot = self.rafaga_tot.split("-")

@@ -40,6 +40,7 @@ class Procesador:  # contendra gran parte de las tareas generales
             if x.tiempo_arribo == self.reloj_total:
                 auxdatos=[x.id_proc,x.tam_proc,x.prioridad,x.rafagaCPU,x.tiempo_arribo]
                 auxproc=Procesos(auxdatos)
+                auxproc.split_rafaga_tot()
                 self.cola_nuevos.append(auxproc)
                 procesos.pop(conteliminador)
             #print("Contador "+str(conteliminador))
@@ -50,8 +51,8 @@ class Procesador:  # contendra gran parte de las tareas generales
         return procesos
 
     def cargar_cola_listos(self, algoritmo, particiones,memoria,quantum):#borramos parametro procesos
-        print("Cargar cola listos")
-        print("Cola listos actual:" +str(self.procesos_listos.get_cola_listos()))
+        #print("Cargar cola listos")
+        #print("Cola listos actual:" +str(self.procesos_listos.get_cola_listos()))
         cont_cola_nuevos=0
         for proc in self.cola_nuevos:
             if memoria.comprobar_memoria(proc):
@@ -64,28 +65,39 @@ class Procesador:  # contendra gran parte de las tareas generales
 
     # de bloqueados a listos
     # De esta forma se implementa que solo hay un dispositivo E/S
-    def bloqueados_listos(self, procesos_listos, cola_bloqueados):
+    def bloqueados_listos(self):
         aux=0
-        if cola_bloqueados !=[]:
-            proc=cola_bloqueados[0]
+        if self.cola_bloqueados !=[]:
+            proc=self.cola_bloqueados[0]
             pos=proc.get_num_rafaga_actual()
-            sig_elem_rafaga=proc.get_rafaga_tot()[pos+1]#cambiamos su tiempo restante
-            if sig_elem_rafaga[0]=="C" and proc.get_tiempo_restante()==0:  
-                proc.set_estado(2)#cambiamos su estado a listo
-                proc.increment_num_rafaga_actual()
-                procesos_listos.append(proc)#lo anadimos a la cola de listos
-                self.cola_bloqueados.pop(0)#lo sacamos de la cola de bloqueados
-        
+            if pos < (len(proc.get_rafaga_tot()) - 1):
+                sig_elem_rafaga=proc.get_rafaga_tot()[pos+1]#cambiamos su tiempo restante
+                if sig_elem_rafaga[0]=="C" and proc.get_tiempo_restante()==0:  
+                    proc.increment_num_rafaga_actual()
+                    proc.set_estado(2)#cambiamos su estado a listo
+                    proc.increment_num_rafaga_actual()
+                    self.procesos_listos.append(proc)#lo anadimos a la cola de listos
+                    self.cola_bloqueados.pop(0)#lo sacamos de la cola de bloqueados
+                    print("bloqueados a listos")
+                    proc.muestra_proceso() #para testing
+        print("cola bloqueados")
+        self.imprime_cola_bloqueados()
+
         #aca chequeamos para pasar de listos a bloqueados
         cont=0
-        for proc in procesos_listos.get_cola_listos():
+        for proc in self.procesos_listos.get_cola_listos():
             pos=proc.get_num_rafaga_actual()
             actual_elem_rafaga=proc.get_rafaga_tot()[pos]
-            if actual_elem_rafaga[0]!="C" and proc.get_tiempo_restante()==0:
-                proc.set_tiempo_restante=int(proc.get_rafaga_tot(pos+1)[1])
-                cola_bloqueados.append(proc)
-                procesos_listos.elimina_elemento(cont)
+            print(actual_elem_rafaga)
+            if pos < (len(proc.get_rafaga_tot()) -1) and actual_elem_rafaga[0]!="C" and proc.get_tiempo_restante()==0:
+                proc.set_tiempo_restante=int(proc.get_rafaga_tot()[pos+1][1])
+                proc.increment_num_rafaga_actual()
+                self.cola_bloqueados.append(proc)
+                self.procesos_listos.elimina_elemento(cont)
+                print("listos a bloqueados")
+                proc.muestra_proceso() #para testing
             cont+=1  
+
     def generar_tabla(self):
         aux=[]
         for x in self.procesos_listos.get_cola_listos():
@@ -112,7 +124,7 @@ class Procesador:  # contendra gran parte de las tareas generales
         while self.reloj_total <6:
             intprocesos=self.cargar_cola_nuevos(intprocesos)#esta llamada deberia funcionar ya
             self.cargar_cola_listos(alg_planificacion, particiones,mem1,quantum)
-            self.bloqueados_listos(self.procesos_listos, self.cola_bloqueados)
+            self.bloqueados_listos()
             self.generar_tabla()
             self.cuenta_tiempo()
             print("CLK: "+str(self.reloj_total))
@@ -124,4 +136,9 @@ class Procesador:  # contendra gran parte de las tareas generales
     def imprime_cola_listos(self):
         print("Procesos listos")
         for x in self.procesos_listos.get_cola_listos():
+            print(x.get_id())
+
+    def imprime_cola_bloqueados(self):
+        print("Procesos bloqueados")
+        for x in self.cola_bloqueados:
             print(x.get_id())
