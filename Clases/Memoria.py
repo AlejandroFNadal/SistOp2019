@@ -68,7 +68,7 @@ class Memoria:
             part_nueva = Particion(self.ultimo_id,proc.get_id(),proc.get_tamano_proc(),aux_variable[0][0],aux_variable[0][1],True)
             pos_LO = 0 #pos_LO = posicion lista ordenada
             while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() >= self.lista_particiones[pos_LO].get_dir_fin():
-                pos_LO =+ 1
+                pos_LO += 1
                 if part_nueva.get_dir_in() < self.lista_particiones[pos_LO].get_dir_fin():
                     band_asignacion = True
 
@@ -132,7 +132,7 @@ class Memoria:
                 self.lista_vacios[pos][2] = self.lista_vacios[pos][2] + self.lista_vacios[pos+1][2] #realizamos una suma de los tamaños
                 self.lista_vacios.pop(pos+1)
             else:
-                pos =+ 1
+                pos += 1
 
         #Se suma POS unicamente si no compacto entre 2 elementos
         #por que si compacto entre 2 elementos estaria eliminando un elemento de lista vacios

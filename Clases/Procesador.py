@@ -71,49 +71,90 @@ class Procesador:  # contendra gran parte de las tareas generales
     # de bloqueados a listos
     # De esta forma se implementa que solo hay un dispositivo E/S
     def bloqueados_listos(self):
-        aux=0
-        if self.cola_bloqueados !=[]:
-            proc=self.cola_bloqueados[0]
-            pos=proc.get_num_rafaga_actual()
-            if pos < (len(proc.get_rafaga_tot()) - 1):
-                sig_elem_rafaga=proc.get_rafaga_tot()[pos+1]#cambiamos su tiempo restante
-                if sig_elem_rafaga[0]=="C" and proc.get_tiempo_restante()==0:  
-                    proc.increment_num_rafaga_actual()
-                    proc.set_estado(2)#cambiamos su estado a listo
-                    proc.increment_num_rafaga_actual()
-                    self.procesos_listos.append(proc)#lo anadimos a la cola de listos
-                    self.cola_bloqueados.pop(0)#lo sacamos de la cola de bloqueados
-                    #print("bloqueados a listos")
-                    #proc.muestra_proceso() #para testing   
-        
-        #aca chequeamos para pasar de listos a bloqueados
         cont=0
-        for proc in self.procesos_listos.get_cola_listos():
+        while cont < ( len(self.procesos_listos.get_cola_listos()) ):
+            proc = self.procesos_listos.get_cola_listos()[cont]
             pos=proc.get_num_rafaga_actual()
-            print("En bloqueados_listos, num_rafaga_actual:" +str(pos))
-            sig_elem_rafaga=proc.get_rafaga_tot()[pos+1] 
-            print("Siguiente rafaga proc cola listos:"+str(sig_elem_rafaga))
-            if pos < (len(proc.get_rafaga_tot()) -1) and sig_elem_rafaga[0]!="C" and proc.get_tiempo_restante()==0:
-                proc.set_tiempo_restante=int(proc.get_rafaga_tot()[pos+1][1])
-                print("Proc tiempo restante" + str(int(proc.get_rafaga_tot()[pos+1][1])))
-                proc.increment_num_rafaga_actual()
+
+            if proc.get_rafaga_tot()[pos][0] != "C":
+                proc.set_estado(3) #pasamos a bloqueado
                 self.cola_bloqueados.append(proc)
                 self.procesos_listos.elimina_elemento(cont)
-                #proc.muestra_proceso() #para testing
+                cont -= 1 # Se resta 1 para moverse 1 a la izquierda de la lista, por que el pop borra 1 elemento y se mueve todo 1 posicion a la izquierda
+
             cont+=1
-        self.imprime_cola_bloqueados()
+
+        if self.cola_bloqueados != []:
+            proc = self.cola_bloqueados[0]
+            if proc.get_tiempo_restante() == 0:
+                rafaga_proc = proc.get_rafaga_tot()
+                #podemos preguntar por el que sigue por que la ultima rafaga es C
+                pos = proc.get_num_rafaga_actual()
+
+                if rafaga_proc[pos+1][0] == "C":
+                    proc.set_estado(2)
+                    self.procesos_listos.anade_proceso(proc)
+                    indice=self.cola_bloqueados.index(proc)
+                    self.cola_bloqueados.pop(indice)
+                elif rafaga_proc[pos+1][0] != "C":
+                    proc.increment_num_rafaga_actual()
+                    tiempo = proc.get_num_rafaga_actual()
+                    proc.set_tiempo_restante(int(rafaga_proc[tiempo][1]))
+
+        # aux=0
+        # if self.cola_bloqueados !=[]:
+        #     proc=self.cola_bloqueados[0]
+        #     pos=proc.get_num_rafaga_actual()
+        #     if pos < (len(proc.get_rafaga_tot()) - 1):
+        #         sig_elem_rafaga=proc.get_rafaga_tot()[pos+1]#cambiamos su tiempo restante
+        #         if sig_elem_rafaga[0]=="C" and proc.get_tiempo_restante()==0: 
+        #             print("bloqueados a listos sig elemento = c y tiempo restante = 0")
+        #             #proc.increment_num_rafaga_actual()
+        #             proc.set_estado(2)#cambiamos su estado a listo
+        #             self.procesos_listos.anade_proceso(proc)#lo anadimos a la cola de listos
+        #             self.cola_bloqueados.pop(0)#lo sacamos de la cola de bloqueados
+        #             #print("bloqueados a listos")
+        #             #proc.muestra_proceso() #para testing   
+        
+        #aca chequeamos para pasar de listos a bloqueados
+
+            # if pos < len(proc.get_rafaga_tot())-1:
+            #     print("En bloqueados_listos, num_rafaga_actual:" +str(pos))
+            #     sig_elem_rafaga=proc.get_rafaga_tot()[pos+1] 
+            #     print("Siguiente rafaga proc cola listos:"+str(sig_elem_rafaga))
+            #     if pos == 0 and proc.get_rafaga_tot()[pos][0] != 'C':
+            #         print("listos a bloqueados 1er elemento")
+            #         #proc.set_tiempo_restante=int(proc.get_rafaga_tot()[pos][1])
+            #         self.cola_bloqueados.append(proc)
+            #         self.procesos_listos.elimina_elemento(pos)
+
+            #     elif pos < (len(proc.get_rafaga_tot()) -1) and sig_elem_rafaga[0]!="C" and proc.get_tiempo_restante()==0:
+            #         proc.set_tiempo_restante(int(proc.get_rafaga_tot()[pos+1][1]))
+            #         print("Proc tiempo restante" + str(int(proc.get_rafaga_tot()[pos+1][1])))
+            #         proc.increment_num_rafaga_actual()
+            #         self.cola_bloqueados.append(proc)
+            #         self.procesos_listos.elimina_elemento(cont)
+                    
+                    #proc.muestra_proceso() #para testing 
 
 
     def listos_ejecucion(self):
         #si proceso actual es igual a vacio
         if self.proceso_actual == None and self.procesos_listos.get_cola_listos() != []:
-            self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
-            self.procesos_listos.elimina_elemento(0)
+            print("proceso actual NONE  y cola de listos distinto de vacio")
+            pos = self.procesos_listos.get_cola_listos()[0].get_num_rafaga_actual()
+            rafaga_proc = self.procesos_listos.get_cola_listos()[0].get_rafaga_tot()
+            if pos < (len(rafaga_proc)-1) and rafaga_proc[pos+1][0] == "C" and self.procesos_listos.get_cola_listos()[0].get_tiempo_restante() <= 0:
+                print("siguiente elemento CPU y tiempo restante proc_listos = 0")
+                self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
+                self.proceso_actual.set_tiempo_restante(int(rafaga_proc[self.proceso_actual.get_num_rafaga_actual()+1][1]))
+                self.proceso_actual.increment_num_rafaga_actual()
+                self.procesos_listos.elimina_elemento(0)
 
         elif self.proceso_actual != None:
             #si el tiempo del proceso actual es 0
             if self.proceso_actual.get_tiempo_restante() == 0 and self.procesos_listos.get_cola_listos() != []:
-                if self.get_num_rafaga_actual() < len(self.proceso_actual.get_rafaga_tot())-1:
+                if self.proceso_actual.get_num_rafaga_actual() < len(self.proceso_actual.get_rafaga_tot())-1:
                     self.procesos_listos.anade_proceso(self.proceso_actual)
                     self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
                     self.procesos_listos.elimina_elemento(0)
@@ -123,7 +164,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                     self.procesos_listos.elimina_elemento(0)
                     self.imprime_cola_terminados()
             elif self.proceso_actual.get_tiempo_restante() == 0 and self.procesos_listos.get_cola_listos() == []:
-                if self.get_num_rafaga_actual() == len(self.proceso_actual.get_rafaga_tot())-1:
+                if self.proceso_actual.get_num_rafaga_actual() == len(self.proceso_actual.get_rafaga_tot())-1:
                     self.cola_terminados.append(self.proceso_actual)
                     self.proceso_actual = None
                     self.imprime_cola_terminados()
@@ -158,9 +199,16 @@ class Procesador:  # contendra gran parte de las tareas generales
             self.cargar_cola_listos(alg_planificacion, particiones,mem1,quantum)
             self.bloqueados_listos()
             self.listos_ejecucion()
+            self.imprime_cola_bloqueados()
+            self.imprime_cola_listos()
+            if self.proceso_actual != None:
+                print("Proceso en ejecucion "+str(self.proceso_actual.get_id())+ "tiempo restante "+str(self.proceso_actual.get_tiempo_restante()))
+            else:
+                print(self.proceso_actual)
             self.generar_tabla()
             self.cuenta_tiempo()
             print("CLK: "+str(self.reloj_total))
+            print("-------------------------------------------------------------------------")
             self.reloj_total+=1
             time.sleep(1)
         # preset es una lista de preconfiguraciones, procesos
@@ -169,16 +217,17 @@ class Procesador:  # contendra gran parte de las tareas generales
     def imprime_cola_listos(self):
         print("Procesos listos")
         for x in self.procesos_listos.get_cola_listos():
-            print(x.get_id())
-
+            print("ID: "+str(x.get_id())+" Tiempo Restante "+str(x.get_tiempo_restante()))
+        print("----------------")
     def imprime_cola_bloqueados(self):
         print("Procesos bloqueados")
         for x in self.cola_bloqueados:
-            print(x.get_id())
+            print("ID: "+str(x.get_id())+" Tiempo Restante "+str(x.get_tiempo_restante()))
 
         print("----------------")
 
     def imprime_cola_terminados(self):
         print("Procesos terminados")
         for x in self.cola_terminados:
-            print(x.get_id())
+            print("ID: "+str(x.get_id())+" Tiempo Restante "+str(x.get_tiempo_restante()))
+        print("----------------")
