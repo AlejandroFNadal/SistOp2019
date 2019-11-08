@@ -93,6 +93,10 @@ class Procesador:  # contendra gran parte de las tareas generales
 
                 if rafaga_proc[pos+1][0] == "C":
                     proc.set_estado(2)
+                    #cambios 
+                    proc.increment_num_rafaga_actual()
+                    proc.set_tiempo_restante(int(rafaga_proc[pos+1][1]))
+                    #cambios
                     self.procesos_listos.anade_proceso(proc)
                     indice=self.cola_bloqueados.index(proc)
                     self.cola_bloqueados.pop(indice)
@@ -144,11 +148,11 @@ class Procesador:  # contendra gran parte de las tareas generales
             print("proceso actual NONE  y cola de listos distinto de vacio")
             pos = self.procesos_listos.get_cola_listos()[0].get_num_rafaga_actual()
             rafaga_proc = self.procesos_listos.get_cola_listos()[0].get_rafaga_tot()
-            if pos < (len(rafaga_proc)-1) and rafaga_proc[pos+1][0] == "C" and self.procesos_listos.get_cola_listos()[0].get_tiempo_restante() <= 0:
+            if rafaga_proc[pos][0] == "C":
                 print("siguiente elemento CPU y tiempo restante proc_listos = 0")
                 self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
-                self.proceso_actual.set_tiempo_restante(int(rafaga_proc[self.proceso_actual.get_num_rafaga_actual()+1][1]))
-                self.proceso_actual.increment_num_rafaga_actual()
+                self.proceso_actual.set_tiempo_restante(int(rafaga_proc[self.proceso_actual.get_num_rafaga_actual()][1]))
+                #self.proceso_actual.increment_num_rafaga_actual()
                 self.procesos_listos.elimina_elemento(0)
 
         elif self.proceso_actual != None:
