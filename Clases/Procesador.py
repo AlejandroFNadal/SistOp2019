@@ -16,6 +16,22 @@ class Procesador:  # contendra gran parte de las tareas generales
         # esto se deberia pasar luego a otra clase
         self.tabla_memoria = []
         self.memoria=None
+
+    #Setters
+    def set_proceso_actual(self, proc):
+        self.proceso_actual = proc
+    def set_cant_procesos(self,lista):
+        self.cant_procesos=len(lista)
+
+    #Getters
+    def get_proceso_actual(self):
+        return self.proceso_actual
+
+    #Funciones
+    def buscar_indice(self,buscar,pos):
+        if self.cola_nuevos[pos].get_id() == buscar:
+            return pos
+
     def add_proceso(self, proceso):
         self.procesos_listos.anade_proceso(proceso)
 
@@ -25,12 +41,6 @@ class Procesador:  # contendra gran parte de las tareas generales
         proc_list_aux = self.procesos_listos.get_cola_listos()
         for x in proc_list_aux:
             x.muestra_proceso()
-
-    def get_proceso_actual(self):
-        return self.proceso_actual
-
-    def set_proceso_actual(self, proc):
-        self.proceso_actual = proc
 
     def cargar_cola_nuevos(self, procesos):#Term0.1
         #print("Cargando cola nuevos")
@@ -55,7 +65,7 @@ class Procesador:  # contendra gran parte de las tareas generales
             print("     "+str(y.get_id()))
         return procesos
 
-    def cargar_cola_listos(self, algoritmo, particiones,memoria,quantum):#borramos parametro procesos
+    def cargar_cola_listos(self, algoritmo, particiones,memoria,quantum,CL1,CL2,CL3):#borramos parametro procesos
         #print("Cargar cola listos")
         #print("Cola listos actual:" +str(self.procesos_listos.get_cola_listos()))
         cont_cola_nuevos=0
@@ -65,8 +75,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                 self.imprime_cola_listos()
                 self.cola_nuevos.pop(cont_cola_nuevos)
             cont_cola_nuevos+=1
-        self.procesos_listos.ordenar(algoritmo,quantum,self)
-
+        self.procesos_listos.ordenar(algoritmo,quantum,CL1,CL2,CL3,self)
 
     # de bloqueados a listos
     # De esta forma se implementa que solo hay un dispositivo E/S
@@ -103,7 +112,8 @@ class Procesador:  # contendra gran parte de las tareas generales
                     tiempo = proc.get_num_rafaga_actual()
                     proc.set_tiempo_restante(int(rafaga_proc[tiempo][1])) 
 
-    def listos_ejecucion(self):
+    #por si se rompe, aca agrege quantum y lineas que tengan #LineaNueva
+    def listos_ejecucion(self,quantum):
         #si proceso actual es igual a vacio
         if self.proceso_actual == None and self.procesos_listos.get_cola_listos() != []:
             print("proceso actual NONE  y cola de listos distinto de vacio")
@@ -112,6 +122,8 @@ class Procesador:  # contendra gran parte de las tareas generales
             if rafaga_proc[pos][0] == "C":
                 print("siguiente elemento CPU y tiempo restante proc_listos = 0")
                 self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
+                self.proceso_actual.set_quantum(quantum) #LineaNueva
+                #print("Quantum cargado : " + str(self.proceso_actual.get_quantum()))
                 self.proceso_actual.set_tiempo_restante(int(rafaga_proc[self.proceso_actual.get_num_rafaga_actual()][1]))
                 #self.proceso_actual.increment_num_rafaga_actual()
                 self.procesos_listos.elimina_elemento(0)
@@ -123,6 +135,8 @@ class Procesador:  # contendra gran parte de las tareas generales
                 if self.proceso_actual.get_num_rafaga_actual() < len(self.proceso_actual.get_rafaga_tot())-1:
                     self.procesos_listos.anade_proceso(self.proceso_actual)
                     self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
+                    self.proceso_actual.set_quantum(quantum) #LineaNueva
+                    #print("Quantum cargado : " + str(self.proceso_actual.get_quantum()))
                     self.procesos_listos.elimina_elemento(0)
                 else:
                     if self.memoria.get_tipo_part()=="variable":
@@ -130,6 +144,8 @@ class Procesador:  # contendra gran parte de las tareas generales
                         self.memoria.generar_lista_vacios()
                     self.cola_terminados.append(self.proceso_actual)
                     self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
+                    self.proceso_actual.set_quantum(quantum) #LineaNueva
+                    #print("Quantum cargado : " + str(self.proceso_actual.get_quantum()))
                     self.procesos_listos.elimina_elemento(0)
                     self.imprime_cola_terminados()
                     self.memoria.imprime_particiones()
@@ -160,7 +176,8 @@ class Procesador:  # contendra gran parte de las tareas generales
     
     def Simular(self, preset, procesos, particiones):
         intprocesos = procesos  # para manejar paso por copia en lugar de referencia
-        alg_planificacion = preset.algoritmo_as  # agregar luego como un valor de preset, traer de la BD
+        #alg_planificacion = preset.algoritmo_as  # agregar luego como un valor de preset, traer de la BD
+        alg_planificacion = 1
         cola_listos_principal = ColaListos()
         quantum=5
         self.memoria=Memoria(preset.tamMemoria,preset.fija_variable,preset.algoritmo_as,preset.sistOpMem) #tamano, fija_variable
@@ -171,11 +188,14 @@ class Procesador:  # contendra gran parte de las tareas generales
             CL3 = ColaListos()
         while len(self.cola_terminados) < self.cant_procesos:
             intprocesos=self.cargar_cola_nuevos(intprocesos)#esta llamada deberia funcionar ya
-            self.cargar_cola_listos(alg_planificacion, particiones,self.memoria,quantum)
-            self.bloqueados_listos()
-            self.listos_ejecucion()
-            self.imprime_cola_bloqueados()
-            self.imprime_cola_listos()
+            if alg_planificacion == 3:
+                self.cargar_cola_listos(alg_planificacion, particiones,self.memoria,quantum,CL1,CL2,CL3)
+            else:
+                self.cargar_cola_listos(alg_planificacion,particiones,self.memoria,quantum,None,None,None)
+            #self.bloqueados_listos() #LineaNueva se comentaron estas lineas por que se ejecutaran dentro de cada planificador
+            #self.listos_ejecucion() 
+            #self.imprime_cola_bloqueados()
+            #self.imprime_cola_listos()
             if self.proceso_actual != None:
                 print("Proceso en ejecucion "+str(self.proceso_actual.get_id())+ "tiempo restante "+str(self.proceso_actual.get_tiempo_restante()))
             else:
@@ -206,6 +226,3 @@ class Procesador:  # contendra gran parte de las tareas generales
         for x in self.cola_terminados:
             print("ID: "+str(x.get_id())+" Tiempo Restante "+str(x.get_tiempo_restante()))
         print("----------------")
-
-    def set_cant_procesos(self,lista):
-        self.cant_procesos=len(lista)

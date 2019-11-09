@@ -9,6 +9,12 @@ class Interface:
         self.procesos = None
         self.particiones = None
 
+    #Setters
+
+    #Getters
+
+    #Funciones
+
     def create_connection(self, db_file):
         """ create a database connection to a SQLite database """
 

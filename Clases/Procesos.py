@@ -14,19 +14,43 @@ class Procesos:  # Contiene los datos esenciales de un proceso
         self.tiempo_restante=0
         self.quantum=None
         self.num_rafaga_actual=0
-    def get_rafaga_tot(self):
-        return self.rafaga_tot
+
+    #Setters
     def set_tiempo_restante(self,x):
         self.tiempo_restante = x
-    def decrementar_tiempo_restante(self):
-        if self.tiempo_restante >= 0:
-            self.tiempo_restante -= 1
+    def set_id(self,value):
+        self.id=value
+    def set_estado(self,x):
+        self.estado=x
+    def set_particion_proc(self,val):
+        self.particion=val
+    def set_quantum(self,q):
+        self.quantum=q
+
+    #Getters
+    def get_rafaga_tot(self):
+        return self.rafaga_tot
     def get_tiempo_arribo(self):
         return self.tiempo_arribo
     def get_prioridad(self):
         return self.prioridad
     def get_tamano_proc(self):
         return self.tamano_proc
+    def get_tiempo_restante(self):
+        return self.tiempo_restante
+    def get_id(self):
+        return self.id
+    def get_estado(self):
+        return self.estado
+    def get_num_rafaga_actual(self):
+        return self.num_rafaga_actual
+    def get_particion_proc(self):
+        return self.particion
+    def get_quantum(self):
+        return self.quantum
+
+
+    #Funciones
     def muestra_proceso(self):
         print(str(self.id) +
               "   tamano_proc:    " +
@@ -37,23 +61,13 @@ class Procesos:  # Contiene los datos esenciales de un proceso
               str(self.tiempo_arribo) +
               "  rafaga_tot:     " +
               str(self.rafaga_tot))
-    def get_tiempo_restante(self):
-        return self.tiempo_restante
-    def set_estado(self,x):
-        self.estado=x
-    def get_num_rafaga_actual(self):
-        return self.num_rafaga_actual
+
     def increment_num_rafaga_actual(self):
         self.num_rafaga_actual += 1
-    def get_id(self):
-        return self.id
-    def get_estado(self):
-        return self.estado
-    def set_id(self,value):
-        self.id=value
+
+    def decrementar_tiempo_restante(self):
+        if self.tiempo_restante >= 0:
+            self.tiempo_restante -= 1
+
     def split_rafaga_tot(self):
         self.rafaga_tot = self.rafaga_tot.split("-")
-    def set_particion_proc(self,val):
-        self.particion=val
-    def get_particion_proc(self):
-        return self.particion

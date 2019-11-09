@@ -9,8 +9,17 @@ class Memoria:
         self.algoritmo_asignacion=algoritmo_as #1.BestF, 2 FirstF, 3 WorstF
         self.lista_vacios = [[fin_particion_sist,tamano,tamano-fin_particion_sist]]
         self.ultimo_id = 1
+
+    #Setters
+
+    #Getters
     def get_lista_part(self):
         return self.lista_particiones
+    def get_tipo_part(self):
+        return self.tipo_particion
+
+    #Funciones
+
     def asign_bestfit_fija(self,proc):
         
             diferencia=sys.maxsize
@@ -126,6 +135,7 @@ class Memoria:
         #print(ultima_particion.get_dir_fin())
         if ultima_particion.get_dir_fin() < self.tamano:#existe hueco entre la ultima particion y el final
             self.lista_vacios.append([ultima_particion.get_dir_fin(),self.tamano,self.tamano-ultima_particion.get_dir_fin()])
+    
     def obt_tam_part(self,elem):
         return elem[2]
 
@@ -146,8 +156,9 @@ class Memoria:
         print("Particiones existentes")
         for x in self.lista_particiones:
             print(x.get_id_par())
-    def get_tipo_part(self):
-        return self.tipo_particion
+
+
+
 class Particion:
     def __init__(self,idp, idproc, tamano, dir_in,dir_fin, estado):
         self.id_par=idp
@@ -156,18 +167,27 @@ class Particion:
         self.dir_in=dir_in
         self.dir_fin=dir_fin
         self.estado=estado #ocupada o libre
+
+    #Setters
+
+    #Getters
     def get_estado(self):
         return self.estado
     def get_tamano(self):
         return self.tamano_part
     def get_id_par(self):
         return self.id_par
-    def asignar_proceso(self,idp):
-        self.id_proc = idp
-        self.estado = True
     def get_dir_fin(self):
         return self.dir_fin
     def get_dir_in(self):
         return self.dir_in
+
+
+    #Funciones
+
+    def asignar_proceso(self,idp):
+        self.id_proc = idp
+        self.estado = True
+
     def _del_(self):
         print(str(self.id_par) + "deleted")
