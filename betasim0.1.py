@@ -10,7 +10,7 @@ if __name__ == '__main__':
     preset=Presets()
     preset.id=1
     preset.descripcion="Ej1"
-    preset.tamMemoria=150
+    preset.tamMemoria=100
     preset.sistOpMem=10
     preset.fija_variable="variable"
     preset.cant_part=5
@@ -24,12 +24,12 @@ if __name__ == '__main__':
     proc1.tam_proc=40
     proc1.prioridad=2
     proc1.rafagaCPU="E1-S1-C2"
-    proc1.tiempo_arribo=3
+    proc1.tiempo_arribo=5
 
     proc2=Proceso()
     proc2.id_proc=2
     proc2.id_batch=1
-    proc2.tam_proc=30
+    proc2.tam_proc=70
     proc2.prioridad=3
     proc2.rafagaCPU="E2-C3"
     proc2.tiempo_arribo=2
@@ -37,7 +37,7 @@ if __name__ == '__main__':
     proc3=Proceso()
     proc3.id_proc=3
     proc3.id_batch=1
-    proc3.tam_proc=20
+    proc3.tam_proc=50
     proc3.prioridad=3
     proc3.rafagaCPU="C5"
     proc3.tiempo_arribo=1

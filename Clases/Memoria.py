@@ -146,6 +146,8 @@ class Memoria:
         print("Particiones existentes")
         for x in self.lista_particiones:
             print(x.get_id_par())
+    def get_tipo_part(self):
+        return self.tipo_particion
 class Particion:
     def __init__(self,idp, idproc, tamano, dir_in,dir_fin, estado):
         self.id_par=idp

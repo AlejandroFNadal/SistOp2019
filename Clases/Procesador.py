@@ -125,7 +125,9 @@ class Procesador:  # contendra gran parte de las tareas generales
                     self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
                     self.procesos_listos.elimina_elemento(0)
                 else:
-                    self.memoria.eliminar_particion(part)
+                    if self.memoria.get_tipo_part()=="variable":
+                        self.memoria.eliminar_particion(part)
+                        self.memoria.generar_lista_vacios()
                     self.cola_terminados.append(self.proceso_actual)
                     self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
                     self.procesos_listos.elimina_elemento(0)
@@ -137,7 +139,9 @@ class Procesador:  # contendra gran parte de las tareas generales
                     self.cola_terminados.append(self.proceso_actual)
                     self.proceso_actual = None
                     self.imprime_cola_terminados()
-                    self.memoria.eliminar_particion(part)
+                    if self.memoria.get_tipo_part()=="variable":
+                        self.memoria.eliminar_particion(part)
+                        self.memoria.generar_lista_vacios()
                     self.memoria.imprime_particiones()
 
     def generar_tabla(self):
