@@ -53,3 +53,7 @@ class Procesos:  # Contiene los datos esenciales de un proceso
         self.id=value
     def split_rafaga_tot(self):
         self.rafaga_tot = self.rafaga_tot.split("-")
+    def set_particion_proc(self,val):
+        self.particion=val
+    def get_particion_proc(self):
+        return self.particion

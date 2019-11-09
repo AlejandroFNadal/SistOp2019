@@ -9,6 +9,8 @@ class Memoria:
         self.algoritmo_asignacion=algoritmo_as #1.BestF, 2 FirstF, 3 WorstF
         self.lista_vacios = [[fin_particion_sist,tamano,tamano-fin_particion_sist]]
         self.ultimo_id = 1
+    def get_lista_part(self):
+        return self.lista_particiones
     def asign_bestfit_fija(self,proc):
         
             diferencia=sys.maxsize
@@ -45,6 +47,7 @@ class Memoria:
             if self.lista_vacios[pos][2] > proc.get_tamano_proc():#tamano proceso < tamano hueco
                 #print("El proceso " +str(proc.get_id())+ " cabe en el hueco de tamano "+str(self.lista_vacios[pos][2]))
                 part_nueva = Particion(self.ultimo_id,proc.get_id(),proc.get_tamano_proc(),self.lista_vacios[pos][0],proc.get_tamano_proc()+self.lista_vacios[pos][0],True)
+                proc.set_particion_proc(part_nueva)
                 self.ultimo_id+=1
                 #print("Se creo una particion nueva"+str(part_nueva.get_id_par()))
                 pos_LO = 0 #pos_LO = posicion lista ordenada de particion
@@ -78,7 +81,9 @@ class Memoria:
                 return True
         else:
             return False
-        
+    def eliminar_particion(self, part):
+        indice_eliminacion_particion=self.get_lista_part().index(part)
+        self.get_lista_part().pop(indice_eliminacion_particion)    
     def comprobar_memoria(self,proc):
         #print("Comprobando memoria para proceso: "+str(proc.get_id())+" asignacion:  "+str(self.algoritmo_asignacion))
         #print("Ejecutando comprobacion con memoria del tipo: "+str(self.tipo_particion))
@@ -162,3 +167,5 @@ class Particion:
         return self.dir_fin
     def get_dir_in(self):
         return self.dir_in
+    def _del_(self):
+        print(str(self.id_par) + "deleted")

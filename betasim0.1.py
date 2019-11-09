@@ -2,7 +2,7 @@ import sqlite3
 from sqlite3 import Error
 from Clases.Procesador import *
 
-from crearDB import Presets, Proceso
+from crearDB import Presets, Proceso, Particiones
 # Este main solo representa una prueba de las clases existentes, no se
 # planea implementar de esta forma.
 if __name__ == '__main__':
@@ -39,10 +39,16 @@ if __name__ == '__main__':
     proc3.id_batch=1
     proc3.tam_proc=20
     proc3.prioridad=3
-    proc3.rafagaCPU="E4-C5"
+    proc3.rafagaCPU="C5"
     proc3.tiempo_arribo=1
     
+    part1=Particiones()
+    part1.id_part=1
+    part1.batch=1
+    part1.tam_part=30
+    part1.dir_ini=11
+    part1.dir_fin=31
     procesos=[proc1,proc2,proc3]
-    particiones=[]
+    particiones=[part1]
 
     Core.Simular(preset,procesos,particiones)
