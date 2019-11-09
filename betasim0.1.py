@@ -21,15 +21,15 @@ if __name__ == '__main__':
     proc1=Proceso()
     proc1.id_proc=1
     proc1.id_batch=1
-    proc1.tam_proc=40
+    proc1.tam_proc=10
     proc1.prioridad=2
     proc1.rafagaCPU="E1-S1-C2"
-    proc1.tiempo_arribo=5
+    proc1.tiempo_arribo=1
 
     proc2=Proceso()
     proc2.id_proc=2
     proc2.id_batch=1
-    proc2.tam_proc=70
+    proc2.tam_proc=20
     proc2.prioridad=3
     proc2.rafagaCPU="E2-C3"
     proc2.tiempo_arribo=2
@@ -39,16 +39,25 @@ if __name__ == '__main__':
     proc3.id_batch=1
     proc3.tam_proc=50
     proc3.prioridad=3
-    proc3.rafagaCPU="C5"
-    proc3.tiempo_arribo=1
+    proc3.rafagaCPU="E5-C9"
+    proc3.tiempo_arribo=3
     
+    proc4=Proceso()
+    proc4.id_proc=4
+    proc4.id_batch=1
+    proc4.tam_proc=30
+    proc4.prioridad=3
+    proc4.rafagaCPU="C5"
+    proc4.tiempo_arribo=12
+
+
     part1=Particiones()
     part1.id_part=1
     part1.batch=1
     part1.tam_part=30
     part1.dir_ini=11
     part1.dir_fin=31
-    procesos=[proc1,proc2,proc3]
+    procesos=[proc1,proc2,proc3,proc4]
     particiones=[part1]
 
     Core.Simular(preset,procesos,particiones)
