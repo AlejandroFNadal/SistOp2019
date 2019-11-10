@@ -2,6 +2,7 @@ import sqlite3
 from sqlite3 import Error
 from Procesos import *
 
+
 class Interface:
     def __init__(self):
         self.conn = None
@@ -9,11 +10,11 @@ class Interface:
         self.procesos = None
         self.particiones = None
 
-    #Setters
+    # Setters
 
-    #Getters
+    # Getters
 
-    #Funciones
+    # Funciones
 
     def create_connection(self, db_file):
         """ create a database connection to a SQLite database """
@@ -117,8 +118,8 @@ class Interface:
             preset = self.cargar_preset()
             self.guardarEnBDPreset(preset)
         if decision == 2:
-            return self.preset,self.procesos,self.particiones
-            
+            return self.preset, self.procesos, self.particiones
+
     def retrieve_data(self, procesador):
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM Procesos")

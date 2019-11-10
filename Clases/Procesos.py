@@ -11,46 +11,58 @@ class Procesos:  # Contiene los datos esenciales de un proceso
         self.tiempo_ejecucion = None
         self.tiempo_inicio_ejecucion = None
         self.particion = None
-        self.tiempo_restante=0
-        self.quantum=None
-        self.num_rafaga_actual=0
+        self.tiempo_restante = 0
+        self.quantum = None
+        self.num_rafaga_actual = 0
 
-    #Setters
-    def set_tiempo_restante(self,x):
+    # Setters
+    def set_tiempo_restante(self, x):
         self.tiempo_restante = x
-    def set_id(self,value):
-        self.id=value
-    def set_estado(self,x):
-        self.estado=x
-    def set_particion_proc(self,val):
-        self.particion=val
-    def set_quantum(self,q):
-        self.quantum=q
 
-    #Getters
+    def set_id(self, value):
+        self.id = value
+
+    def set_estado(self, x):
+        self.estado = x
+
+    def set_particion_proc(self, val):
+        self.particion = val
+
+    def set_quantum(self, q):
+        self.quantum = q
+
+    # Getters
     def get_rafaga_tot(self):
         return self.rafaga_tot
+
     def get_tiempo_arribo(self):
         return self.tiempo_arribo
+
     def get_prioridad(self):
         return self.prioridad
+
     def get_tamano_proc(self):
         return self.tamano_proc
+
     def get_tiempo_restante(self):
         return self.tiempo_restante
+
     def get_id(self):
         return self.id
+
     def get_estado(self):
         return self.estado
+
     def get_num_rafaga_actual(self):
         return self.num_rafaga_actual
+
     def get_particion_proc(self):
         return self.particion
+
     def get_quantum(self):
         return self.quantum
 
-
-    #Funciones
+    # Funciones
     def muestra_proceso(self):
         print(str(self.id) +
               "   tamano_proc:    " +
