@@ -57,6 +57,7 @@ if __name__ == '__main__':
     part1.tam_part=30
     part1.dir_ini=11
     part1.dir_fin=31
+    
     procesos=[proc1,proc2,proc3,proc4]
     particiones=[part1]
 

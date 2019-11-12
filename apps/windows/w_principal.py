@@ -57,8 +57,12 @@ class W_Main(QMainWindow):
 			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
 	
 	def mostrarProc(self, procesos):
+		listaaux=[]
 		for p in procesos:
-			self.ventana.comboBox_cargarProceso.addItem(str(p.id_batch))
+			if str(p.id_batch) not in listaaux:
+				listaaux.append(str(p.id_batch))
+		for x in listaaux:
+			self.ventana.comboBox_cargarProceso.addItem(x)
 		self.ventana.comboBox_cargarProceso.currentTextChanged.connect(self.listar)
 
 	def crearProceso(self):
@@ -77,8 +81,9 @@ class W_Main(QMainWindow):
 		for p in presets: #recorre presets y lista descripcion
 			
 			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
-		procesos = session.query(Proceso).all()
 		self.ventana.comboBox_cargarProceso.clear()
+		procesos = session.query(Proceso).all()
+		
 		self.mostrarProc(procesos)
 
 	def habilitarQuantum(self, i):
@@ -96,15 +101,23 @@ class W_Main(QMainWindow):
 		pass
 
 	def comenzar(self):
-		pass
+		algoritmoP = self.ventana.comboBox_seleccionAlgoritmo.currentText()
+		quantum = self.ventana.spinBox_quantum.value()
+		print(quantum)
+		print(algoritmoP)
 
 	def listar(self, i):
-		 q = session.query(Proceso).filter(Proceso.id_batch == i).all()
-		 for l in q:
-		 	rowPosition = self.ventana.tableWidget.rowCount()
-		 	self.ventana.tableWidget.insertRow(rowPosition)
-		 	self.ventana.tableWidget.setItem(rowPosition , 0, QtWidgets.QTableWidgetItem(str(l.id_proc)))
-		 	self.ventana.tableWidget.setItem(rowPosition , 1, QtWidgets.QTableWidgetItem(str(l.tiempo_arribo)))
-		 	self.ventana.tableWidget.setItem(rowPosition , 2, QtWidgets.QTableWidgetItem(str(l.prioridad)))
-		 	self.ventana.tableWidget.setItem(rowPosition , 3, QtWidgets.QTableWidgetItem(str(l.tam_proc)))
-		 	self.ventana.tableWidget.setItem(rowPosition , 4, QtWidgets.QTableWidgetItem(str(l.rafagaCPU)))
+		self.ventana.tableWidget.clear()
+		self.ventana.tableWidget.clearContents()
+		for x in range(0,self.ventana.tableWidget.rowCount()+1):
+			self.ventana.tableWidget.removeRow(x)
+		self.ventana.tableWidget.removeRow(0)#No sabemos porque es necesario rehacer esto
+		q = session.query(Proceso).filter(Proceso.id_batch == i).all()
+		for l in q:
+			rowPosition = self.ventana.tableWidget.rowCount()
+			self.ventana.tableWidget.insertRow(rowPosition)
+			self.ventana.tableWidget.setItem(rowPosition , 0, QtWidgets.QTableWidgetItem(str(l.id_proc)))
+			self.ventana.tableWidget.setItem(rowPosition , 1, QtWidgets.QTableWidgetItem(str(l.tiempo_arribo)))
+			self.ventana.tableWidget.setItem(rowPosition , 2, QtWidgets.QTableWidgetItem(str(l.prioridad)))
+			self.ventana.tableWidget.setItem(rowPosition , 3, QtWidgets.QTableWidgetItem(str(l.tam_proc)))
+			self.ventana.tableWidget.setItem(rowPosition , 4, QtWidgets.QTableWidgetItem(str(l.rafagaCPU)))
