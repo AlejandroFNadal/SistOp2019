@@ -1,6 +1,5 @@
 from Clases.Procesos import *
-from Clases.Procesador import *
-
+#from Clases.Procesador import *
 
 class ColaListos:
     def __init__(self):
@@ -16,7 +15,7 @@ class ColaListos:
     def anade_proceso(self, proc):
         self.cola_listos.append(proc)
 
-    def fcfs(self):
+    def fcfs(self,procesador):
         self.cola_listos
         procesador.bloqueados_listos()  # LineaNueva
         # LineaNueva None es el quatum, en este caso no nos interesa
@@ -67,7 +66,7 @@ class ColaListos:
         if aux != None:
             tiempo_r = aux.get_tiempo_restante()
             q = aux.get_quantum()
-            if tiempo_r > 0 and q > 0:
+            if tiempo_r > 0 and q > 0: #No termino ni el quantum ni el tiempo restante
                 print(">>>> aux != None and tiempo_r > 0 and q >0  <<<<")
                 # tiempo_r -=1
                 q -= 1
@@ -75,8 +74,11 @@ class ColaListos:
                 aux.set_quantum(q)
                 print("quantum actual : "+str(aux.get_quantum()))
                 print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
+                procesador.bloqueados_listos()
                 procesador.set_proceso_actual(aux)
-            elif tiempo_r > 0 and q == 0:
+                procesador.imprime_cola_bloqueados()
+                procesador.imprime_cola_listos()
+            elif tiempo_r > 0 and q == 0: # se acabo el quantum
                 print(">>>> aux != None and tiempo_r > 0 and q == 0 <<<<")
                 # tiempo_r -= 1
                 # aux.set_tiempo_restante(tiempo_r)
@@ -138,3 +140,4 @@ class ColaListos:
         num_rafaga = proceso.get_num_rafaga_actual()
         rafaga_total = proceso.get_rafaga_tot()
         rafaga_total[num_rafaga] = "C"+str(tiempo_restante)
+        proceso.set_rafaga_total(rafaga_total)

@@ -31,7 +31,7 @@ if __name__ == '__main__':
     proc2.id_batch=1
     proc2.tam_proc=20
     proc2.prioridad=3
-    proc2.rafagaCPU="E2-C3"
+    proc2.rafagaCPU="E2-C7"
     proc2.tiempo_arribo=2
 
     proc3=Proceso()
@@ -45,10 +45,10 @@ if __name__ == '__main__':
     proc4=Proceso()
     proc4.id_proc=4
     proc4.id_batch=1
-    proc4.tam_proc=30
+    proc4.tam_proc=25
     proc4.prioridad=3
     proc4.rafagaCPU="C5"
-    proc4.tiempo_arribo=12
+    proc4.tiempo_arribo=5
 
 
     part1=Particiones()

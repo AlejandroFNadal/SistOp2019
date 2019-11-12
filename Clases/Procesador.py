@@ -123,10 +123,8 @@ class Procesador:  # contendra gran parte de las tareas generales
         # si proceso actual es igual a vacio
         if self.proceso_actual == None and self.procesos_listos.get_cola_listos() != []:
             print("proceso actual NONE  y cola de listos distinto de vacio")
-            pos = self.procesos_listos.get_cola_listos()[
-                0].get_num_rafaga_actual()
-            rafaga_proc = self.procesos_listos.get_cola_listos()[
-                0].get_rafaga_tot()
+            pos = self.procesos_listos.get_cola_listos()[0].get_num_rafaga_actual()
+            rafaga_proc = self.procesos_listos.get_cola_listos()[0].get_rafaga_tot()
             if rafaga_proc[pos][0] == "C":
                 print("siguiente elemento CPU y tiempo restante proc_listos = 0")
                 self.proceso_actual = self.procesos_listos.get_cola_listos()[0]

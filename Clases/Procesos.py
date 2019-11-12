@@ -31,6 +31,8 @@ class Procesos:  # Contiene los datos esenciales de un proceso
     def set_quantum(self, q):
         self.quantum = q
 
+    def set_rafaga_total(self,rafaga):
+        self.rafaga_tot=rafaga
     # Getters
     def get_rafaga_tot(self):
         return self.rafaga_tot
