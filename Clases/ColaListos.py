@@ -139,5 +139,5 @@ class ColaListos:
     def modificar_rafaga_total(self,proceso,tiempo_restante):
         num_rafaga = proceso.get_num_rafaga_actual()
         rafaga_total = proceso.get_rafaga_tot()
-        rafaga_total[num_rafaga] = "C"+str(tiempo_restante)
+        rafaga_total[num_rafaga] = "C"+str(tiempo_restante+1)
         proceso.set_rafaga_total(rafaga_total)
