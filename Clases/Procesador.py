@@ -2,6 +2,7 @@ from Clases.ColaListos import ColaListos
 from Clases.Procesos import *
 from Clases.Memoria import *
 import time
+import matplotlib.pyplot as plt 
 
 
 class Procesador:  # contendra gran parte de las tareas generales
@@ -191,6 +192,7 @@ class Procesador:  # contendra gran parte de las tareas generales
         alg_planificacion = 1
         cola_listos_principal = ColaListos()
         quantum = 5
+        self.gantt(procesos)
         self.memoria = Memoria(preset.tamMemoria, preset.fija_variable,
                                preset.algoritmo_as, preset.sistOpMem)  # tamano, fija_variable
         self.set_cant_procesos(procesos)
@@ -221,6 +223,7 @@ class Procesador:  # contendra gran parte de las tareas generales
             print("CLK: "+str(self.reloj_total))
             print(
                 "-------------------------------------------------------------------------")
+            
             self.reloj_total += 1
             time.sleep(1)
         # preset es una lista de preconfiguraciones, procesos
@@ -248,3 +251,35 @@ class Procesador:  # contendra gran parte de las tareas generales
             print("ID: "+str(x.get_id())+" Tiempo Restante " +
                   str(x.get_tiempo_restante()))
         print("----------------")
+    def gantt(self, procesos):
+        p = procesos[0]
+        p2 = procesos[1]
+        # Declaring a figure "gnt" 
+        fig, gnt = plt.subplots() 
+
+        # Setting ticks on y-axis 
+        gnt.set_yticks([15, 25, 35]) 
+        # Labelling tickes of y-axis 
+        gnt.set_yticklabels(['1', '2', '3'])
+
+        # Setting labels for x-axis and y-axis 
+        gnt.set_xlabel('seconds since start') 
+        gnt.set_ylabel('Processor') 
+  
+        # Setting Y-axis limits 
+        gnt.set_ylim(0, 50) 
+  
+        # Setting X-axis limits 
+        gnt.set_xlim(0, 160) 
+
+        # Setting ticks on y-axis 
+        gnt.set_yticks([15, 25, 35])
+
+        # Setting graph attribute 
+        gnt.grid(True)
+
+        # Declaring a bar in schedule 
+        gnt.broken_barh([(p.tiempo_arribo, 10)], (30, 9), facecolors =('tab:orange'))
+        gnt.broken_barh([(p.tiempo_arribo+10, 10)], (30, 9), facecolors =('tab:blue')) 
+
+        plt.savefig("C:\SistOperativo\SistOp2019\proc6.png") 
