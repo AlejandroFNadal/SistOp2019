@@ -19,6 +19,7 @@ class Procesador:  # contendra gran parte de las tareas generales
         # esto se deberia pasar luego a otra clase
         self.tabla_memoria = []
         self.memoria = None
+        self.salir=False #Controla salidas del bucle principal
 
     # Setters
     def set_proceso_actual(self, proc):
@@ -74,11 +75,9 @@ class Procesador:  # contendra gran parte de las tareas generales
 
     # borramos parametro procesos
     def cargar_cola_listos(self, algoritmo, particiones, memoria, quantum, CL1, CL2, CL3):
-        #print("Cargar cola listos")
-        #print("Cola listos actual:" +str(self.procesos_listos.get_cola_listos()))
         cont_cola_nuevos = 0
         for proc in self.cola_nuevos:
-            if memoria.comprobar_memoria(proc):
+            if memoria.comprobar_memoria(proc,self):
                 self.procesos_listos.anade_proceso(proc)
                 self.imprime_cola_listos()
                 self.cola_nuevos.pop(cont_cola_nuevos)
@@ -150,6 +149,10 @@ class Procesador:  # contendra gran parte de las tareas generales
                     if self.memoria.get_tipo_part() == "variable":
                         self.memoria.eliminar_particion(part)
                         self.memoria.generar_lista_vacios()
+                    else:
+                        #es fija, aca desasignamos la particion del proceso
+                        pos_part=self.memoria.get_lista_part().index(part)
+                        self.memoria.get_lista_part()[pos_part].desasignar()
                     self.cola_terminados.append(self.proceso_actual)
                     self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
                     self.proceso_actual.set_quantum(quantum)  # LineaNueva
@@ -186,21 +189,22 @@ class Procesador:  # contendra gran parte de las tareas generales
             # Si es cero, la transicion se hace en listoa
             self.proceso_actual.decrementar_tiempo_restante()
 
-    def Simular(self, preset, procesos, particiones):
+    def Simular(self, preset, procesos, particiones,alg_planificacion):
         intprocesos = procesos  # para manejar paso por copia en lugar de referencia
         # alg_planificacion = preset.algoritmo_as  # agregar luego como un valor de preset, traer de la BD
-        alg_planificacion = 1
         cola_listos_principal = ColaListos()
         quantum = 5
         self.gantt(procesos)
         self.memoria = Memoria(preset.tamMemoria, preset.fija_variable,
-                               preset.algoritmo_as, preset.sistOpMem)  # tamano, fija_variable
+                               preset.algoritmo_as, preset.sistOpMem,particiones)  # tamano, fija_variable
+        self.memoria.imprime_particiones()
         self.set_cant_procesos(procesos)
         if alg_planificacion == 3:  # MQL
             CL1 = ColaListos()
             CL2 = ColaListos()
             CL3 = ColaListos()
-        while len(self.cola_terminados) < self.cant_procesos:
+        self.salir=False
+        while len(self.cola_terminados) < self.cant_procesos and not self.salir:
             # esta llamada deberia funcionar ya
             intprocesos = self.cargar_cola_nuevos(intprocesos)
             if alg_planificacion == 3:
@@ -209,10 +213,6 @@ class Procesador:  # contendra gran parte de las tareas generales
             else:
                 self.cargar_cola_listos(
                     alg_planificacion, particiones, self.memoria, quantum, None, None, None)
-            # self.bloqueados_listos() #LineaNueva se comentaron estas lineas por que se ejecutaran dentro de cada planificador
-            # self.listos_ejecucion()
-            # self.imprime_cola_bloqueados()
-            # self.imprime_cola_listos()
             if self.proceso_actual != None:
                 print("Proceso en ejecucion "+str(self.proceso_actual.get_id()) +
                       "tiempo restante "+str(self.proceso_actual.get_tiempo_restante()))
@@ -220,6 +220,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                 print(self.proceso_actual)
             self.generar_tabla()
             self.cuenta_tiempo()
+            self.memoria.imprime_particiones()
             print("CLK: "+str(self.reloj_total))
             print(
                 "-------------------------------------------------------------------------")
@@ -263,8 +264,8 @@ class Procesador:  # contendra gran parte de las tareas generales
         gnt.set_yticklabels(['1', '2', '3'])
 
         # Setting labels for x-axis and y-axis 
-        gnt.set_xlabel('seconds since start') 
-        gnt.set_ylabel('Processor') 
+        gnt.set_xlabel('Tiempo') 
+        gnt.set_ylabel('Procesos') 
   
         # Setting Y-axis limits 
         gnt.set_ylim(0, 50) 
@@ -283,3 +284,4 @@ class Procesador:  # contendra gran parte de las tareas generales
         gnt.broken_barh([(p.tiempo_arribo+10, 10)], (30, 9), facecolors =('tab:blue')) 
 
         plt.savefig("C:\SistOperativo\SistOp2019\proc6.png") 
+

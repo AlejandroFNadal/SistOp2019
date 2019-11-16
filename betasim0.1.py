@@ -10,9 +10,9 @@ if __name__ == '__main__':
     preset=Presets()
     preset.id=1
     preset.descripcion="Ej1"
-    preset.tamMemoria=100
+    preset.tamMemoria=140
     preset.sistOpMem=10
-    preset.fija_variable="variable"
+    preset.fija_variable="fija"
     preset.cant_part=5
     preset.algoritmo_as=2
     Core = Procesador()
@@ -57,8 +57,21 @@ if __name__ == '__main__':
     part1.tam_part=30
     part1.dir_ini=11
     part1.dir_fin=31
-    
-    procesos=[proc1,proc2,proc3,proc4]
-    particiones=[part1]
 
-    Core.Simular(preset,procesos,particiones)
+    part2=Particiones()
+    part2.id_part=2
+    part2.batch=2
+    part2.tam_part=60
+    part2.dir_ini=31
+    part2.dir_fin=71
+    
+    part3=Particiones()
+    part3.id_part=3
+    part3.batch=2
+    part3.tam_part=60
+    part3.dir_ini=71
+    part3.dir_fin=131
+    procesos=[proc1,proc2,proc3,proc4]
+    particiones=[part1,part2]
+
+    Core.Simular(preset,procesos,particiones,0)

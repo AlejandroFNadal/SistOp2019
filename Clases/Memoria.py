@@ -2,17 +2,23 @@ import sys
 
 
 class Memoria:
-    def __init__(self, tamano, tipo_particion, algoritmo_as, sistOpMem):
+    def __init__(self, tamano, tipo_particion, algoritmo_as, sistOpMem,particiones):
         self.tamano = tamano
         fin_particion_sist = int(tamano*sistOpMem/100)
         partSistema = Particion(0, 0, fin_particion_sist,
                                 0, fin_particion_sist, True)
         self.lista_particiones = [partSistema]
+        self.ultimo_id = 1
         self.tipo_particion = tipo_particion  # fija o variable, en texto
+        if self.tipo_particion =="fija":
+            for x in particiones: #creamos todas las particiones fijas
+                aux= Particion(self.ultimo_id,-1, x.tam_part, x.dir_ini, x.dir_fin, False)
+                self.ultimo_id+=1
+                self.lista_particiones.append(aux)
         self.algoritmo_asignacion = algoritmo_as  # 1.BestF, 2 FirstF, 3 WorstF
         self.lista_vacios = [
             [fin_particion_sist, tamano, tamano-fin_particion_sist]]
-        self.ultimo_id = 1
+        
 
     # Setters
 
@@ -42,21 +48,32 @@ class Memoria:
         else:
             return False
 
-    def asign_firstfit_fija(self, proc):
+    def asign_firstfit_fija(self, proc,procesador):
+        
         first_part = None
-        pos = 0
+        pos = 1 #ignorar part SO
         while first_part == None and (pos < len(self.lista_particiones)):
-            if self.lista_particiones[pos].get_tamano() > proc.get_tamano_proc() and self.lista_particiones[0].get_estado():
-                first_part = self.lista_particiones[pos].get_id_par()
+            if self.lista_particiones[pos].get_tamano() > proc.get_tamano_proc() and self.lista_particiones[pos].get_estado()==False:
+                first_part = pos
             pos += 1
         if first_part != None:
-            self.lista_particiones[first_part].asignar_proceso(proc)
+            self.lista_particiones[first_part].asignar_proceso(proc)#por como esta hecho el bucle de arriba, siempre se pasa
+            proc.set_particion_proc(self.lista_particiones[first_part])
             return True
-        else:
+        else: #comprobacion de fin
+            bandera=False
+            pos=1
+            while pos < len(self.lista_particiones) and bandera == False:
+                #print(str(self.lista_particiones[pos])+str())
+                if self.lista_particiones[pos].get_tamano() > proc.get_tamano_proc():
+                    bandera = True
+                pos += 1
+            if bandera==False:
+                print("El proceso" +str(proc.get_id())+" es muy grande para las particiones existentes. Finalizando simulacion para evitar bucle infinito")
+                procesador.salir=True
             return False
 
     def asign_firstfit_variable(self, proc):
-        self.imprime_particiones()
         band = False
         pos = 0
         #print("Huecos al principio" + str(self.lista_vacios))
@@ -109,14 +126,14 @@ class Memoria:
         indice_eliminacion_particion = self.get_lista_part().index(part)
         self.get_lista_part().pop(indice_eliminacion_particion)
 
-    def comprobar_memoria(self, proc):
+    def comprobar_memoria(self, proc,procesador):
         #print("Comprobando memoria para proceso: "+str(proc.get_id())+" asignacion:  "+str(self.algoritmo_asignacion))
         #print("Ejecutando comprobacion con memoria del tipo: "+str(self.tipo_particion))
         state = False  # variable que indica si hubo exito en asignacion de memoria
         if self.tipo_particion == "fija" and self.algoritmo_asignacion == 1:  # es fija, bestF
             state = self.asign_bestfit_fija(proc)
         if self.tipo_particion == "fija" and self.algoritmo_asignacion == 2:  # es fija, FIrstF
-            state = self.asign_firstfit_fija(proc)
+            state = self.asign_firstfit_fija(proc,procesador)
         if self.tipo_particion == "variable"and self.algoritmo_asignacion == 2:  # es variable, FirstF
             # No hubo lugar donde crear particion
             if self.asign_firstfit_variable(proc) == False:
@@ -178,7 +195,7 @@ class Memoria:
     def imprime_particiones(self):  # funcion para debug, eliminar luego
         print("Particiones existentes")
         for x in self.lista_particiones:
-            print(x.get_id_par())
+            print("ID:  "+str(x.get_id_par())+"     Tam:"+str(x.get_tamano())+" Estado "+str(x.get_estado()))
 
 
 class Particion:
@@ -213,6 +230,9 @@ class Particion:
     def asignar_proceso(self, idp):
         self.id_proc = idp
         self.estado = True
+    def desasignar(self):
+        self.id_proc=-1
+        self.estado=False
 
     def _del_(self):
         print(str(self.id_par) + "deleted")
