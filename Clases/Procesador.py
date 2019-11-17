@@ -169,6 +169,8 @@ class Procesador:  # contendra gran parte de las tareas generales
                     if self.memoria.get_tipo_part() == "variable":
                         self.memoria.eliminar_particion(part)
                         self.memoria.generar_lista_vacios()
+                    else:
+                        part.desasignar()
                     self.memoria.imprime_particiones()
 
     def generar_tabla(self):
@@ -189,11 +191,10 @@ class Procesador:  # contendra gran parte de las tareas generales
             # Si es cero, la transicion se hace en listoa
             self.proceso_actual.decrementar_tiempo_restante()
 
-    def Simular(self, preset, procesos, particiones,alg_planificacion):
+    def Simular(self, preset, procesos, particiones,alg_planificacion,quantum):
         intprocesos = procesos  # para manejar paso por copia en lugar de referencia
         # alg_planificacion = preset.algoritmo_as  # agregar luego como un valor de preset, traer de la BD
         cola_listos_principal = ColaListos()
-        quantum = 5
         self.gantt(procesos)
         self.memoria = Memoria(preset.tamMemoria, preset.fija_variable,
                                preset.algoritmo_as, preset.sistOpMem,particiones)  # tamano, fija_variable
