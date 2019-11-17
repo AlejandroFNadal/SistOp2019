@@ -17,19 +17,18 @@ class ColaListos:
 
     def fcfs(self,procesador):
         self.cola_listos
-        procesador.bloqueados_listos()  # LineaNueva
-        # LineaNueva None es el quatum, en este caso no nos interesa
+        procesador.bloqueados_listos()
+        #None es el quatum, en este caso no nos interesa
         procesador.listos_ejecucion(None)
-        procesador.imprime_cola_bloqueados()  # LineaNueva
-        procesador.imprime_cola_listos()  # LineaNueva
+        procesador.imprime_cola_bloqueados()
+        procesador.imprime_cola_listos()
 
     def prioridades(self, procesador):
         self.cola_listos.sort(key=lambda x: x.get_prioridad(), reverse=True)
-        procesador.bloqueados_listos()  # LineaNueva
-        # LineaNueva None es el quantum, en este caso no nos interesa
+        procesador.bloqueados_listos()
         procesador.listos_ejecucion(None)
-        procesador.imprime_cola_bloqueados()  # LineaNueva
-        procesador.imprime_cola_listos()  # LineaNueva
+        procesador.imprime_cola_bloqueados()
+        procesador.imprime_cola_listos()
 
     def imprimir_consola(self):
         for x in self.cola_listos:
@@ -94,11 +93,6 @@ class ColaListos:
                 procesador.listos_ejecucion(quantum)
                 procesador.imprime_cola_bloqueados()
                 procesador.imprime_cola_listos()
-
-                # if self.cola_listos !=[]: #LineaNueva
-                #    proc = self.cola_listos[0]
-                #    proc.set_quantum= self.quantum
-                #    procesador.set_proceso_actual(proc)
             else:
                 if tiempo_r == 0:
                     print("pasa a bloqueado o terminado")
@@ -115,15 +109,74 @@ class ColaListos:
             procesador.imprime_cola_listos()
         return self.cola_listos
 
+    #si band == True, significa que esta en SRTF, si band == False, significa que solo es SJF
+    def sjf(self,procesador,band):
+        primer_elemento = True
+        pos_elem_menor = None
+        pos = 0
+        for i in self.cola_listos: #avanzamos toda la cola de listos
+            rafaga = i.get_rafaga_tot()
+            elem_rafaga = rafaga[0]
+            if elem_rafaga[0] == "C" and primer_elemento: #solamente el primer elemento
+                proceso_menor = i
+                pos_elem_menor = pos
+                tiempo_menor = int(elem_rafaga[1])
+                primer_elemento = False
+            elif elem_rafaga[0] == "C" and not(primer_elemento): #el resto de los elementos
+                if tiempo_menor >= int(elem_rafaga[1]): #comparamos si tenemos el menor tiempo
+                    proceso_menor = i
+                    pos_elem_menor = pos
+                    tiempo_menor = int(elem_rafaga[1])
+            pos +=1
+
+        #agregamos al principio de la cola de listos a nuestro proceso cuya rafaga de ejecucion sea la menor
+        #Seria None si no hay procesos cuya rafaga a ejecutarse sea "CPU" o que no haya elementos en Cola de listos
+        if pos_elem_menor != None: 
+            self.cola_listos.pop(pos_elem_menor)
+            self.cola_listos.insert(0,i)
+
+        #luego procedemos a llamar a las funciones de intercambio de colas
+        if band == False:
+            procesador.listos_ejecucion(None)
+            procesador.bloqueados_listos()
+
+
+    #basicamente lo mismo que el SJF pero con expropiacion
+    #si band == True, significa que esta en SRTF, si band == False, significa que solo es SJF
+    def srtf(self,procesador,band):
+        self.sjf(procesador,band)
+        # 1ro verificar si el tiempo de ejecicion restante del proceso que esta en el procesador 
+        #es menor al tiempo de ejecucion del proceso que esta en cola de listos (en la 1ra pos)
+        cola_listos = self.get_cola_listos()
+        proceso_actual = procesador.get_proceso_actual()
+        if len(cola_listos) > 0 and proceso_actual != None:
+            rafaga_tot = cola_listos[0].get_rafaga_tot()
+            num_rafaga = cola_listos[0].get_num_rafaga_actual()
+            tiempo_ejecucion = int(rafaga_tot[num_rafaga][1])
+            tiempo_restante = proceso_actual.get_tiempo_restante()
+            if  tiempo_restante > tiempo_ejecucion:
+                #sacamos el proceso del procesador
+                self.modificar_rafaga_total(proceso_actual,tiempo_restante)
+                self.anade_proceso(proceso_actual)
+                procesador.set_proceso_actual(None) 
+
+        #insertamos el proximo proceso en el procesador
+        procesador.listos_ejecucion(None)
+        procesador.bloqueados_listos()
+
     def ordenar(self, algoritmo, quantum, CL1, CL2, CL3, procesador):
         if algoritmo == 0:
-            self.fcfs(procesador)  # LineaNueva se agrego procesador
+            self.fcfs(procesador)  
         if algoritmo == 1:
             self.round_robin(quantum, procesador)
         if algoritmo == 2:
-            self.prioridades(procesador)  # LineaNueva se agrego procesador
+            self.prioridades(procesador) 
         if algoritmo == 3:
             self.multinivel(CL1, CL2, CL3, procesador)
+        if algoritmo == 4:
+            self.sjf(procesador,False)
+        if algoritmo == 5:
+            self.srtf(procesador,True)
 
     def isvacio(self):
         return self.cola_listos == []
