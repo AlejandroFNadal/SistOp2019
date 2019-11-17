@@ -114,6 +114,10 @@ class W_Main(QMainWindow):
 
 	def comenzar(self):
 		algoritmoP = self.ventana.comboBox_seleccionAlgoritmo.currentText()
+		if algoritmoP == "FCFS":
+			algoritmoP=0
+		if algoritmoP =="RR":
+			algoritmoP=1
 		if algoritmoP == "RR":
 			quantum = self.ventana.spinBox_quantum.value()
 		else:
