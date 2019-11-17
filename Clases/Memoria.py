@@ -32,18 +32,19 @@ class Memoria:
     # Funciones
 
     def asign_bestfit_fija(self, proc):
-
+        print("Entramos a best fija")
         diferencia = sys.maxsize
         best_part = None
         for part in self.lista_particiones:
             aux = part.get_tamano() - proc.get_tamano_proc()
-            if part.get_tamano() > proc.get_tamano_proc() and part.get_estado():  # particion libre
+            if part.get_tamano() > proc.get_tamano_proc() and part.get_estado()==False:  # particion libre
                 if aux < diferencia:
                     diferencia = aux
-                    best_part = part.get_id_par()
+                    best_part = self.lista_particiones.index(part)
         if best_part != None:
             self.lista_particiones[best_part].asignar_proceso(
-                proc)  # falta hacer asignar_proceso
+                proc)
+            proc.set_particion_proc(self.lista_particiones[best_part])
             return True
         else:
             return False
