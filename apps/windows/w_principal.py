@@ -7,7 +7,16 @@ from apps.windows.w_cargarProceso import W_cargarProceso
 
 from apps.windows.w_configuracion1 import W_Configuracion1 
 
-from crearDB import session, Proceso, Presets
+from Clases.Procesador import *
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from crearDB import session, Proceso, Presets, Particiones, Base
+
+engine = create_engine('sqlite:///SistOp.db')
+Base.metadata.bind = engine
+DBSession = sessionmaker(bind = engine)
+session = DBSession()
 
 
 class W_Main(QMainWindow):
@@ -89,6 +98,7 @@ class W_Main(QMainWindow):
 	def habilitarQuantum(self, i):
 		if i == "RR":
 			self.ventana.spinBox_quantum.setEnabled(True)
+			
 	
 
 	def salir(self):
@@ -102,9 +112,30 @@ class W_Main(QMainWindow):
 
 	def comenzar(self):
 		algoritmoP = self.ventana.comboBox_seleccionAlgoritmo.currentText()
-		quantum = self.ventana.spinBox_quantum.value()
-		print(quantum)
-		print(algoritmoP)
+		if algoritmoP == "RR":
+			quantum = self.ventana.spinBox_quantum.value()
+		else:
+			quantum = 0
+		
+		# Realizar una busqueda en la BD para traer el preset que conincida con el ingresado
+		desc_config = self.ventana.comboBox_seleccionPreConf.currentText()
+		
+		preset = session.query(Presets).filter(Presets.descripcion == desc_config).all()
+
+		# Realizar busqueda en la BD para traer y armar una lista con todos los procesos correspondientes al batch
+		desc_procesos = self.ventana.comboBox_cargarProceso.currentText()
+		procesos = session.query(Proceso).filter(Proceso.id_batch == desc_procesos).all()
+		# Realizar busqueda en BD para traer el bach de las particiones
+		particiones = session.query(Particiones).filter(Particiones.batch == desc_config).all()
+		# Pasamos al procesador
+		#Procesador.Simular(preset, procesos, algoritmoP, quantum)
+		'''
+		print("Algoritmo: " +str(algoritmoP), "Quantum: " +str(quantum), "Procesos: ")
+		for i in particiones:
+    		 print("id particion " +str(i.id_part))
+		print("Fin")
+		#print(algoritmoP)
+		'''
 
 	def listar(self, i):
 		self.ventana.tableWidget.clear()
