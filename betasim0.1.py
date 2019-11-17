@@ -74,4 +74,4 @@ if __name__ == '__main__':
     procesos=[proc1,proc2,proc3,proc4]
     particiones=[part1,part2]
 
-    Core.Simular(preset,procesos,particiones,1,5)
+    Core.Simular(preset,procesos,particiones,4,5)
