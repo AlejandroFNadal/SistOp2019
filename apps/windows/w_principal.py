@@ -13,6 +13,7 @@ from sqlalchemy.orm import sessionmaker
 
 from crearDB import session, Proceso, Presets, Particiones, Base
 
+
 engine = create_engine('sqlite:///SistOp.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind = engine)
@@ -56,6 +57,7 @@ class W_Main(QMainWindow):
 
 		self.ventana.comboBox_seleccionAlgoritmo.addItems(["FCFS", "RR", "MVQ"])
 		self.ventana.comboBox_seleccionAlgoritmo.currentTextChanged.connect(self.habilitarQuantum)
+		
 
 	#----- fin constructor ----#
 
@@ -128,7 +130,8 @@ class W_Main(QMainWindow):
 		# Realizar busqueda en BD para traer el bach de las particiones
 		particiones = session.query(Particiones).filter(Particiones.batch == desc_config).all()
 		# Pasamos al procesador
-		#Procesador.Simular(preset, procesos, algoritmoP, quantum)
+		core = Procesador()
+		core.Simular(preset[0], procesos,particiones, algoritmoP, quantum)
 		'''
 		print("Algoritmo: " +str(algoritmoP), "Quantum: " +str(quantum), "Procesos: ")
 		for i in particiones:
