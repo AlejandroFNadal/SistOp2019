@@ -118,7 +118,6 @@ class Procesador:  # contendra gran parte de las tareas generales
                     tiempo = proc.get_num_rafaga_actual()
                     proc.set_tiempo_restante(int(rafaga_proc[tiempo][1]))
 
-    # por si se rompe, aca se agrego quantum y lineas que tengan #LineaNueva
     def listos_ejecucion(self, quantum):
         # si proceso actual es igual a vacio
         if self.proceso_actual == None and self.procesos_listos.get_cola_listos() != []:
@@ -128,24 +127,27 @@ class Procesador:  # contendra gran parte de las tareas generales
             if rafaga_proc[pos][0] == "C":
                 print("siguiente elemento CPU y tiempo restante proc_listos = 0")
                 self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
-                self.proceso_actual.set_quantum(quantum)  # LineaNueva
+                self.proceso_actual.set_quantum(quantum) 
                 #print("Quantum cargado : " + str(self.proceso_actual.get_quantum()))
                 self.proceso_actual.set_tiempo_restante(
                     int(rafaga_proc[self.proceso_actual.get_num_rafaga_actual()][1]))
                 # self.proceso_actual.increment_num_rafaga_actual()
                 self.procesos_listos.elimina_elemento(0)
 
-        elif self.proceso_actual != None:
+        elif self.proceso_actual != None: #and self.procesos_listos.get_cola_listos() != []:
             part = self.proceso_actual.get_particion_proc()
             # si el tiempo del proceso actual es 0
             if self.proceso_actual.get_tiempo_restante() == 0 and self.procesos_listos.get_cola_listos() != []:
                 if self.proceso_actual.get_num_rafaga_actual() < len(self.proceso_actual.get_rafaga_tot())-1:
+                    self.proceso_actual.increment_num_rafaga_actual() #LN
                     self.procesos_listos.anade_proceso(self.proceso_actual)
                     self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
-                    self.proceso_actual.set_quantum(quantum)  # LineaNueva
+                    self.proceso_actual.set_quantum(quantum)
                     #print("Quantum cargado : " + str(self.proceso_actual.get_quantum()))
                     self.procesos_listos.elimina_elemento(0)
                 else:
+                    #aca no seria necesario incrementa la rafaga actual por que seria la ultima rafaga (creo)
+                    self.proceso_actual.increment_num_rafaga_actual() #LN
                     if self.memoria.get_tipo_part() == "variable":
                         self.memoria.eliminar_particion(part)
                         self.memoria.generar_lista_vacios()
@@ -155,7 +157,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                         self.memoria.get_lista_part()[pos_part].desasignar()
                     self.cola_terminados.append(self.proceso_actual)
                     self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
-                    self.proceso_actual.set_quantum(quantum)  # LineaNueva
+                    self.proceso_actual.set_quantum(quantum)
                     #print("Quantum cargado : " + str(self.proceso_actual.get_quantum()))
                     self.procesos_listos.elimina_elemento(0)
                     self.imprime_cola_terminados()
@@ -163,6 +165,7 @@ class Procesador:  # contendra gran parte de las tareas generales
             elif self.proceso_actual.get_tiempo_restante() == 0 and self.procesos_listos.get_cola_listos() == []:
                 # Ultimo proceso
                 if self.proceso_actual.get_num_rafaga_actual() == len(self.proceso_actual.get_rafaga_tot())-1:
+                    self.proceso_actual.increment_num_rafaga_actual() #LN
                     self.cola_terminados.append(self.proceso_actual)
                     self.proceso_actual = None
                     self.imprime_cola_terminados()
@@ -172,6 +175,23 @@ class Procesador:  # contendra gran parte de las tareas generales
                     else:
                         part.desasignar()
                     self.memoria.imprime_particiones()
+                else:
+                    # self.proceso_actual.increment_num_rafaga_actual()
+                    self.proceso_actual.increment_num_rafaga_actual() #LN
+                    self.procesos_listos.anade_proceso(self.proceso_actual)
+                    self.proceso_actual=None
+                    if self.memoria.get_tipo_part() == "variable":
+                        self.memoria.eliminar_particion(part)
+                        self.memoria.generar_lista_vacios()
+                    else:
+                        part.desasignar()
+                    self.memoria.imprime_particiones()
+        #teoricamente no tendria q hacer nada en estos 2 casos pero los pongo para tenerlos en cuenta
+        elif self.proceso_actual == None and self.procesos_listos.get_cola_listos() == []:
+            print("proceso actual == None // procesos listos == []")
+        elif self.proceso_actual != None and self.procesos_listos.get_cola_listos() != []:
+            print("proceso actual != None // procesos listos != []")
+
 
     def generar_tabla(self):
         aux = []
