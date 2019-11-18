@@ -23,7 +23,7 @@ if __name__ == '__main__':
     proc1.id_batch=1
     proc1.tam_proc=10
     proc1.prioridad=2
-    proc1.rafagaCPU="E1-S1-C2"
+    proc1.rafagaCPU="C1-E1-C2"
     proc1.tiempo_arribo=1
 
     proc2=Proceso()
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     proc2.id_batch=1
     proc2.tam_proc=20
     proc2.prioridad=3
-    proc2.rafagaCPU="E2-C7"
+    proc2.rafagaCPU="C2-E2-C7"
     proc2.tiempo_arribo=2
 
     proc3=Proceso()
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     proc3.id_batch=1
     proc3.tam_proc=50
     proc3.prioridad=3
-    proc3.rafagaCPU="E5-C9"
+    proc3.rafagaCPU="C1-E5-C9"
     proc3.tiempo_arribo=3
     
     proc4=Proceso()
@@ -74,4 +74,4 @@ if __name__ == '__main__':
     procesos=[proc1,proc2,proc3,proc4]
     particiones=[part1,part2]
 
-    Core.Simular(preset,procesos,particiones,0)
+    Core.Simular(preset,procesos,particiones,4,5)

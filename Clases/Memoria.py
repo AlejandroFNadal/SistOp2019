@@ -105,21 +105,18 @@ class Memoria:
 
     def asign_worstfit_variable(self, proc):
         aux_variable = sorted(
-            self.lista_vacios, key=self.obt_tam_part, reversed=True)
+            self.lista_vacios, key=lambda x:x[2], reverse=True)
         band_asignacion = False
-        if aux_variable[0][3] > proc.get_tamano_proc():
+        if aux_variable[0][2] > proc.get_tamano_proc():
             part_nueva = Particion(self.ultimo_id, proc.get_id(
-            ), proc.get_tamano_proc(), aux_variable[0][0], aux_variable[0][1], True)
+            ), proc.get_tamano_proc(), aux_variable[0][0], aux_variable[0][0]+proc.get_tamano_proc(), True)
             pos_LO = 0  # pos_LO = posicion lista ordenada
             while pos_LO < len(self.lista_particiones) and part_nueva.get_dir_in() >= self.lista_particiones[pos_LO].get_dir_fin():
                 pos_LO += 1
-                if part_nueva.get_dir_in() < self.lista_particiones[pos_LO].get_dir_fin():
-                    band_asignacion = True
-
-            if band_asignacion:
-                self.lista_particiones.insert(pos_LO, part_nueva)
-                self.generar_lista_vacios()
-                return True
+            proc.set_particion_proc(part_nueva)
+            self.lista_particiones.insert(pos_LO, part_nueva)
+            self.generar_lista_vacios()
+            return True
         else:
             return False
 
@@ -196,7 +193,7 @@ class Memoria:
     def imprime_particiones(self):  # funcion para debug, eliminar luego
         print("Particiones existentes")
         for x in self.lista_particiones:
-            print("ID:  "+str(x.get_id_par())+"     Tam:"+str(x.get_tamano())+" Estado "+str(x.get_estado()))
+            print("ID:  "+str(x.get_id_par())+"     Tam:"+str(x.get_tamano())+" Dir_in "+str(x.get_dir_in())+" Dir_fin "+str(x.get_dir_fin())+" Estado "+str(x.get_estado()))
 
 
 class Particion:
