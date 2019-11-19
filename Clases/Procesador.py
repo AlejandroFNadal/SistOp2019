@@ -57,6 +57,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                             x.prioridad, x.rafagaCPU, x.tiempo_arribo]
                 auxproc = Procesos(auxdatos)
                 auxproc.split_rafaga_tot()
+                auxproc.set_estado(1) #Nuevo
                 #print("En funcion Cola_nuevos, rafaga total"+str(auxproc.get_rafaga_tot()))
                 #print("En funcion Cola_nuevos, elemento rafaga "+str(auxproc.get_rafaga_tot()[0]))
                 #print("En funcion Cola_nuevos, tiempo restante en rafaga"+str(auxproc.get_rafaga_tot()[0][1]))
@@ -78,6 +79,7 @@ class Procesador:  # contendra gran parte de las tareas generales
         cont_cola_nuevos = 0
         for proc in self.cola_nuevos:
             if memoria.comprobar_memoria(proc,self):
+                proc.set_estado(2)
                 self.procesos_listos.anade_proceso(proc)
                 self.imprime_cola_listos()
                 self.cola_nuevos.pop(cont_cola_nuevos)
@@ -128,6 +130,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                 print("siguiente elemento CPU y tiempo restante proc_listos = 0")
                 self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
                 self.proceso_actual.set_quantum(quantum) 
+                self.proceso_actual.set_estado(5)  #EN EJECUCION
                 #print("Quantum cargado : " + str(self.proceso_actual.get_quantum()))
                 self.proceso_actual.set_tiempo_restante(
                     int(rafaga_proc[self.proceso_actual.get_num_rafaga_actual()][1]))
@@ -140,9 +143,11 @@ class Procesador:  # contendra gran parte de las tareas generales
             if self.proceso_actual.get_tiempo_restante() == 0 and self.procesos_listos.get_cola_listos() != []:
                 if self.proceso_actual.get_num_rafaga_actual() < len(self.proceso_actual.get_rafaga_tot())-1:
                     self.proceso_actual.increment_num_rafaga_actual() #LN
+                    self.proceso_actual.set_estado(2)
                     self.procesos_listos.anade_proceso(self.proceso_actual)
                     self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
                     self.proceso_actual.set_quantum(quantum)
+                    self.proceso_actual.set_estado(5)
                     #print("Quantum cargado : " + str(self.proceso_actual.get_quantum()))
                     self.procesos_listos.elimina_elemento(0)
                 else:
@@ -154,10 +159,13 @@ class Procesador:  # contendra gran parte de las tareas generales
                     else:
                         #es fija, aca desasignamos la particion del proceso
                         pos_part=self.memoria.get_lista_part().index(part)
-                        self.memoria.get_lista_part()[pos_part].desasignar()
+                        self.memoria.get_lista_part()[pos_part] .desasignar()
+                    self.proceso_actual.set_estado(4) #TERMINADO
+                    self.proceso_actual.set_particion_proc(None)
                     self.cola_terminados.append(self.proceso_actual)
                     self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
                     self.proceso_actual.set_quantum(quantum)
+                    self.proceso_actual.set_estado(5)
                     #print("Quantum cargado : " + str(self.proceso_actual.get_quantum()))
                     self.procesos_listos.elimina_elemento(0)
                     self.imprime_cola_terminados()
@@ -166,6 +174,8 @@ class Procesador:  # contendra gran parte de las tareas generales
                 # Ultimo proceso
                 if self.proceso_actual.get_num_rafaga_actual() == len(self.proceso_actual.get_rafaga_tot())-1:
                     self.proceso_actual.increment_num_rafaga_actual() #LN
+                    self.proceso_actual.set_estado(4) #TERMINADO
+                    self.proceso_actual.set_particion_proc(None)
                     self.cola_terminados.append(self.proceso_actual)
                     self.proceso_actual = None
                     self.imprime_cola_terminados()
@@ -178,9 +188,10 @@ class Procesador:  # contendra gran parte de las tareas generales
                 else:
                     # self.proceso_actual.increment_num_rafaga_actual()
                     self.proceso_actual.increment_num_rafaga_actual() #LN
+                    self.proceso_actual.set_estado(2) #LISTO
                     self.procesos_listos.anade_proceso(self.proceso_actual)
                     self.proceso_actual=None
-                    if self.memoria.get_tipo_part() == "variable":
+                    if self.memoria.get_tipo_part() == "variable":##MIRAR ESTO SI O SI, ACA HAY ALGO RARISIMO
                         self.memoria.eliminar_particion(part)
                         self.memoria.generar_lista_vacios()
                     else:
@@ -194,12 +205,38 @@ class Procesador:  # contendra gran parte de las tareas generales
 
 
     def generar_tabla(self):
-        aux = []
+        #Primero juntamos todos los procesos, todos
+        todos_procesos=[]
         for x in self.procesos_listos.get_cola_listos():
+            todos_procesos.append(x)
+        for x in self.cola_nuevos:
+            todos_procesos.append(x)
+        if self.proceso_actual!=None:
+            todos_procesos.append(self.proceso_actual)
+        for x in self.cola_bloqueados:
+            todos_procesos.append(x)
+        for x in self.cola_terminados:
+            todos_procesos.append(x)
+        aux = []
+        todos_procesos.sort(key=lambda x:x.get_id())
+        for x in todos_procesos:
             id = x.get_id()
             estado = x.get_estado()
-            aux.append([id, estado])  # faltan las particiones aca
+            if x.get_particion_proc() ==None:
+                parti=-1
+            else:
+                parti=x.get_particion_proc().get_id_par()
+            aux.append([id, estado,parti])  # faltan las particiones aca
         self.cubo.append(aux)
+
+
+    def imprime_cubo(self):
+        clk=0
+        for x in self.cubo: #iterando sobre tiempo
+            print("Tiempo: "+str(clk))
+            for y in x:#Iterando sobre procesos
+                print("Id: "+str(y[0])+" Estado "+ str(y[1])+" Particion "+str(y[2]))
+            clk+=1
 
     def cuenta_tiempo(self):  # por ahora solo descuenta tiempo del primero de bloqueados
         if self.cola_bloqueados != []:
@@ -248,6 +285,7 @@ class Procesador:  # contendra gran parte de las tareas generales
             
             self.reloj_total += 1
             time.sleep(1)
+        self.imprime_cubo()
         # preset es una lista de preconfiguraciones, procesos
         # es lista de objetos del tipo proceso y particiones es una lista de objetos del tipo particiones
         # DEBUGGING FUNCTIONS
