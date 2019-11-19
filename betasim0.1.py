@@ -14,7 +14,7 @@ if __name__ == '__main__':
     preset.sistOpMem=10
     preset.fija_variable="fija"
     preset.cant_part=5
-    preset.algoritmo_as=2
+    preset.algoritmo_as=2#1 bf,2ff,3wf
     Core = Procesador()
     #Preset de prueba y procesos de prueba
     
@@ -74,4 +74,4 @@ if __name__ == '__main__':
     procesos=[proc1,proc2,proc3,proc4]
     particiones=[part1,part2]
 
-    Core.Simular(preset,procesos,particiones,4,5)
+    Core.Simular(preset,procesos,particiones,0,5)
