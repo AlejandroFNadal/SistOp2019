@@ -16,12 +16,15 @@ class ColaListos:
         self.cola_listos.append(proc)
 
     def fcfs(self,procesador):
-        self.cola_listos
-        procesador.bloqueados_listos()
+        #self.cola_listos
+       
         #None es el quatum, en este caso no nos interesa
         procesador.listos_ejecucion(None)
-        procesador.imprime_cola_bloqueados()
+        procesador.bloqueados_listos()
         procesador.imprime_cola_listos()
+        procesador.imprime_cola_bloqueados()
+
+        
 
     def prioridades(self, procesador):
         self.cola_listos.sort(key=lambda x: x.get_prioridad(), reverse=True)
@@ -64,14 +67,17 @@ class ColaListos:
         aux = procesador.get_proceso_actual()
         if aux != None:
             tiempo_r = aux.get_tiempo_restante()
-            q = aux.get_quantum()
+            q = procesador.get_proceso_actual().get_quantum()
+            print("q1"+str(q))
             if tiempo_r > 0 and q > 0: #No termino ni el quantum ni el tiempo restante
                 print(">>>> aux != None and tiempo_r > 0 and q >0  <<<<")
                 # tiempo_r -=1
                 q -= 1
                 # aux.set_tiempo_restante(tiempo_r)
                 aux.set_quantum(q)
-                print("quantum actual : "+str(aux.get_quantum()))
+
+                print("quantum1 actual : "+str(aux.get_quantum()))
+                print(procesador.get_proceso_actual().get_quantum())
                 print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
                 procesador.bloqueados_listos()
                 procesador.set_proceso_actual(aux)

@@ -116,12 +116,12 @@ class W_Main(QMainWindow):
 		algoritmoP = self.ventana.comboBox_seleccionAlgoritmo.currentText()
 		if algoritmoP == "FCFS":
 			algoritmoP=0
-		if algoritmoP =="RR":
-			algoritmoP=1
-		if algoritmoP == "RR":
-			quantum = self.ventana.spinBox_quantum.value()
-		else:
 			quantum = 0
+		elif algoritmoP =="RR":
+			algoritmoP=1
+			quantum = self.ventana.spinBox_quantum.value()
+		
+			
 		
 		# Realizar una busqueda en la BD para traer el preset que conincida con el ingresado
 		desc_config = self.ventana.comboBox_seleccionPreConf.currentText()
