@@ -252,7 +252,7 @@ class Procesador:  # contendra gran parte de las tareas generales
         intprocesos = procesos  # para manejar paso por copia en lugar de referencia
         # alg_planificacion = preset.algoritmo_as  # agregar luego como un valor de preset, traer de la BD
         cola_listos_principal = ColaListos()
-        self.gantt(procesos)
+        
         self.memoria = Memoria(preset.tamMemoria, preset.fija_variable,
                                preset.algoritmo_as, preset.sistOpMem,particiones)  # tamano, fija_variable
         self.memoria.imprime_particiones()
@@ -277,6 +277,7 @@ class Procesador:  # contendra gran parte de las tareas generales
             else:
                 print(self.proceso_actual)
             self.generar_tabla()
+            self.gantt(self.cubo)
             self.cuenta_tiempo()
             self.memoria.imprime_particiones()
             print("CLK: "+str(self.reloj_total))
@@ -311,9 +312,9 @@ class Procesador:  # contendra gran parte de las tareas generales
             print("ID: "+str(x.get_id())+" Tiempo Restante " +
                   str(x.get_tiempo_restante()))
         print("----------------")
-    def gantt(self, procesos):
-        p = procesos[0]
-        p2 = procesos[1]
+    def gantt(self, cubo):
+        #p = procesos[0]
+        #p2 = procesos[1]
         # Declaring a figure "gnt" 
         fig, gnt = plt.subplots() 
 
@@ -339,8 +340,19 @@ class Procesador:  # contendra gran parte de las tareas generales
         gnt.grid(True)
 
         # Declaring a bar in schedule 
-        gnt.broken_barh([(p.tiempo_arribo, 10)], (30, 9), facecolors =('tab:orange'))
-        gnt.broken_barh([(p.tiempo_arribo+10, 10)], (30, 9), facecolors =('tab:blue')) 
-
-        plt.savefig("C:\SistOperativo\SistOp2019\proc6.png") 
+        #gnt.broken_barh([(p.tiempo_arribo, 10)], (30, 9), facecolors =('tab:orange'))
+        #gnt.broken_barh([(p.tiempo_arribo+10, 10)], (30, 9), facecolors =('tab:blue'))
+        print("hola")
+        clk=0
+        for i in cubo:
+            col =0
+            for x in i:
+                if x[1]==5: #En estado ejecucion
+                    gnt.broken_barh([(clk, 10)], (col+10, 9), facecolors =('tab:orange'))
+                elif x[1]==3: #En estado bloqueado
+                    gnt.broken_barh([(clk, 10)], (col+10, 9), facecolors =('tab:red'))
+                col +=10
+            clk +=10
+        print("holaaa")
+        plt.savefig("C:\SistOperativo\SistOp2019\proc7.png") 
 
