@@ -159,8 +159,8 @@ class Memoria:
         # si esta en la lista de particiones, es porque la particion esta ocupada
         while pos < len(self.lista_particiones) - 1:
             if (self.lista_particiones[pos+1].get_dir_in() - self.lista_particiones[pos].get_dir_fin()) > 1:
-                dirIn = self.lista_particiones[pos].get_dir_fin() + 1
-                dirFin = self.lista_particiones[pos+1].get_dir_in()-1
+                dirIn = self.lista_particiones[pos].get_dir_fin() 
+                dirFin = self.lista_particiones[pos+1].get_dir_in()
                 self.lista_vacios.append([dirIn, dirFin, dirFin-dirIn+1])
             pos += 1
         ultima_particion = self.lista_particiones[pos]
