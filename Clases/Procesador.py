@@ -76,7 +76,7 @@ class Procesador:  # contendra gran parte de las tareas generales
         while cont < len(self.cola_nuevos):
             proc = self.cola_nuevos[cont]
             if memoria.comprobar_memoria(proc,self):
-                proc.set_estado(2)
+                proc.set_estado(2) #Listo
                 self.procesos_listos.anade_proceso(proc)
                 self.cola_nuevos.pop(cont)
                 cont -= 1 #lo mismo que en cargar cola nuevos

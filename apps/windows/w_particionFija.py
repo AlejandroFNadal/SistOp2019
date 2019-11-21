@@ -120,7 +120,7 @@ class W_ParticionFija(QMainWindow):
 	def pasar_datos(self,tam_part):
 		batch = self.ventana.label_NombreConf.text()
 		dir_in = ((self.cant_mem - self.cant_mem_rest) + self.mem_SO)
-		dir_fin = (dir_in + tam_part) - 1
+		dir_fin = (dir_in + tam_part)
 		datos_part = [batch,tam_part,dir_in,dir_fin]
 		part = Particiones()
 		part.batch= datos_part[0]

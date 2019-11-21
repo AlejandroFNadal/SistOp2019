@@ -40,7 +40,7 @@ class Memoria:
         best_part = None
         for part in self.lista_particiones:
             aux = part.get_tamano() - proc.get_tamano_proc()
-            if part.get_tamano() > proc.get_tamano_proc() and part.get_estado()==False:  # particion libre
+            if part.get_tamano() >= proc.get_tamano_proc() and part.get_estado()==False:  # particion libre
                 if aux < diferencia:
                     diferencia = aux
                     best_part = self.lista_particiones.index(part)
