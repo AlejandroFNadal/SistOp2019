@@ -20,6 +20,12 @@ class Gantt:
         # Setting X-axis limits 
         gnt.set_xlim(0, 160) 
 
+<<<<<<< HEAD
+=======
+        # Setting ticks on y-axis 
+        gnt.set_yticks([15, 25, 35])
+         
+>>>>>>> master
 
         # Setting graph attribute 
         gnt.grid(True)
@@ -28,6 +34,8 @@ class Gantt:
         #gnt.broken_barh([(p.tiempo_arribo, 10)], (30, 9), facecolors =('tab:orange'))
         #gnt.broken_barh([(p.tiempo_arribo+10, 10)], (30, 9), facecolors =('tab:blue'))
         print("hola")
+        eje_x = []
+
         clk=0
         e_x =0
         e_y =1
@@ -38,11 +46,16 @@ class Gantt:
         eje_y_labels = []
         for i in cubo:
             col =0
+<<<<<<< HEAD
             
             eje_x_labels.append(str(e_x))
             eje_x.append(clk)
             #eje_y_labels.append(str(e_y))
             eje_y.append(y)
+=======
+            eje_x.append(str(clk))
+            
+>>>>>>> master
             for x in i:
                 
                 if x[1]==5: #En estado ejecucion
@@ -73,4 +86,9 @@ class Gantt:
 
 
         print("holaaa")
+<<<<<<< HEAD
         plt.savefig("C:\SistOperativo\SistOp2019\proc7.png")
+=======
+        #gnt.set_xticklabels(eje_x)
+        plt.savefig("D:\Desktop\pyqt\SistOp2019\proc8.png")
+>>>>>>> master

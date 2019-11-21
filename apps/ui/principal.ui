@@ -99,6 +99,19 @@
      <attribute name="title">
       <string>Simulacion</string>
      </attribute>
+     <widget class="QLabel" name="label_imagen">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>5</y>
+        <width>601</width>
+        <height>341</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -369,7 +382,7 @@
      <x>0</x>
      <y>0</y>
      <width>1028</width>
-     <height>20</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
