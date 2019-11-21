@@ -45,4 +45,4 @@ class Gantt:
                 col +=10
             clk +=10
         print("holaaa")
-        plt.savefig("C:\SistOperativo\SistOp2019\proc7.png")
+        plt.savefig("D:\Desktop\pyqt\SistOp2019\proc7.png")

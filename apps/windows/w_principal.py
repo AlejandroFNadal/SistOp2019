@@ -100,7 +100,8 @@ class W_Main(QMainWindow):
 	def habilitarQuantum(self, i):
 		if i == "RR":
 			self.ventana.spinBox_quantum.setEnabled(True)
-			
+		else:
+			self.ventana.spinBox_quantum.setEnabled(False)	
 	
 
 	def salir(self):
