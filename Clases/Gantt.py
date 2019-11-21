@@ -26,6 +26,7 @@ class Gantt:
 
         # Setting ticks on y-axis 
         gnt.set_yticks([15, 25, 35])
+         
 
         # Setting graph attribute 
         gnt.grid(True)
@@ -34,9 +35,13 @@ class Gantt:
         #gnt.broken_barh([(p.tiempo_arribo, 10)], (30, 9), facecolors =('tab:orange'))
         #gnt.broken_barh([(p.tiempo_arribo+10, 10)], (30, 9), facecolors =('tab:blue'))
         print("hola")
+        eje_x = []
+
         clk=0
         for i in cubo:
             col =0
+            eje_x.append(str(clk))
+            
             for x in i:
                 if x[1]==5: #En estado ejecucion
                     gnt.broken_barh([(clk, 10)], (col+10, 9), facecolors =('tab:orange'))
@@ -45,4 +50,5 @@ class Gantt:
                 col +=10
             clk +=10
         print("holaaa")
-        plt.savefig("D:\Desktop\pyqt\SistOp2019\proc7.png")
+        #gnt.set_xticklabels(eje_x)
+        plt.savefig("D:\Desktop\pyqt\SistOp2019\proc8.png")

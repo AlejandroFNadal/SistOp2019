@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'principal.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.1
+# Created by: PyQt5 UI code generator 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -45,6 +46,10 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
+        self.label_imagen = QtWidgets.QLabel(self.tab_2)
+        self.label_imagen.setGeometry(QtCore.QRect(10, 5, 601, 341))
+        self.label_imagen.setText("")
+        self.label_imagen.setObjectName("label_imagen")
         self.tabWidget.addTab(self.tab_2, "")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(30, 150, 161, 20))
@@ -137,7 +142,7 @@ class Ui_MainWindow(object):
         self.pushButton.setObjectName("pushButton")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1028, 20))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1028, 26))
         self.menubar.setObjectName("menubar")
         self.menuMenu = QtWidgets.QMenu(self.menubar)
         self.menuMenu.setObjectName("menuMenu")
@@ -222,5 +227,3 @@ class Ui_MainWindow(object):
         self.actionAbrir.setText(_translate("MainWindow", "Abrir"))
         self.actionGuardar.setText(_translate("MainWindow", "Guardar"))
         self.actionCrear_procesos.setText(_translate("MainWindow", "Crear procesos"))
-
-

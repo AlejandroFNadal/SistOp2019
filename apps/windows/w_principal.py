@@ -1,6 +1,8 @@
 from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtWidgets import QMainWindow
 
+
+
 from apps.ui.w_principal import Ui_MainWindow
 
 from apps.windows.w_cargarProceso import W_cargarProceso
@@ -26,7 +28,10 @@ class W_Main(QMainWindow):
 		QMainWindow.__init__(self)
 		self.ventana = Ui_MainWindow()
 		self.ventana.setupUi(self)
-
+		#-- aca genera la imagen en principal
+		pixmap = QtGui.QPixmap('D:\Desktop\pyqt\SistOp2019\proc8.png')
+		self.ventana.label_imagen.setPixmap(pixmap)
+		# -- 
 
 		self.dialogs = list()
 
@@ -57,8 +62,12 @@ class W_Main(QMainWindow):
 
 		self.ventana.comboBox_seleccionAlgoritmo.addItems(["FCFS", "RR", "MVQ"])
 		self.ventana.comboBox_seleccionAlgoritmo.currentTextChanged.connect(self.habilitarQuantum)
-		
 
+		self.ventana.comboBox_cargarProceso.currentTextChanged.connect(self.listar)
+		
+		self.habilitarQuantum()
+		self.listar()
+		#setCurrentIndex
 	#----- fin constructor ----#
 
 
@@ -74,7 +83,7 @@ class W_Main(QMainWindow):
 				listaaux.append(str(p.id_batch))
 		for x in listaaux:
 			self.ventana.comboBox_cargarProceso.addItem(x)
-		self.ventana.comboBox_cargarProceso.currentTextChanged.connect(self.listar)
+		self.listar()
 
 	def crearProceso(self):
 		ventana = W_cargarProceso()
@@ -97,7 +106,8 @@ class W_Main(QMainWindow):
 		
 		self.mostrarProc(procesos)
 
-	def habilitarQuantum(self, i):
+	def habilitarQuantum(self):
+		i=self.ventana.comboBox_seleccionAlgoritmo.currentText()
 		if i == "RR":
 			self.ventana.spinBox_quantum.setEnabled(True)
 		else:
@@ -132,24 +142,27 @@ class W_Main(QMainWindow):
 		# Realizar busqueda en la BD para traer y armar una lista con todos los procesos correspondientes al batch
 		desc_procesos = self.ventana.comboBox_cargarProceso.currentText()
 		procesos = session.query(Proceso).filter(Proceso.id_batch == desc_procesos).all()
+		
 		# Realizar busqueda en BD para traer el bach de las particiones
 		particiones = session.query(Particiones).filter(Particiones.batch == desc_config).all()
+		
 		# Pasamos al procesador
 		core = Procesador()
 		
 		print("Algoritmo: " +str(algoritmoP), "Quantum: " +str(quantum), "Procesos: ")
 		for i in particiones:
-    		 print("id particion " +str(i.id_part))
+			 print("id particion " +str(i.id_part))
 		core.Simular(preset[0], procesos,particiones, algoritmoP, quantum)
 		'''
 		print("Algoritmo: " +str(algoritmoP), "Quantum: " +str(quantum), "Procesos: ")
 		for i in particiones:
-    		 print("id particion " +str(i.id_part))
+			 print("id particion " +str(i.id_part))
 		print("Fin")
 		#print(algoritmoP)
 		'''
 
-	def listar(self, i):
+	def listar(self):
+		i = self.ventana.comboBox_cargarProceso.currentText()
 		self.ventana.tableWidget.clear()
 		self.ventana.tableWidget.clearContents()
 		for x in range(0,self.ventana.tableWidget.rowCount()+1):
