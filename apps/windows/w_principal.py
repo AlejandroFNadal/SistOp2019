@@ -132,8 +132,10 @@ class W_Main(QMainWindow):
 		# Realizar busqueda en la BD para traer y armar una lista con todos los procesos correspondientes al batch
 		desc_procesos = self.ventana.comboBox_cargarProceso.currentText()
 		procesos = session.query(Proceso).filter(Proceso.id_batch == desc_procesos).all()
-		# Realizar busqueda en BD para traer el bach de las particiones
+		# Realizar busqueda en BD para traer el bach de las particiones correspondientes
+		# Al preset seleccionado
 		particiones = session.query(Particiones).filter(Particiones.batch == desc_config).all()
+		
 		# Pasamos al procesador
 		core = Procesador()
 		

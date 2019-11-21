@@ -305,7 +305,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                 print(self.proceso_actual)
             self.generar_tabla()
             gantt1 = Gantt()
-            gantt1.gantt(self.cubo)
+            gantt1.gantt(self.cubo, procesos)
             self.cuenta_tiempo()
             self.memoria.imprime_particiones()
             print("CLK: "+str(self.reloj_total))
