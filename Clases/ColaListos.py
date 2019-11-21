@@ -68,12 +68,9 @@ class ColaListos:
         if aux != None:
             tiempo_r = aux.get_tiempo_restante()
             q = procesador.get_proceso_actual().get_quantum()
-            print("q1"+str(q))
+            q -= 1
             if tiempo_r > 0 and q > 0: #No termino ni el quantum ni el tiempo restante
-                print(">>>> aux != None and tiempo_r > 0 and q >0  <<<<")
-                # tiempo_r -=1
-                q -= 1
-                # aux.set_tiempo_restante(tiempo_r)
+                #print(">>>> aux != None and tiempo_r > 0 and q >0  <<<<")
                 aux.set_quantum(q)
 
                 print("quantum1 actual : "+str(aux.get_quantum()))
@@ -84,9 +81,7 @@ class ColaListos:
                 procesador.imprime_cola_bloqueados()
                 procesador.imprime_cola_listos()
             elif tiempo_r > 0 and q == 0: # se acabo el quantum
-                print(">>>> aux != None and tiempo_r > 0 and q == 0 <<<<")
-                # tiempo_r -= 1
-                # aux.set_tiempo_restante(tiempo_r)
+                #print(">>>> aux != None and tiempo_r > 0 and q == 0 <<<<")
                 print("quantum actual : "+str(aux.get_quantum()))
                 print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
                 # se añade el proceso a la cola de listos
@@ -123,7 +118,8 @@ class ColaListos:
         pos = 0
         for i in self.cola_listos: #avanzamos toda la cola de listos
             rafaga = i.get_rafaga_tot()
-            elem_rafaga = rafaga[0]
+            num_rafaga = i.get_num_rafaga_actual()
+            elem_rafaga = rafaga[num_rafaga]
             if elem_rafaga[0] == "C" and primer_elemento: #solamente el primer elemento
                 proceso_menor = i
                 pos_elem_menor = pos
@@ -140,10 +136,10 @@ class ColaListos:
         #Seria None si no hay procesos cuya rafaga a ejecutarse sea "CPU" o que no haya elementos en Cola de listos
         if pos_elem_menor != None: 
             self.cola_listos.pop(pos_elem_menor)
-            self.cola_listos.insert(0,i)
+            self.cola_listos.insert(0,proceso_menor)
 
         #luego procedemos a llamar a las funciones de intercambio de colas
-        if band == False:
+        if not band:
             procesador.listos_ejecucion(None)
             procesador.bloqueados_listos()
 

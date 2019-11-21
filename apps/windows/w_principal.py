@@ -60,7 +60,7 @@ class W_Main(QMainWindow):
 		
 		
 
-		self.ventana.comboBox_seleccionAlgoritmo.addItems(["FCFS", "RR", "MVQ"])
+		self.ventana.comboBox_seleccionAlgoritmo.addItems(["FCFS", "RR", "Prioridades", "MLQ", "SJF", "SRTF"])
 		self.ventana.comboBox_seleccionAlgoritmo.currentTextChanged.connect(self.habilitarQuantum)
 
 		self.ventana.comboBox_cargarProceso.currentTextChanged.connect(self.listar)
@@ -123,6 +123,7 @@ class W_Main(QMainWindow):
 	def AcercaDe(self):
 		pass
 
+
 	def comenzar(self):
 		algoritmoP = self.ventana.comboBox_seleccionAlgoritmo.currentText()
 		if algoritmoP == "FCFS":
@@ -131,8 +132,19 @@ class W_Main(QMainWindow):
 		elif algoritmoP =="RR":
 			algoritmoP=1
 			quantum = self.ventana.spinBox_quantum.value()
+		elif algoritmoP == "Prioridades":
+			algoritmoP = 2
+			quantum = self.ventana.spinBox_quantum.value()
+		elif algoritmoP == "MLQ":
+			algoritmoP = 3
+			quantum = self.ventana.spinBox_quantum.value()
+		elif algoritmoP == "SJF":
+			algoritmoP = 4
+			quantum = self.ventana.spinBox_quantum.value()
+		elif algoritmoP == "SRTF":
+			algoritmoP = 5
+			quantum = self.ventana.spinBox_quantum.value()
 		
-			
 		
 		# Realizar una busqueda en la BD para traer el preset que conincida con el ingresado
 		desc_config = self.ventana.comboBox_seleccionPreConf.currentText()

@@ -48,29 +48,22 @@ class Procesador:  # contendra gran parte de las tareas generales
         for x in proc_list_aux:
             x.muestra_proceso()
 
-    def cargar_cola_nuevos(self, procesos,quantum):  # Term0.1
-        #print("Cargando cola nuevos")
-        conteliminador = 0
-        for x in procesos:
-            #print("Proceso "+str(x.id_proc)+" Arribo "+str(x.tiempo_arribo))
-            if x.tiempo_arribo == self.reloj_total:
-                auxdatos = [x.id_proc, x.tam_proc,
-                            x.prioridad, x.rafagaCPU, x.tiempo_arribo]
+    def cargar_cola_nuevos(self, procesos,quantum):
+        cont = 0
+        while cont < len(procesos):
+            proc = procesos[cont]
+            if proc.tiempo_arribo == self.reloj_total:
+                auxdatos = [proc.id_proc, proc.tam_proc,proc.prioridad,proc.rafagaCPU,proc.tiempo_arribo]
                 auxproc = Procesos(auxdatos)
                 auxproc.split_rafaga_tot()
                 auxproc.set_quantum(quantum)
                 auxproc.set_estado(1) #Nuevo
-                #print("En funcion Cola_nuevos, rafaga total"+str(auxproc.get_rafaga_tot()))
-                #print("En funcion Cola_nuevos, elemento rafaga "+str(auxproc.get_rafaga_tot()[0]))
-                #print("En funcion Cola_nuevos, tiempo restante en rafaga"+str(auxproc.get_rafaga_tot()[0][1]))
-                auxproc.set_tiempo_restante(
-                    int(auxproc.get_rafaga_tot()[0][1]))
-                #print("En funcion Cola_nuevos: Tiempo restante: " +str(auxproc.get_tiempo_restante()))
-                procesos.pop(conteliminador)
+                auxproc.set_tiempo_restante(int(auxproc.get_rafaga_tot()[0][1]))
+                procesos.pop(cont)
+                cont -=1 
+                #le restamos 1 por que eliminamos un elemento de procesos y "se corre" todo hacia la izquierda
                 self.cola_nuevos.append(auxproc)
-            #print("Contador "+str(conteliminador))
-            conteliminador += 1
-
+            cont +=1
         print("Cola Nuevos:")
         for y in self.cola_nuevos:
             print("     "+str(y.get_id()))
@@ -294,36 +287,42 @@ class Procesador:  # contendra gran parte de las tareas generales
             CL2 = ColaListos()
             CL3 = ColaListos()
         self.salir=False
-        print("Datos simulacion")
-        print("Algoritmo Planificacion "+str(alg_planificacion))
-        print("Quantum "+str(quantum))
-        while len(self.cola_terminados) < self.cant_procesos and not self.salir:
-            # esta llamada deberia funcionar ya
-            intprocesos = self.cargar_cola_nuevos(intprocesos,quantum)
-            if alg_planificacion == 3:
-                self.cargar_cola_listos(
-                    alg_planificacion, particiones, self.memoria, quantum, CL1, CL2, CL3)
-            else:
-                self.cargar_cola_listos(
-                    alg_planificacion, particiones, self.memoria, quantum, None, None, None)
-            if self.proceso_actual != None:
-                print("Proceso en ejecucion "+str(self.proceso_actual.get_id()) +
-                      " tiempo restante "+str(self.proceso_actual.get_tiempo_restante()))
-            else:
-                print(self.proceso_actual)
-            self.generar_tabla()
-            
-            self.cuenta_tiempo()
-            self.memoria.imprime_particiones()
-            print("CLK: "+str(self.reloj_total))
-            print(
-                "-------------------------------------------------------------------------")
-            
-            self.reloj_total += 1
-            time.sleep(1)
-        self.imprime_cubo()
-        gantt1 = Gantt()
-        gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)
+        #Se verifica que todos los procesos puedan entrar
+        if self.verificar(preset,particiones,procesos): #si deuvelve True es por que entra
+            print("Datos simulacion")
+            print("Algoritmo Planificacion "+str(alg_planificacion))
+            print("Quantum "+str(quantum))
+            while len(self.cola_terminados) < self.cant_procesos and not self.salir:
+                # esta llamada deberia funcionar ya
+                intprocesos = self.cargar_cola_nuevos(intprocesos,quantum)
+                if alg_planificacion == 3:
+                    self.cargar_cola_listos(
+                        alg_planificacion, particiones, self.memoria, quantum, CL1, CL2, CL3)
+                else:
+                    self.cargar_cola_listos(
+                        alg_planificacion, particiones, self.memoria, quantum, None, None, None)
+                if self.proceso_actual != None:
+                    print("Proceso en ejecucion "+str(self.proceso_actual.get_id()) +
+                          " tiempo restante "+str(self.proceso_actual.get_tiempo_restante()))
+                else:
+                    print(self.proceso_actual)
+                self.generar_tabla()
+                
+                self.cuenta_tiempo()
+                self.memoria.imprime_particiones()
+                print("CLK: "+str(self.reloj_total))
+                print(
+                    "-------------------------------------------------------------------------")
+                
+                self.reloj_total += 1
+                time.sleep(1)
+            self.imprime_cubo()
+            gantt1 = Gantt()
+            gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)
+        else:
+            #cuando almenos un proceso no entra
+            print(">>> Error <<<")
+            print(" Almenos 1 proceso es mayor que las particiones disponibles")
         # preset es una lista de preconfiguraciones, procesos
         # es lista de objetos del tipo proceso y particiones es una lista de objetos del tipo particiones
         # DEBUGGING FUNCTIONS
@@ -349,3 +348,21 @@ class Procesador:  # contendra gran parte de las tareas generales
             print("ID: "+str(x.get_id())+" Tiempo Restante " +
                   str(x.get_tiempo_restante()))
         print("----------------")
+
+    def verificar(self,preset,particiones,procesos):
+        tipo_part  = preset.fija_variable
+        if tipo_part == "variable":
+            tamano_mayor_part = preset.tamMemoria - (preset.sistOpMem*preset.tamMemoria/100)
+        else:
+            #Recorremos todas las particiones y buscamos la de mayor tamano
+            tamano_mayor_part = 0
+            for i in particiones:
+                if tamano_mayor_part < i.tam_part:
+                    tamano_mayor_part = i.tam_part
+
+        band = True # band == False --> no entra alemenos un proceso   band == True --> entran los proceso
+        #empezamos con la hipotesis de que entran todos
+        for i in procesos:
+                if i.tam_proc > tamano_mayor_part:
+                    band = False
+        return band

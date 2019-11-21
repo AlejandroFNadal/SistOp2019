@@ -29,6 +29,9 @@ class Memoria:
     def get_tipo_part(self):
         return self.tipo_particion
 
+    def get_tamano(self):
+        return self.tamano
+
     # Funciones
 
     def asign_bestfit_fija(self, proc):
