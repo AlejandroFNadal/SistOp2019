@@ -21,6 +21,8 @@ class ColaListos:
         #None es el quatum, en este caso no nos interesa
         procesador.listos_ejecucion(None)
         procesador.bloqueados_listos()
+        if procesador.get_proceso_actual() == None:
+            procesador.listos_ejecucion(None)
         procesador.imprime_cola_listos()
         procesador.imprime_cola_bloqueados()
 
@@ -28,8 +30,10 @@ class ColaListos:
 
     def prioridades(self, procesador):
         self.cola_listos.sort(key=lambda x: x.get_prioridad(), reverse=True)
-        procesador.bloqueados_listos()
         procesador.listos_ejecucion(None)
+        procesador.bloqueados_listos()
+        if procesador.get_proceso_actual() == None:
+            procesador.listos_ejecucion(None)
         procesador.imprime_cola_bloqueados()
         procesador.imprime_cola_listos()
 
@@ -93,6 +97,8 @@ class ColaListos:
                 procesador.set_proceso_actual(None)
                 procesador.listos_ejecucion(quantum)
                 procesador.bloqueados_listos()
+                if procesador.get_proceso_actual() == None:
+                    procesador.listos_ejecucion(quantum)
                 procesador.imprime_cola_bloqueados()
                 procesador.imprime_cola_listos()
             else:
@@ -100,13 +106,15 @@ class ColaListos:
                     print("pasa a bloqueado o terminado")
                     procesador.listos_ejecucion(quantum)
                     procesador.bloqueados_listos()
+                    if procesador.get_proceso_actual() == None:
+                        procesador.listos_ejecucion(quantum)
                     procesador.imprime_cola_bloqueados()
                     procesador.imprime_cola_listos()
         else:
             print("################## procesador vacio ###################")
             print(" ")
-            procesador.listos_ejecucion(quantum)
             procesador.bloqueados_listos()
+            procesador.listos_ejecucion(quantum)
             procesador.imprime_cola_bloqueados()
             procesador.imprime_cola_listos()
         return self.cola_listos
@@ -142,6 +150,8 @@ class ColaListos:
         if not band:
             procesador.listos_ejecucion(None)
             procesador.bloqueados_listos()
+            if procesador.get_proceso_actual() == None:
+                procesador.listos_ejecucion(None)
 
 
     #basicamente lo mismo que el SJF pero con expropiacion
@@ -166,6 +176,8 @@ class ColaListos:
         #insertamos el proximo proceso en el procesador
         procesador.listos_ejecucion(None)
         procesador.bloqueados_listos()
+        if procesador.get_proceso_actual() == None:
+            procesador.listos_ejecucion(None)
 
     def ordenar(self, algoritmo, quantum, CL1, CL2, CL3, procesador):
         if algoritmo == 0:
@@ -195,5 +207,5 @@ class ColaListos:
     def modificar_rafaga_total(self,proceso,tiempo_restante):
         num_rafaga = proceso.get_num_rafaga_actual()
         rafaga_total = proceso.get_rafaga_tot()
-        rafaga_total[num_rafaga] = "C"+str(tiempo_restante+1)
+        rafaga_total[num_rafaga] = "C"+str(tiempo_restante)
         proceso.set_rafaga_total(rafaga_total)
