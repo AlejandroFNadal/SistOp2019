@@ -91,26 +91,27 @@ class ColaListos:
                 print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
                 # se añade el proceso a la cola de listos
                 self.modificar_rafaga_total(aux,tiempo_r)
+                aux.set_estado(2) #LISTO
                 self.anade_proceso(aux)
                 self.imprime_cola_listos()
                 # Le aplicamos un expropiese venezolano
                 procesador.set_proceso_actual(None)
-                procesador.bloqueados_listos()
                 procesador.listos_ejecucion(quantum)
+                procesador.bloqueados_listos()
                 procesador.imprime_cola_bloqueados()
                 procesador.imprime_cola_listos()
             else:
                 if tiempo_r == 0:
                     print("pasa a bloqueado o terminado")
-                    procesador.bloqueados_listos()
                     procesador.listos_ejecucion(quantum)
+                    procesador.bloqueados_listos()
                     procesador.imprime_cola_bloqueados()
                     procesador.imprime_cola_listos()
         else:
             print("################## procesador vacio ###################")
             print(" ")
-            procesador.bloqueados_listos()
             procesador.listos_ejecucion(quantum)
+            procesador.bloqueados_listos()
             procesador.imprime_cola_bloqueados()
             procesador.imprime_cola_listos()
         return self.cola_listos
