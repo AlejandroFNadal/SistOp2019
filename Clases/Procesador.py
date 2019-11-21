@@ -274,6 +274,14 @@ class Procesador:  # contendra gran parte de las tareas generales
 
     def Simular(self, preset, procesos, particiones,alg_planificacion,quantum):
         intprocesos = procesos  # para manejar paso por copia en lugar de referencia
+        proc_gantt = []
+        gantt_amplitud = []
+        p = 1
+        #For para hacer una lista con las Ids de procesos para el gantt
+        for i in procesos:
+            proc_gantt.append(str(p))
+            gantt_amplitud.append(p*10)
+            p+=1
         # alg_planificacion = preset.algoritmo_as  # agregar luego como un valor de preset, traer de la BD
         cola_listos_principal = ColaListos()
         
@@ -304,8 +312,7 @@ class Procesador:  # contendra gran parte de las tareas generales
             else:
                 print(self.proceso_actual)
             self.generar_tabla()
-            gantt1 = Gantt()
-            gantt1.gantt(self.cubo, procesos)
+            
             self.cuenta_tiempo()
             self.memoria.imprime_particiones()
             print("CLK: "+str(self.reloj_total))
@@ -315,6 +322,8 @@ class Procesador:  # contendra gran parte de las tareas generales
             self.reloj_total += 1
             time.sleep(1)
         self.imprime_cubo()
+        gantt1 = Gantt()
+        gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)
         # preset es una lista de preconfiguraciones, procesos
         # es lista de objetos del tipo proceso y particiones es una lista de objetos del tipo particiones
         # DEBUGGING FUNCTIONS
