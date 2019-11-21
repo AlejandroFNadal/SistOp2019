@@ -136,6 +136,10 @@ class W_Main(QMainWindow):
 		particiones = session.query(Particiones).filter(Particiones.batch == desc_config).all()
 		# Pasamos al procesador
 		core = Procesador()
+		
+		print("Algoritmo: " +str(algoritmoP), "Quantum: " +str(quantum), "Procesos: ")
+		for i in particiones:
+    		 print("id particion " +str(i.id_part))
 		core.Simular(preset[0], procesos,particiones, algoritmoP, quantum)
 		'''
 		print("Algoritmo: " +str(algoritmoP), "Quantum: " +str(quantum), "Procesos: ")
