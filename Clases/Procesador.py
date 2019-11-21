@@ -71,14 +71,23 @@ class Procesador:  # contendra gran parte de las tareas generales
 
     # borramos parametro procesos
     def cargar_cola_listos(self, algoritmo, particiones, memoria, quantum, CL1, CL2, CL3):
-        cont_cola_nuevos = 0
-        for proc in self.cola_nuevos:
+        cont = 0
+
+        while cont < len(self.cola_nuevos):
+            proc = self.cola_nuevos[cont]
             if memoria.comprobar_memoria(proc,self):
                 proc.set_estado(2)
                 self.procesos_listos.anade_proceso(proc)
-                #self.imprime_cola_listos()
-                self.cola_nuevos.pop(cont_cola_nuevos)
-            cont_cola_nuevos += 1
+                self.cola_nuevos.pop(cont)
+                cont -= 1 #lo mismo que en cargar cola nuevos
+            cont +=1
+        # for proc in self.cola_nuevos:
+        #     if memoria.comprobar_memoria(proc,self):
+        #         proc.set_estado(2)
+        #         self.procesos_listos.anade_proceso(proc)
+        #         #self.imprime_cola_listos()
+        #         self.cola_nuevos.pop(cont_cola_nuevos)
+        #     cont_cola_nuevos += 1
         self.procesos_listos.ordenar(algoritmo, quantum, CL1, CL2, CL3, self)
 
     # de bloqueados a listos
