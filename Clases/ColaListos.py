@@ -15,12 +15,28 @@ class ColaListos:
     def anade_proceso(self, proc):
         self.cola_listos.append(proc)
 
+    def iniciar_cola_listos(self):
+        self.cola_listos = []
+
+    #Ni idea si anda esto
+    def anade_lista_procesos(self,lista):
+        while lista.get_cola_listos() != []:
+            self.anade_proceso(lista.get_cola_listos()[0])
+            lista.elimina_elemento(0)
+
+    # y  menos esto
+
+    def sumar_listas(self,cl1,cl2,cl3):
+        self.cola_listos = cl1.get_cola_listos() + cl2.get_cola_listos() + cl3.get_cola_listos()
+
     def fcfs(self,procesador):
         #self.cola_listos
        
         #None es el quatum, en este caso no nos interesa
         procesador.listos_ejecucion(None)
         procesador.bloqueados_listos()
+        if procesador.get_proceso_actual() == None:
+            procesador.listos_ejecucion(None)
         procesador.imprime_cola_listos()
         procesador.imprime_cola_bloqueados()
 
@@ -28,8 +44,10 @@ class ColaListos:
 
     def prioridades(self, procesador):
         self.cola_listos.sort(key=lambda x: x.get_prioridad(), reverse=True)
-        procesador.bloqueados_listos()
         procesador.listos_ejecucion(None)
+        procesador.bloqueados_listos()
+        if procesador.get_proceso_actual() == None:
+            procesador.listos_ejecucion(None)
         procesador.imprime_cola_bloqueados()
         procesador.imprime_cola_listos()
 
@@ -38,7 +56,11 @@ class ColaListos:
             x.print_proceso_fake()
 
     def multinivel(self, CL1, CL2, CL3, procesador):
-        for proc in self.get_cola_listos():
+        # probar con algoritmos de ordenamiento y solamente una lista
+        # prodria ser otra opcion para evitar multilistas
+        # https://gist.github.com/andaviaco/10949335
+        while self.get_cola_listos() != []:
+            proc = self.get_cola_listos()[0]
             tiempo_uso_cpu = 0
             for rafaga in (proc.get_rafaga_tot()):
                 if rafaga[0] == "C":
@@ -49,6 +71,8 @@ class ColaListos:
                 CL2.anade_proceso(proc)
             else:
                 CL3.anade_proceso(proc)
+            self.elimina_elemento(0)
+
 
         # de esta forma, se ejecuta primero todo lo de la cola 1, despues todo lo de la cola 2,etc
         if CL1 != []:
@@ -57,6 +81,17 @@ class ColaListos:
             CL2.round_robin(3, procesador)
         else:
             CL3.fcfs(procesador)
+
+        self.sumar_listas(CL1,CL2,CL3)
+        CL1.iniciar_cola_listos()
+        CL2.iniciar_cola_listos()
+        CL3.iniciar_cola_listos()
+        print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Cola listos MULTINIVEL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        self.imprime_cola_listos()
+
+
+
+
 
     def elimina_elemento(self, num):
         self.cola_listos.pop(num)
@@ -93,6 +128,8 @@ class ColaListos:
                 procesador.set_proceso_actual(None)
                 procesador.listos_ejecucion(quantum)
                 procesador.bloqueados_listos()
+                if procesador.get_proceso_actual() == None:
+                    procesador.listos_ejecucion(quantum)
                 procesador.imprime_cola_bloqueados()
                 procesador.imprime_cola_listos()
             else:
@@ -100,13 +137,15 @@ class ColaListos:
                     print("pasa a bloqueado o terminado")
                     procesador.listos_ejecucion(quantum)
                     procesador.bloqueados_listos()
+                    if procesador.get_proceso_actual() == None:
+                        procesador.listos_ejecucion(quantum)
                     procesador.imprime_cola_bloqueados()
                     procesador.imprime_cola_listos()
         else:
             print("################## procesador vacio ###################")
             print(" ")
-            procesador.listos_ejecucion(quantum)
             procesador.bloqueados_listos()
+            procesador.listos_ejecucion(quantum)
             procesador.imprime_cola_bloqueados()
             procesador.imprime_cola_listos()
         return self.cola_listos
@@ -142,6 +181,8 @@ class ColaListos:
         if not band:
             procesador.listos_ejecucion(None)
             procesador.bloqueados_listos()
+            if procesador.get_proceso_actual() == None:
+                procesador.listos_ejecucion(None)
 
 
     #basicamente lo mismo que el SJF pero con expropiacion
@@ -166,6 +207,8 @@ class ColaListos:
         #insertamos el proximo proceso en el procesador
         procesador.listos_ejecucion(None)
         procesador.bloqueados_listos()
+        if procesador.get_proceso_actual() == None:
+            procesador.listos_ejecucion(None)
 
     def ordenar(self, algoritmo, quantum, CL1, CL2, CL3, procesador):
         if algoritmo == 0:
@@ -195,5 +238,5 @@ class ColaListos:
     def modificar_rafaga_total(self,proceso,tiempo_restante):
         num_rafaga = proceso.get_num_rafaga_actual()
         rafaga_total = proceso.get_rafaga_tot()
-        rafaga_total[num_rafaga] = "C"+str(tiempo_restante+1)
+        rafaga_total[num_rafaga] = "C"+str(tiempo_restante)
         proceso.set_rafaga_total(rafaga_total)
