@@ -43,8 +43,8 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>210</y>
+      <x>450</x>
+      <y>200</y>
       <width>631</width>
       <height>381</height>
      </rect>
@@ -155,8 +155,8 @@
      <rect>
       <x>30</x>
       <y>270</y>
-      <width>251</width>
-      <height>151</height>
+      <width>331</width>
+      <height>191</height>
      </rect>
     </property>
     <property name="columnCount">
@@ -186,7 +186,7 @@
    <widget class="QPushButton" name="btn_comenzar">
     <property name="geometry">
      <rect>
-      <x>600</x>
+      <x>690</x>
       <y>610</y>
       <width>161</width>
       <height>51</height>
@@ -293,7 +293,7 @@
    <widget class="QPushButton" name="btn_retroceder">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>470</x>
       <y>610</y>
       <width>161</width>
       <height>51</height>
@@ -316,7 +316,7 @@
    <widget class="QPushButton" name="btn_avanzar">
     <property name="geometry">
      <rect>
-      <x>810</x>
+      <x>900</x>
       <y>610</y>
       <width>161</width>
       <height>51</height>
