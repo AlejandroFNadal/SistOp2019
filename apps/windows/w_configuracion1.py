@@ -7,7 +7,7 @@ import re
 from PyQt5 import QtCore
 
 from crearDB import session, Presets
-#from apps.windows.w_principal import W_Main
+
 
 class W_Configuracion1(QMainWindow):
 	def __init__(self, parent=None):

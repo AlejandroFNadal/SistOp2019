@@ -9,6 +9,8 @@ from apps.windows.w_cargarProceso import W_cargarProceso
 
 from apps.windows.w_configuracion1 import W_Configuracion1 
 
+from apps.windows.w_gantt import W_image_gantt
+
 from Clases.Procesador import *
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -28,11 +30,7 @@ class W_Main(QMainWindow):
 		QMainWindow.__init__(self)
 		self.ventana = Ui_MainWindow()
 		self.ventana.setupUi(self)
-		#-- aca genera la imagen en principal
-		pixmap = QtGui.QPixmap('D:\Desktop\pyqt\SistOp2019\proc8.png')
-		self.ventana.label_imagen.setPixmap(pixmap)
-		# -- 
-
+		
 		self.dialogs = list()
 
 		self.ventana.actionCrear_procesos.triggered.connect(self.crearProceso)
@@ -43,6 +41,7 @@ class W_Main(QMainWindow):
 		self.ventana.btn_comenzar.clicked.connect(self.comenzar)
 		
 		self.ventana.pushButton.clicked.connect(self.actualizar)
+		self.ventana.btn_gantt.clicked.connect(self.mostrarGantt)
 
 		self.ventana.spinBox_quantum.setEnabled(False)
 		
@@ -64,9 +63,12 @@ class W_Main(QMainWindow):
 		self.ventana.comboBox_seleccionAlgoritmo.currentTextChanged.connect(self.habilitarQuantum)
 
 		self.ventana.comboBox_cargarProceso.currentTextChanged.connect(self.listar)
+		#self.ventana.comboBox_seleccionPreConf.currentTextChanged.connect(self.listarConf)
+
 		
 		self.habilitarQuantum()
 		self.listar()
+		#self.listarConf()
 		#setCurrentIndex
 	#----- fin constructor ----#
 
@@ -113,6 +115,10 @@ class W_Main(QMainWindow):
 		else:
 			self.ventana.spinBox_quantum.setEnabled(False)	
 	
+	def mostrarGantt(self):
+		ventanaConfig = W_image_gantt()
+		self.dialogs.append(ventanaConfig)
+		ventanaConfig.show()
 
 	def salir(self):
 		self.close()

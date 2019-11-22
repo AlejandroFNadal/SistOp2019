@@ -76,4 +76,4 @@ class Gantt:
 
         print("holaaa")
         #gnt.set_xticklabels(eje_x)
-        plt.savefig("C:\SistOperativo\SistOp2019\proc8.png")
+        plt.savefig("D:\Desktop\pyqt\SistOp2019\proc8.png")
