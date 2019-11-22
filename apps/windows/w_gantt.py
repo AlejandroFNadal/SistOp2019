@@ -12,7 +12,7 @@ class W_image_gantt(QMainWindow):
 		self.dialogs = list()
 
 		#-- aca genera la imagen en principal
-		pixmap = QtGui.QPixmap('D:\Desktop\pyqt\SistOp2019\proc8.png')
+		pixmap = QtGui.QPixmap('Gantt.png')
 		self.ventana.label_gantt.setPixmap(pixmap)
 		
 		# -- 

@@ -208,9 +208,9 @@ class W_Main(QMainWindow):
 		self.ventana.tableWidget_2.insertColumn(columnPosition)
 		for p in a:
 			if p.algoritmo_as==1:
-				texto="FF"
-			if p.algoritmo_as==2:
 				texto="BF"
+			if p.algoritmo_as==2:
+				texto="FF"
 			if p.algoritmo_as==3:
 				texto="WF"
 			self.ventana.tableWidget_2.setItem(columnPosition , 0, QtWidgets.QTableWidgetItem(texto))

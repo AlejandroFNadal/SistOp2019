@@ -356,7 +356,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                     "-------------------------------------------------------------------------")
                 
                 self.reloj_total += 1
-                time.sleep(1)
+                #time.sleep(1)
             self.imprime_cubo()
             gantt1 = Gantt()
             gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)

@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import platform
 
 
 class Gantt:
@@ -74,6 +75,9 @@ class Gantt:
         gnt.set_yticklabels(procesos)
 
 
-        print("holaaa")
+       
         #gnt.set_xticklabels(eje_x)
-        plt.savefig("C:\SistOperativo\SistOp2019\proc8.png")
+        if platform.system()=="Linux":
+            plt.savefig('./apps/windows/Gantt.png')
+        else:
+            plt.savefig('\apps\windows\Gantt.png')
