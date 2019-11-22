@@ -266,17 +266,33 @@ class Procesador:  # contendra gran parte de las tareas generales
             clk+=1
     # Metodo para generar el mapa de memoria
     def generar_mapa(self, cubo):
-        todas_part = []
+        part_libres = []
+        part_ocupadas = []
+        aux =[]
         for x in self.memoria.lista_particiones:
+            id_p = x.get_id_par()
+            tama = x.get_tamano()
+            dir_ini = x.get_dir_in()
+            dir_fin= x.get_dir_fin()
+            est = x.get_estado()
+            aux.append([id_p,tama,dir_ini,dir_fin,est])
+            """
             if x.get_estado() == False:
-                todas_part.append(x)
+                part_libres.append(x)
             else:
                 id_p = x.get_id_par()
                 for c in cubo:
                     for i in c:
                         if i[2] == id_p:
-                            todas_part.append([x,i[0]])
-        self.tabla_memoria.append(todas_part)
+                            id_p= x.get_id_par()
+                            tama = x.get_tamano()
+                            dir_ini = x.get_dir_in()
+                            dir_fin= x.get_dir_fin()
+                            est = x.get_estado()
+                            part_ocupadas.append([id_p,tama,dir_ini,dir_fin,est,i[0]])
+                            """
+            
+        self.tabla_memoria.append(aux)
 
 
 
@@ -344,8 +360,8 @@ class Procesador:  # contendra gran parte de las tareas generales
             self.imprime_cubo()
             gantt1 = Gantt()
             gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)
-            #mapa1 = Mapa_memoria()
-            #mapa1.mapa_memoria(self.tabla_memoria)
+            mapa1 = Mapa_memoria()
+            mapa1.mapa_memoria(self.tabla_memoria)
         else:
             #cuando almenos un proceso no entra
             print(">>> Error <<<")
