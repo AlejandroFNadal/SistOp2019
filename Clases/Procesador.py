@@ -3,6 +3,7 @@ from Clases.Procesos import *
 from Clases.Memoria import *
 import time
 from Clases.Gantt import *
+from Clases.Mapa_memoria import *
 import matplotlib.pyplot as plt 
 
 
@@ -263,6 +264,21 @@ class Procesador:  # contendra gran parte de las tareas generales
             for y in x:#Iterando sobre procesos
                 print("Id: "+str(y[0])+" Estado "+ str(y[1])+" Particion "+str(y[2]))
             clk+=1
+    # Metodo para generar el mapa de memoria
+    def generar_mapa(self, cubo):
+        todas_part = []
+        for x in self.memoria.lista_particiones:
+            if x.get_estado() == False:
+                todas_part.append(x)
+            else:
+                id_p = x.get_id_par()
+                for c in cubo:
+                    for i in c:
+                        if i[2] == id_p:
+                            todas_part.append([x,i[0]])
+        self.tabla_memoria.append(todas_part)
+
+
 
     def cuenta_tiempo(self):  # por ahora solo descuenta tiempo del primero de bloqueados
         if self.cola_bloqueados != []:
@@ -316,7 +332,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                 else:
                     print(self.proceso_actual)
                 self.generar_tabla()
-                
+                self.generar_mapa(self.cubo)
                 self.cuenta_tiempo()
                 self.memoria.imprime_particiones()
                 print("CLK: "+str(self.reloj_total))
@@ -328,6 +344,8 @@ class Procesador:  # contendra gran parte de las tareas generales
             self.imprime_cubo()
             gantt1 = Gantt()
             gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)
+            #mapa1 = Mapa_memoria()
+            #mapa1.mapa_memoria(self.tabla_memoria)
         else:
             #cuando almenos un proceso no entra
             print(">>> Error <<<")
