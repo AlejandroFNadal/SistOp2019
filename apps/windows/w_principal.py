@@ -63,12 +63,12 @@ class W_Main(QMainWindow):
 		self.ventana.comboBox_seleccionAlgoritmo.currentTextChanged.connect(self.habilitarQuantum)
 
 		self.ventana.comboBox_cargarProceso.currentTextChanged.connect(self.listar)
-		#self.ventana.comboBox_seleccionPreConf.currentTextChanged.connect(self.listarConf)
+		self.ventana.comboBox_seleccionPreConf.currentTextChanged.connect(self.listarConf)
 
 		
 		self.habilitarQuantum()
 		self.listar()
-		#self.listarConf()
+		self.listarConf()
 		#setCurrentIndex
 	#----- fin constructor ----#
 
@@ -77,6 +77,8 @@ class W_Main(QMainWindow):
 		for p in presets: #recorre presets y lista descripcion
 			
 			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
+
+		self.listarConf()
 	
 	def mostrarProc(self, procesos):
 		listaaux=[]
@@ -181,7 +183,7 @@ class W_Main(QMainWindow):
 
 	def listar(self):
 		i = self.ventana.comboBox_cargarProceso.currentText()
-		self.ventana.tableWidget.clear()
+		#self.ventana.tableWidget.clear()
 		self.ventana.tableWidget.clearContents()
 		for x in range(0,self.ventana.tableWidget.rowCount()+1):
 			self.ventana.tableWidget.removeRow(x)
@@ -195,3 +197,23 @@ class W_Main(QMainWindow):
 			self.ventana.tableWidget.setItem(rowPosition , 2, QtWidgets.QTableWidgetItem(str(l.prioridad)))
 			self.ventana.tableWidget.setItem(rowPosition , 3, QtWidgets.QTableWidgetItem(str(l.tam_proc)))
 			self.ventana.tableWidget.setItem(rowPosition , 4, QtWidgets.QTableWidgetItem(str(l.rafagaCPU)))
+
+	def listarConf(self):
+		f = self.ventana.comboBox_seleccionPreConf.currentText()
+
+		a = session.query(Presets).filter(Presets.descripcion == f).all()
+		for x in range(0,self.ventana.tableWidget_2.columnCount()+1):
+			self.ventana.tableWidget_2.removeColumn(x)
+		columnPosition = self.ventana.tableWidget_2.columnCount()
+		self.ventana.tableWidget_2.insertColumn(columnPosition)
+		for p in a:
+			if p.algoritmo_as==1:
+				texto="FF"
+			if p.algoritmo_as==2:
+				texto="BF"
+			if p.algoritmo_as==3:
+				texto="WF"
+			self.ventana.tableWidget_2.setItem(columnPosition , 0, QtWidgets.QTableWidgetItem(texto))
+			self.ventana.tableWidget_2.setItem(columnPosition , 1, QtWidgets.QTableWidgetItem(str(p.fija_variable)))
+			self.ventana.tableWidget_2.setItem(columnPosition , 2, QtWidgets.QTableWidgetItem(str(p.sistOpMem)))
+			self.ventana.tableWidget_2.setItem(columnPosition , 3, QtWidgets.QTableWidgetItem(str(p.cant_part)))
