@@ -81,3 +81,5 @@ class Gantt:
             plt.savefig('./apps/windows/Gantt.png')
         else:
             plt.savefig('\apps\windows\Gantt.png')
+
+        plt.show()

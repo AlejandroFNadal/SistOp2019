@@ -37,6 +37,7 @@ class W_ParticionFija(QMainWindow):
 		self.ventana.btn_terminar.clicked.connect(self.terminar)
 		self.ventana.btn_reiniciar.clicked.connect(self.reiniciar)
 
+# PERMITE GUARDAR SIN CREAR PARTICION, PARA LOS NUEVOS CAMBIOS DA ERROR
 	def agregarParticion(self):
 		tam_part = int(self.ventana.sB_tamParticion.text())
 		if self.cant_part_rest > 1:
