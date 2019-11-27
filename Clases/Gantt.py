@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-import platform
 
+from config import FILE_GANTT
 
 class Gantt:
 
@@ -77,9 +77,8 @@ class Gantt:
 
        
         #gnt.set_xticklabels(eje_x)
-        if platform.system()=="Linux":
-            plt.savefig('./apps/windows/Gantt.png')
-        else:
-            plt.savefig('\apps\windows\Gantt.png')
+        
+        plt.savefig(FILE_GANTT)
+        
 
         plt.show()
