@@ -261,6 +261,10 @@ class Procesador:  # contendra gran parte de las tareas generales
         part_ocupadas = []
         aux =[]
         for x in self.memoria.lista_particiones:
+            #asddd = {}
+            #asddd['aa'] = x.get_id_par()
+
+            #aux.append(asddd)
             id_p = x.get_id_par()
             tama = x.get_tamano()
             dir_ini = x.get_dir_in()
