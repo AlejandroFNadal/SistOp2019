@@ -34,12 +34,15 @@ class W_Main(QMainWindow):
 		self.dialogs = list()
 
 		self.ventana.actionCrear_procesos.triggered.connect(self.crearProceso)
+		self.ventana.PB_crearProcesos.clicked.connect(self.crearProceso)
+		self.ventana.PB_crearProcesos.setEnabled(False)
 		self.ventana.actionConfiguracion_2.triggered.connect(self.menuConfiguracion1)
+		self.ventana.PB_nuevaMemoria.clicked.connect(self.menuConfiguracion1)
 		self.ventana.actionSalir.triggered.connect(self.salir)
 		self.ventana.actionAyuda.triggered.connect(self.ayuda)
 		self.ventana.actionAcerca_de.triggered.connect(self.AcercaDe)
 		self.ventana.btn_comenzar.clicked.connect(self.comenzar)
-		
+		self.ventana.actionCrear_procesos.setEnabled(False)
 		self.ventana.pushButton.clicked.connect(self.actualizar)
 		self.ventana.btn_gantt.clicked.connect(self.mostrarGantt)
 
@@ -70,6 +73,9 @@ class W_Main(QMainWindow):
 
 
 	def mostrarDesc(self, presets):
+		if presets != None:
+			self.ventana.actionCrear_procesos.setEnabled(True)
+			self.ventana.PB_crearProcesos.setEnabled(True)
 		for p in presets: #recorre presets y lista descripcion
 			
 			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))

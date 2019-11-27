@@ -290,52 +290,6 @@
      <string>Seleccione carga de proceso</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_retroceder">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>610</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(221, 221, 221);</string>
-    </property>
-    <property name="text">
-     <string>&lt;&lt;&lt;&lt;</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_avanzar">
-    <property name="geometry">
-     <rect>
-      <x>900</x>
-      <y>610</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(221, 221, 221);</string>
-    </property>
-    <property name="text">
-     <string>&gt;&gt;&gt;&gt;</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
@@ -360,6 +314,32 @@
     </property>
     <property name="text">
      <string>Gantt</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="PB_nuevaMemoria">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>530</y>
+      <width>101</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Nueva Memoria</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="PB_crearProcesos">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>530</y>
+      <width>101</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Crear Procesos</string>
     </property>
    </widget>
   </widget>
