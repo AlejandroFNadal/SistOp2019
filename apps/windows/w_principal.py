@@ -11,6 +11,8 @@ from apps.windows.w_configuracion1 import W_Configuracion1
 
 from apps.windows.w_gantt import W_image_gantt
 
+from apps.windows.w_instruccionesDeUso import W_instruccionesDeUso
+
 from Clases.Procesador import *
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -131,7 +133,9 @@ class W_Main(QMainWindow):
 		self.close()
 
 	def ayuda(self):
-		pass
+		ventanaAyuda = W_instruccionesDeUso()
+		self.dialogs.append(ventanaAyuda)
+		ventanaAyuda.show()
 
 	def AcercaDe(self):
 		pass
@@ -205,7 +209,7 @@ class W_Main(QMainWindow):
 
 	def listarConf(self):
 		self.mostrarProc()
-		print("cambio combo")
+		
 		f = self.ventana.comboBox_seleccionPreConf.currentText()
 
 		a = session.query(Presets).filter(Presets.descripcion == f).all()

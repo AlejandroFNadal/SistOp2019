@@ -51,7 +51,7 @@
    <widget class="QSpinBox" name="spinBox_Arribo">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>110</x>
       <y>200</y>
       <width>71</width>
       <height>41</height>
@@ -99,7 +99,7 @@
    <widget class="QSpinBox" name="sBTamanoProceso">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>110</x>
       <y>340</y>
       <width>71</width>
       <height>41</height>
@@ -118,7 +118,7 @@
    <widget class="QSpinBox" name="sB_Prioridad">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>110</x>
       <y>270</y>
       <width>71</width>
       <height>41</height>
@@ -140,7 +140,7 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>110</x>
       <y>0</y>
       <width>321</width>
       <height>51</height>
@@ -181,7 +181,7 @@
    <widget class="QLineEdit" name="lineEdit_rcpu">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>110</x>
       <y>400</y>
       <width>211</width>
       <height>41</height>
@@ -229,7 +229,7 @@
      <rect>
       <x>30</x>
       <y>140</y>
-      <width>61</width>
+      <width>71</width>
       <height>41</height>
      </rect>
     </property>
@@ -245,7 +245,7 @@
    <widget class="QLineEdit" name="lineEdit_Nombre">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>110</x>
       <y>150</y>
       <width>171</width>
       <height>22</height>
@@ -292,9 +292,9 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>10</x>
       <y>60</y>
-      <width>121</width>
+      <width>161</width>
       <height>21</height>
      </rect>
     </property>
@@ -312,7 +312,7 @@
      <rect>
       <x>10</x>
       <y>100</y>
-      <width>161</width>
+      <width>201</width>
       <height>20</height>
      </rect>
     </property>
@@ -328,9 +328,9 @@
    <widget class="QLabel" name="label_tamMax">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>210</x>
       <y>100</y>
-      <width>81</width>
+      <width>51</width>
       <height>20</height>
      </rect>
     </property>
@@ -359,10 +359,10 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>260</x>
+      <x>300</x>
       <y>100</y>
-      <width>91</width>
-      <height>16</height>
+      <width>111</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
@@ -377,9 +377,9 @@
    <widget class="QLabel" name="label_particion">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>410</x>
       <y>100</y>
-      <width>55</width>
+      <width>41</width>
       <height>16</height>
      </rect>
     </property>
@@ -398,9 +398,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>350</y>
-      <width>231</width>
+      <x>180</x>
+      <y>340</y>
+      <width>301</width>
       <height>20</height>
      </rect>
     </property>
@@ -416,6 +416,26 @@
      <string>Excedio el tamaño maximo  de particion</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>360</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Kb</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -423,7 +443,7 @@
      <x>0</x>
      <y>0</y>
      <width>509</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAyuda">

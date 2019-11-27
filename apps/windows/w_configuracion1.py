@@ -16,7 +16,7 @@ class W_Configuracion1(QMainWindow):
 		self.ventana = Ui_configuracion1()
 		self.ventana.setupUi(self)
 		self.dialogs = list()
-		self.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
+		#self.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
 
 		self.ventana.lineEdit_Nombre.setText(" ")#nombreConf
 		self.ventana.spinBoxTamMemo.setValue(1)
