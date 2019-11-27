@@ -89,7 +89,7 @@ class W_Configuracion1(QMainWindow):
 	
 	def grabarPresetBD(self,datos):#agrega datos a la bd
 
-		p = Presets()
+		p = Presets()#memoria
 		
 		p.descripcion = datos[0]
 		p.tamMemoria = datos[1]

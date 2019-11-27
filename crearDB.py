@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
-class Presets(Base):
+class Presets(Base):#memoria
     __tablename__='presets'
     id = Column(Integer, primary_key = True)
     descripcion = Column(String(250))
@@ -34,6 +34,7 @@ class Proceso(Base):
     prioridad = Column(Integer)
     rafagaCPU = Column(String(50))
     tiempo_arribo = Column(Integer)
+    desc_memoria = Column(String(50))
 
 engine = create_engine('sqlite:///SistOp.db')
 
