@@ -143,7 +143,7 @@
      <number>1</number>
     </property>
     <property name="maximum">
-     <number>99</number>
+     <number>4096</number>
     </property>
    </widget>
    <widget class="QLabel" name="label_NombreConf">
@@ -275,7 +275,7 @@
      <x>0</x>
      <y>0</y>
      <width>461</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAyuda">

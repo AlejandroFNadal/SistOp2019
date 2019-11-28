@@ -85,6 +85,7 @@ class W_Main(QMainWindow):
 		self.listarConf()
 	
 	def mostrarProc(self):
+		self.ventana.comboBox_cargarProceso.clear()
 		desc = self.ventana.comboBox_seleccionPreConf.currentText()
 
 		procesos = session.query(Proceso).filter(Proceso.desc_memoria == desc).distinct(Proceso.id_batch).all()
