@@ -1,4 +1,6 @@
-
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 class Mapa_memoria:
 
@@ -10,6 +12,6 @@ class Mapa_memoria:
         for i in tabla:
             print("Clk: "+str(clk))
             for x in i:
-                
-                print("Id particion: " +str(x[0])+ "  tamaño: " +str(x[1]) + "Estado: "+ str(x[4]) )
+                print("====")
+                print("Id particion: " +str(x['id_par'])+ "  tamaño: " +str(x['tama']) + "Estado: "+ str(x['estado']) + " Proceso" +str(x['proceso']) )
             clk +=1
