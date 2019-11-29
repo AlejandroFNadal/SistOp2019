@@ -19,7 +19,7 @@ class Mapa_memoria:
 			gnt.set_xlim(0, 160) 
 
 			# Setting labels for x-axis and y-axis 
-			gnt.set_xlabel('TIEMPO') 
+			gnt.set_xlabel('Tamaño particiones') 
 			gnt.set_ylabel('Particiones') 
 
 			# Setting ticks on y-axis 
@@ -38,7 +38,7 @@ class Mapa_memoria:
 			leyenda = []
 			for x in i:
 				print("====")
-				color = self.get_color(ult_col)
+				color = self.get_color(x['id_par'])
 				tam= (x['dir_ini'], x['tama']) #Donde inicia la particion y su tamaño
 				print("Dir inicio: " +str(x['dir_ini'])+ "  tamaño: " +str(x['tama']) + " Estado: "+ str(x['estado']) + " Proceso " +str(x['proceso']) )
 				if x['estado']:
