@@ -11,6 +11,8 @@ from apps.windows.w_configuracion1 import W_Configuracion1
 
 from apps.windows.w_gantt import W_image_gantt
 
+from apps.windows.w_instruccionesDeUso import W_instruccionesDeUso
+
 from Clases.Procesador import *
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -34,28 +36,27 @@ class W_Main(QMainWindow):
 		self.dialogs = list()
 
 		self.ventana.actionCrear_procesos.triggered.connect(self.crearProceso)
+		self.ventana.PB_crearProcesos.clicked.connect(self.crearProceso)
+		self.ventana.PB_crearProcesos.setEnabled(False)
 		self.ventana.actionConfiguracion_2.triggered.connect(self.menuConfiguracion1)
+		self.ventana.PB_nuevaMemoria.clicked.connect(self.menuConfiguracion1)
 		self.ventana.actionSalir.triggered.connect(self.salir)
 		self.ventana.actionAyuda.triggered.connect(self.ayuda)
 		self.ventana.actionAcerca_de.triggered.connect(self.AcercaDe)
 		self.ventana.btn_comenzar.clicked.connect(self.comenzar)
-		
+		self.ventana.actionCrear_procesos.setEnabled(False)
 		self.ventana.pushButton.clicked.connect(self.actualizar)
 		self.ventana.btn_gantt.clicked.connect(self.mostrarGantt)
 
 		self.ventana.spinBox_quantum.setEnabled(False)
 		
 		
-
-		procesos = session.query(Proceso).all()
 		presets = session.query(Presets).all()
-		
-		
-		
+				
 		#for p in presets: #recorre presets y lista descripcion
 		self.mostrarDesc(presets)
 		#self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
-		self.mostrarProc(procesos)
+		self.mostrarProc()
 		
 		
 
@@ -74,19 +75,26 @@ class W_Main(QMainWindow):
 
 
 	def mostrarDesc(self, presets):
+		if presets != None:
+			self.ventana.actionCrear_procesos.setEnabled(True)
+			self.ventana.PB_crearProcesos.setEnabled(True)
 		for p in presets: #recorre presets y lista descripcion
 			
 			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
 
 		self.listarConf()
 	
-	def mostrarProc(self, procesos):
-		listaaux=[]
+	def mostrarProc(self):
+		self.ventana.comboBox_cargarProceso.clear()
+		desc = self.ventana.comboBox_seleccionPreConf.currentText()
+
+		procesos = session.query(Proceso).filter(Proceso.desc_memoria == desc).distinct(Proceso.id_batch).all()
+		lista_proc=[]
 		for p in procesos:
-			if str(p.id_batch) not in listaaux:
-				listaaux.append(str(p.id_batch))
-		for x in listaaux:
-			self.ventana.comboBox_cargarProceso.addItem(x)
+			if p.id_batch not in lista_proc:
+				lista_proc.append(p.id_batch)
+				self.ventana.comboBox_cargarProceso.addItem(p.id_batch)
+		
 		self.listar()
 
 	def crearProceso(self):
@@ -108,7 +116,7 @@ class W_Main(QMainWindow):
 		self.ventana.comboBox_cargarProceso.clear()
 		procesos = session.query(Proceso).all()
 		
-		self.mostrarProc(procesos)
+		self.mostrarProc()
 
 	def habilitarQuantum(self):
 		i=self.ventana.comboBox_seleccionAlgoritmo.currentText()
@@ -126,7 +134,9 @@ class W_Main(QMainWindow):
 		self.close()
 
 	def ayuda(self):
-		pass
+		ventanaAyuda = W_instruccionesDeUso()
+		self.dialogs.append(ventanaAyuda)
+		ventanaAyuda.show()
 
 	def AcercaDe(self):
 		pass
@@ -199,9 +209,12 @@ class W_Main(QMainWindow):
 			self.ventana.tableWidget.setItem(rowPosition , 4, QtWidgets.QTableWidgetItem(str(l.rafagaCPU)))
 
 	def listarConf(self):
+		self.mostrarProc()
+		
 		f = self.ventana.comboBox_seleccionPreConf.currentText()
 
 		a = session.query(Presets).filter(Presets.descripcion == f).all()
+		
 		for x in range(0,self.ventana.tableWidget_2.columnCount()+1):
 			self.ventana.tableWidget_2.removeColumn(x)
 		columnPosition = self.ventana.tableWidget_2.columnCount()

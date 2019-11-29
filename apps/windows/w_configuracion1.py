@@ -16,7 +16,7 @@ class W_Configuracion1(QMainWindow):
 		self.ventana = Ui_configuracion1()
 		self.ventana.setupUi(self)
 		self.dialogs = list()
-		self.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
+		#self.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
 
 		self.ventana.lineEdit_Nombre.setText(" ")#nombreConf
 		self.ventana.spinBoxTamMemo.setValue(1)
@@ -89,7 +89,7 @@ class W_Configuracion1(QMainWindow):
 	
 	def grabarPresetBD(self,datos):#agrega datos a la bd
 
-		p = Presets()
+		p = Presets()#memoria
 		
 		p.descripcion = datos[0]
 		p.tamMemoria = datos[1]
