@@ -38,8 +38,10 @@ class ColaListos:
         for x in self.cola_listos:
             x.print_proceso_fake()
     def multinivel(self,procesador,quantum):
+        aux = procesador.get_proceso_actual()
         if procesador.cola1 != []:
-            aux = procesador.get_proceso_actual()
+            quantum=3
+            procesador.set_estadoMLQ(1)
             #Magic here
             self.purge_list()
             for x in procesador.cola1:
@@ -51,15 +53,15 @@ class ColaListos:
                 q -= 1
                 if tiempo_r > 0 and q > 0: #No termino ni el quantum ni el tiempo restante
                     aux.set_quantum(q)
-                    print("quantum1 actual : "+str(aux.get_quantum()))
+                    #print("quantum1 actual : "+str(aux.get_quantum()))
                     print(procesador.get_proceso_actual().get_quantum())
-                    print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
+                    #print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
                     procesador.bloqueados_listos()
                     procesador.imprime_cola_bloqueados()
                     procesador.imprime_cola_listos()
                 elif tiempo_r > 0 and q == 0: # se acabo el quantum
-                    print("quantum actual : "+str(aux.get_quantum()))
-                    print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
+                    #print("quantum actual : "+str(aux.get_quantum()))
+                    #print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
                     # se añade el proceso a la cola de listos
                     self.modificar_rafaga_total(aux,tiempo_r)
                     aux.set_quantum(quantum)
@@ -76,7 +78,7 @@ class ColaListos:
                     procesador.imprime_cola_listos()
                 else:
                     if tiempo_r == 0:
-                        print("pasa a bloqueado o terminado")
+                        #print("pasa a bloqueado o terminado")
                         #aca va a salir el proceso por que TR=0, entonces seteamos el quantum antes que salga
                         procesador.get_proceso_actual().set_quantum(quantum)
                         procesador.listos_ejecucion()
@@ -97,10 +99,64 @@ class ColaListos:
             
             return self.cola_listos
         else:
-            procesador.bloqueados_listos()
-            procesador.listos_ejecucion()
-            procesador.imprime_cola_bloqueados()
-            procesador.imprime_cola_listos()
+            if procesador.cola2 != []: #rr 2
+                procesador.set_estadoMLQ(2)
+                self.purge_list()
+                for x in procesador.cola2:
+                    self.cola_listos.append(x)
+                #Magic here
+                if aux != None:
+                    tiempo_r = aux.get_tiempo_restante()
+                    q = procesador.get_proceso_actual().get_quantum()
+                    q -= 1
+                    if tiempo_r > 0 and q > 0: #No termino ni el quantum ni el tiempo restante
+                        aux.set_quantum(q)
+                        #print("quantum1 actual : "+str(aux.get_quantum()))
+                        print(procesador.get_proceso_actual().get_quantum())
+                        #print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
+                        procesador.bloqueados_listos()
+                        procesador.imprime_cola_bloqueados()
+                        procesador.imprime_cola_listos()
+                    elif tiempo_r > 0 and q == 0: # se acabo el quantum
+                        #print("quantum actual : "+str(aux.get_quantum()))
+                        #print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
+                        # se añade el proceso a la cola de listos
+                        self.modificar_rafaga_total(aux,tiempo_r)
+                        aux.set_quantum(quantum)
+                        aux.set_estado(2) #LISTO
+                        self.anade_proceso(aux)
+                        self.imprime_cola_listos()
+                        # Le aplicamos un expropiese venezolano
+                        procesador.set_proceso_actual(None)
+                        procesador.listos_ejecucion()
+                        procesador.bloqueados_listos()
+                        if procesador.get_proceso_actual() == None:
+                            procesador.listos_ejecucion()
+                        procesador.imprime_cola_bloqueados()
+                        procesador.imprime_cola_listos()
+                    else:
+                        if tiempo_r == 0:
+                            #print("pasa a bloqueado o terminado")
+                            #aca va a salir el proceso por que TR=0, entonces seteamos el quantum antes que salga
+                            procesador.get_proceso_actual().set_quantum(quantum)
+                            procesador.listos_ejecucion()
+                            procesador.bloqueados_listos()
+                            if procesador.get_proceso_actual() == None:
+                                procesador.listos_ejecucion()
+                            procesador.imprime_cola_bloqueados()
+                            procesador.imprime_cola_listos()
+                else:
+                    #se pasa primero de bloqueados a listos para cargar la cola de listos, por si estuviese vacia, total 
+                    #el procesador sabemos que esta vacio
+                    procesador.bloqueados_listos()
+                    procesador.listos_ejecucion()
+                    procesador.imprime_cola_bloqueados()
+                    procesador.imprime_cola_listos()
+            else:
+                procesador.bloqueados_listos()
+                procesador.listos_ejecucion()
+                procesador.imprime_cola_bloqueados()
+                procesador.imprime_cola_listos()
 
     '''
     def multinivel(self, procesador):
@@ -156,15 +212,15 @@ class ColaListos:
             q -= 1
             if tiempo_r > 0 and q > 0: #No termino ni el quantum ni el tiempo restante
                 aux.set_quantum(q)
-                print("quantum1 actual : "+str(aux.get_quantum()))
+                #print("quantum1 actual : "+str(aux.get_quantum()))
                 print(procesador.get_proceso_actual().get_quantum())
-                print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
+                #print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
                 procesador.bloqueados_listos()
                 procesador.imprime_cola_bloqueados()
                 procesador.imprime_cola_listos()
             elif tiempo_r > 0 and q == 0: # se acabo el quantum
-                print("quantum actual : "+str(aux.get_quantum()))
-                print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
+                #print("quantum actual : "+str(aux.get_quantum()))
+                #print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
                 # se añade el proceso a la cola de listos
                 self.modificar_rafaga_total(aux,tiempo_r)
                 aux.set_quantum(quantum)
@@ -181,7 +237,7 @@ class ColaListos:
                 procesador.imprime_cola_listos()
             else:
                 if tiempo_r == 0:
-                    print("pasa a bloqueado o terminado")
+                    #print("pasa a bloqueado o terminado")
                     #aca va a salir el proceso por que TR=0, entonces seteamos el quantum antes que salga
                     procesador.get_proceso_actual().set_quantum(quantum)
                     procesador.listos_ejecucion()
