@@ -338,7 +338,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                 #time.sleep(1)
             self.imprime_cubo()
             mapa1 = Mapa_memoria()
-            #mapa1.mapa_memoria(self.tabla_memoria)
+            mapa1.mapa_memoria(self.tabla_memoria, preset.tamMemoria)
             
             gantt1 = Gantt()
             gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)
