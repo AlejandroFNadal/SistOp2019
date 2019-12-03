@@ -23,7 +23,7 @@ if __name__ == '__main__':
     proc1.id_batch=1
     proc1.tam_proc=10
     proc1.prioridad=1
-    proc1.rafagaCPU= [("C",7),("E",3),("C",12)]
+    proc1.rafagaCPU= "C1"
     proc1.tiempo_arribo=1
 
     proc2=Proceso()
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     proc2.id_batch=1
     proc2.tam_proc=10
     proc2.prioridad=1
-    proc2.rafagaCPU=[("C",1),("C",12)]
+    proc2.rafagaCPU= "C10-E2-C42-C1-E2-C52"
     proc2.tiempo_arribo=4
 
     proc3=Proceso()
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     proc3.id_batch=1
     proc3.tam_proc=10
     proc3.prioridad=2
-    proc3.rafagaCPU=[("C",7),("E",12),("E",4),("C",10)]
+    proc3.rafagaCPU="C3-E2-C22"
     proc3.tiempo_arribo=3
     
     proc4=Proceso()
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     proc4.id_batch=1
     proc4.tam_proc=10
     proc4.prioridad=2
-    proc4.rafagaCPU=[("C",1),("E",1),("E",2),("C",1)]
+    proc4.rafagaCPU= "C1-E2-C99"
     proc4.tiempo_arribo=4
 
     part1=Particiones()

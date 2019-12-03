@@ -327,6 +327,22 @@ class Procesador:  # contendra gran parte de las tareas generales
             proc_gantt.append(str(p))
             gantt_amplitud.append(p*10)
             p+=1
+
+        #For para generar la rafagaCPU
+        for i in intprocesos: #todos los procesos
+            rafaga = i.rafagaCPU.split("-")
+            rafaga_final = []
+            for j in rafaga: #toda la rafaga de un proceso
+                if len(j) == 2: # 'C1' ejemplo
+                    if int(j[1])>0: #para verificar que el numero ingresado sea mayor a 0
+                        elemento = (j[0],int(j[1]))
+                        rafaga_final.append(elemento)
+                elif len(j) == 3: # 'C23' ejemplo
+                    if int(j[1]+j[2])>0:
+                        elemento = (j[0],int(j[1]+j[2]))
+                        rafaga_final.append(elemento)
+                i.rafagaCPU = rafaga_final
+
         # alg_planificacion = preset.algoritmo_as  # agregar luego como un valor de preset, traer de la BD
         
         self.memoria = Memoria(preset.tamMemoria, preset.fija_variable,
