@@ -25,8 +25,8 @@ class W_ParticionFija(QMainWindow):
 		self.ventana.label_MemoriaRes.setText(str(self.cant_mem_rest))
 		self.ventana.label_cantPart.setText(str(ventana.spinBox_cantParticion.text()))
 
-		self.cant_part_rest = int(ventana.spinBox_cantParticion.text())-1 # se le resta 1 por que una particion es del SO
-
+		self.cant_part_rest = int(ventana.spinBox_cantParticion.text()) # se le resta 1 por que una particion es del SO
+		self.lista_particiones = []
 		#esto uso para poder reiniciar
 		self.cant_part = self.cant_part_rest
 		self.cant_mem = self.cant_mem_rest
@@ -37,13 +37,22 @@ class W_ParticionFija(QMainWindow):
 		self.ventana.btn_terminar.clicked.connect(self.terminar)
 		self.ventana.btn_reiniciar.clicked.connect(self.reiniciar)
 
+	def get_lista_particiones(self):
+		return self.lista_particiones
+
+	def reset_lista_particiones(self):
+		self.lista_particiones = []
+
+	def anade_particion(self,part):
+		self.lista_particiones.append(part)
+
 # PERMITE GUARDAR SIN CREAR PARTICION, PARA LOS NUEVOS CAMBIOS DA ERROR
 	def agregarParticion(self):
 		tam_part = int(self.ventana.sB_tamParticion.text())
 		if self.cant_part_rest > 1:
 			#sumo cant part a tamanio de particion para que cada particion tenga como minimo 1 kb
 			if (self.cant_mem_rest - (self.cant_part_rest + tam_part)) >= 0:
-				self.pasar_datos(tam_part)
+				self.cargar_lista(tam_part)
 				self.cant_mem_rest = self.cant_mem_rest - tam_part
 				self.ventana.label_MemoriaRes.setText(str(self.cant_mem_rest))
 				self.cant_part_rest -= 1
@@ -64,12 +73,14 @@ class W_ParticionFija(QMainWindow):
 			#para colocar en la ultima particion toda la memoria restante
 			if self.cant_part_rest == 1:
 				self.ultima_part()
+				self.close()
 
 		elif self.cant_part_rest == 1:
 				self.ultima_part()
-
+				self.close()
 		else:
 			print("<<< Cantidad maxima de particiones colocadas >>> " )
+			self.pasar_datos()
 			self.close()
 
 	def reiniciar(self):
@@ -77,6 +88,7 @@ class W_ParticionFija(QMainWindow):
 		self.ventana.label_MemoriaRes.setText(str(self.cant_mem_rest))
 		self.cant_part_rest = self.cant_part
 		self.ventana.label_numPart.setText(str(1 + self.cant_part - self.cant_part_rest))
+		self.reset_lista_particiones()
 
 	def terminar(self):
 		#Aca deberiamos tener en cuenta si el usuario no completo las particiones.
@@ -86,61 +98,61 @@ class W_ParticionFija(QMainWindow):
 		tam_part = self.cant_mem_rest//self.cant_part_rest
 		#1
 		while self.cant_part_rest > 1:
-			self.pasar_datos(tam_part)
-			self.cant_mem_rest = self.cant_mem_rest - tam_part
-			self.cant_part_rest -= 1 
-			print("- Memoria restante: ", self.cant_mem_rest)
-			print("- Particiones restantes: ", self.cant_part_rest)
-			print(" ")
+			if (tam_part*self.cant_part_rest) == self.cant_part_rest:
+				self.cargar_lista(tam_part)
+				self.cant_mem_rest = self.cant_mem_rest - tam_part
+				self.cant_part_rest -= 1 
+				print("- Memoria restante: ", self.cant_mem_rest)
+				print("- Particiones restantes: ", self.cant_part_rest)
+				print(" ")
+			else:
+				self.cargar_lista((tam_part+1))
+				self.cant_mem_rest = self.cant_mem_rest - (tam_part+1)
+				self.cant_part_rest -= 1 
+				print("- Memoria restante: ", self.cant_mem_rest)
+				print("- Particiones restantes: ", self.cant_part_rest)
+				print(" ")
+
 
 		#2
 		if self.cant_part_rest == 1:
-			self.pasar_datos(self.cant_mem_rest)
+			self.cargar_lista(self.cant_mem_rest)
 			self.cant_mem_rest = 0
 			self.cant_part_rest -= 1 
 			print("- Memoria restante: ", self.cant_mem_rest)
 			print("- Particiones restantes: ", self.cant_part_rest)
 		
-		"""
-		otra forma podria ser creando la primera particion mas grande que las otras de la siguiente forma
-
-		tam_part_1 = self.cant_mem_rest - tam_part*self.cant_part_rest 
-		print("- Particion creada de ",tam_part_1," Kb")
-		self.cant_mem_rest = self.cant_mem_rest - tam_part_1
-		self.cant_part_rest -= 1 
-		print("- Memoria restante: ", self.cant_mem_rest)
-		print("- Particiones restantes: ", self.cant_part_rest)
-		
-		Esta segunda forma iria abajo de #1 y el mientras seria mientras fuese mayor a 0
-		y lo que esta abajo de #2 no iria.
-		No esta testeado.
-		"""
+		self.pasar_datos()
 		self.close()
 
 
-	def pasar_datos(self,tam_part):
-		batch = self.ventana.label_NombreConf.text()
-		dir_in = ((self.cant_mem - self.cant_mem_rest) + self.mem_SO)
-		dir_fin = (dir_in + tam_part)
-		datos_part = [batch,tam_part,dir_in,dir_fin]
-		part = Particiones()
-		part.batch= datos_part[0]
-		part.tam_part = datos_part[1]
-		part.dir_ini = datos_part[2]
-		part.dir_fin = datos_part[3]
-		session.add(part)
+	def pasar_datos(self):
+		for i in self.get_lista_particiones():
+			part = Particiones()
+			part.batch = i[0]
+			part.tam_part = i[1]
+			part.dir_ini = i[2]
+			part.dir_fin = i[3]
+			session.add(part)
+			print("batch - tamPart - dir_in - dir_fin")
+			print(i)
 		session.commit()
-		print("batch - tamPart - dir_in - dir_fin")
-		print(datos_part)
+		self.reset_lista_particiones()
 
 	def ultima_part(self):
-		self.pasar_datos(self.cant_mem_rest) #mi tam_part seria la cant de mem restante
+		self.cargar_lista(self.cant_mem_rest) #mi tam_part seria la cant de mem restante
 		self.cant_mem_rest = 0
 		self.cant_part_rest -= 1 
 		print("- Memoria restante: ", self.cant_mem_rest)
 		print("- Particiones restantes: ", self.cant_part_rest)
 		print("\n")
 		print("<<< Cantidad maxima de particiones colocadas >>> " )
-		self.close()
+		self.pasar_datos()
 
+	def cargar_lista(self,tam_part):
+		batch = self.ventana.label_NombreConf.text()
+		dir_in = ((self.cant_mem - self.cant_mem_rest) + self.mem_SO)
+		dir_fin = (dir_in + tam_part)
+		datos_part = [batch,tam_part,dir_in,dir_fin]
+		self.anade_particion(datos_part)
 		
