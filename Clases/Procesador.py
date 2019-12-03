@@ -64,7 +64,6 @@ class Procesador:  # contendra gran parte de las tareas generales
             if proc.tiempo_arribo == self.reloj_total:
                 auxdatos = [proc.id_proc, proc.tam_proc,proc.prioridad,proc.rafagaCPU,proc.tiempo_arribo]
                 auxproc = Procesos(auxdatos)
-                auxproc.split_rafaga_tot()
                 #funcion para realizar carga de quamtum al proceso
                 #primer IF son FCFS,PRIORIDADES,SJF,SRTF
                 if alg_planificacion==0 or alg_planificacion==2 or alg_planificacion==4 or alg_planificacion==5:
