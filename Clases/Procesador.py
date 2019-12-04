@@ -265,28 +265,21 @@ class Procesador:  # contendra gran parte de las tareas generales
             #asddd['aa'] = x.get_id_par()
 
             #aux.append(asddd)
-            id_p = x.get_id_par()
-            tama = x.get_tamano()
-            dir_ini = x.get_dir_in()
-            dir_fin= x.get_dir_fin()
-            est = x.get_estado()
-            aux.append([id_p,tama,dir_ini,dir_fin,est])
-            """
-            if x.get_estado() == False:
-                part_libres.append(x)
-            else:
-                id_p = x.get_id_par()
+            dic = {}
+            dic['id_par'] = x.get_id_par()
+            dic['tama'] = x.get_tamano()
+            dic['dir_ini'] = x.get_dir_in()
+            dic['dir_fin'] = x.get_dir_fin()
+            dic['estado'] = x.get_estado() # Si es Falso esta libre
+            
+            dic['proceso'] = 0
+            if x.get_estado():
                 for c in cubo:
                     for i in c:
-                        if i[2] == id_p:
-                            id_p= x.get_id_par()
-                            tama = x.get_tamano()
-                            dir_ini = x.get_dir_in()
-                            dir_fin= x.get_dir_fin()
-                            est = x.get_estado()
-                            part_ocupadas.append([id_p,tama,dir_ini,dir_fin,est,i[0]])
-                            """
-            
+                        if i[2] == x.get_id_par():
+                            dic['proceso'] = i[0]
+            aux.append(dic)
+                                        
         self.tabla_memoria.append(aux)
 
 
@@ -344,10 +337,12 @@ class Procesador:  # contendra gran parte de las tareas generales
                 self.reloj_total += 1
                 #time.sleep(1)
             self.imprime_cubo()
+            mapa1 = Mapa_memoria()
+            #mapa1.mapa_memoria(self.tabla_memoria)
+            
             gantt1 = Gantt()
             gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)
-            mapa1 = Mapa_memoria()
-            mapa1.mapa_memoria(self.tabla_memoria)
+            
         else:
             #cuando almenos un proceso no entra
             print(">>> Error <<<")

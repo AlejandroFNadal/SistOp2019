@@ -15,10 +15,6 @@ for i in range(10):
 fig, gnt = plt.subplots() 
 
 
-
-
-
-
 # Setting Y-axis limits 
 gnt.set_ylim(0, 50) 
   
@@ -63,7 +59,8 @@ PROCESOS = [
      'color': '#0f0f0f', },
 ]
 
-
+mod = 10%10
+print("modulo = "+str(mod))
 
 
 leyenda = []

@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+import matplotlib.patches as mpatches
 from config import FILE_GANTT
 
 class Gantt:
@@ -74,9 +74,12 @@ class Gantt:
         # Labelling tickes of y-axis 
         gnt.set_yticklabels(procesos)
 
-
-       
-        #gnt.set_xticklabels(eje_x)
+        #Leyenda
+        leyenda = []
+        
+        leyenda.append(mpatches.Patch(color='tab:orange', label = 'Ejecución'))
+        leyenda.append(mpatches.Patch(color='tab:red', label = 'Bloqueado'))
+        plt.legend(handles= leyenda)
         
         plt.savefig(FILE_GANTT)
         
