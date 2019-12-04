@@ -22,13 +22,21 @@ class Procesador:  # contendra gran parte de las tareas generales
         self.tabla_memoria = []
         self.memoria = None
         self.salir=False #Controla salidas del bucle principal
+        #Para multinivel
+        self.cola1=[] 
+        self.cola2=[] 
+        self.cola3=[]
+        self.estadoMLQ=0 #Esto indica que cola se esta usando actualmente. 
 
     # Setters
     def set_proceso_actual(self, proc):
         self.proceso_actual = proc
-
+    def set_estadoMLQ(self,val):
+        if val>=0 and val <=3:
+            self.estadoMLQ=val
     def set_cant_procesos(self, lista):
         self.cant_procesos = len(lista)
+        print(self.cant_procesos)
 
     # Getters
     def get_proceso_actual(self):
@@ -56,7 +64,6 @@ class Procesador:  # contendra gran parte de las tareas generales
             if proc.tiempo_arribo == self.reloj_total:
                 auxdatos = [proc.id_proc, proc.tam_proc,proc.prioridad,proc.rafagaCPU,proc.tiempo_arribo]
                 auxproc = Procesos(auxdatos)
-                auxproc.split_rafaga_tot()
                 #funcion para realizar carga de quamtum al proceso
                 #primer IF son FCFS,PRIORIDADES,SJF,SRTF
                 if alg_planificacion==0 or alg_planificacion==2 or alg_planificacion==4 or alg_planificacion==5:
@@ -65,13 +72,13 @@ class Procesador:  # contendra gran parte de las tareas generales
                     #creo que no va a ser necesario cargarlo peeeeero por las dudas
                     auxproc.set_quantum(quantum)
                 elif alg_planificacion == 3: #multinivel
-                    if auxproc.get_prioridad() == 3:
-                        auxproc.set_quantum(3)
-                    elif auxproc.get_prioridad() == 2:
+                    if auxproc.get_prioridad() == 1:
                         auxproc.set_quantum(5)
+                    elif auxproc.get_prioridad() == 2:
+                        auxproc.set_quantum(3)
                     else:
                         auxproc.set_quantum(None)
-                auxproc.set_quantum(quantum)
+                #auxproc.set_quantum(quantum)
                 auxproc.set_estado(1) #Nuevo
                 auxproc.set_tiempo_restante(int(auxproc.get_rafaga_tot()[0][1]))
                 procesos.pop(cont)
@@ -82,18 +89,34 @@ class Procesador:  # contendra gran parte de las tareas generales
         print("Cola Nuevos:")
         for y in self.cola_nuevos:
             print("     "+str(y.get_id()))
+        print("---------------------")
         return procesos
 
     def cargar_cola_listos(self, algoritmo, quantum, memoria):
         cont = 0
-        while cont < len(self.cola_nuevos):
-            proc = self.cola_nuevos[cont]
-            if memoria.comprobar_memoria(proc,self):
-                proc.set_estado(2) #Listo
-                self.procesos_listos.anade_proceso(proc)
-                self.cola_nuevos.pop(cont)
-                cont -= 1 #lo mismo que en cargar cola nuevos
-            cont +=1
+        if algoritmo==3: #Multinivel
+            while cont < len(self.cola_nuevos):
+                proc=self.cola_nuevos[cont]
+                if memoria.comprobar_memoria(proc,self):
+                    proc.set_estado(2) #Listo
+                    if proc.get_prioridad()==1:
+                        self.cola1.append(proc)
+                    elif proc.get_prioridad()==2:
+                        self.cola2.append(proc)
+                    elif proc.get_prioridad()==3:
+                        self.cola3.append(proc)
+                    self.cola_nuevos.pop(cont)
+                    cont-=1
+                cont+=1    
+        else:
+            while cont < len(self.cola_nuevos):
+                proc = self.cola_nuevos[cont]
+                if memoria.comprobar_memoria(proc,self):
+                    proc.set_estado(2) #Listo
+                    self.procesos_listos.anade_proceso(proc)
+                    self.cola_nuevos.pop(cont)
+                    cont -= 1 #lo mismo que en cargar cola nuevos
+                cont +=1
         self.procesos_listos.ordenar(algoritmo, quantum, self)
 
 
@@ -109,7 +132,7 @@ class Procesador:  # contendra gran parte de las tareas generales
 
             if proc.get_rafaga_tot()[pos][0] != "C":
                 proc.set_estado(3)  # pasamos a bloqueado
-                print("proc set estado 3")
+                #print("proc set estado 3")
                 print(int(proc.get_rafaga_tot()[pos][1]))
                 
                 self.cola_bloqueados.append(proc)
@@ -140,12 +163,12 @@ class Procesador:  # contendra gran parte de las tareas generales
     def listos_ejecucion(self):
         # si proceso actual es igual a vacio
         if self.proceso_actual == None and self.procesos_listos.get_cola_listos() != []:
-            print("LE1")
-            print("proceso actual NONE  y cola de listos distinto de vacio")
+            #print("LE1")
+            #print("proceso actual NONE  y cola de listos distinto de vacio")
             pos = self.procesos_listos.get_cola_listos()[0].get_num_rafaga_actual()
             rafaga_proc = self.procesos_listos.get_cola_listos()[0].get_rafaga_tot()
             if rafaga_proc[pos][0] == "C":
-                print("Elemento actual CPU")
+                #print("Elemento actual CPU")
                 self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
                 self.proceso_actual.set_estado(5)  #EN EJECUCION
                 self.proceso_actual.set_tiempo_restante(
@@ -153,18 +176,18 @@ class Procesador:  # contendra gran parte de las tareas generales
                 self.procesos_listos.elimina_elemento(0)
 
         elif self.proceso_actual != None:
-            print("LE2")
+            #print("LE2")
             part = self.proceso_actual.get_particion_proc()
             # si el tiempo del proceso actual es 0
             if self.proceso_actual.get_tiempo_restante() == 0 and self.procesos_listos.get_cola_listos() != []:
-                print("LE2-1")
+                #print("LE2-1")
                 if self.proceso_actual.get_num_rafaga_actual() < len(self.proceso_actual.get_rafaga_tot())-1:
                     self.proceso_actual.increment_num_rafaga_actual() #LN
                     pos = self.proceso_actual.get_num_rafaga_actual()
                     self.proceso_actual.set_estado(2)
                     tiempo_restante=int(self.proceso_actual.get_rafaga_tot()[pos][1])
-                    print("tiemporestante")
-                    print(tiempo_restante)
+                    #print("tiemporestante")
+                    #print(tiempo_restante)
                     self.proceso_actual.set_tiempo_restante(int(self.proceso_actual.get_rafaga_tot()[pos][1]))
                     self.procesos_listos.anade_proceso(self.proceso_actual)
                     self.proceso_actual = self.procesos_listos.get_cola_listos()[0]
@@ -304,8 +327,23 @@ class Procesador:  # contendra gran parte de las tareas generales
             proc_gantt.append(str(p))
             gantt_amplitud.append(p*10)
             p+=1
+
+        #For para generar la rafagaCPU
+        for i in intprocesos: #todos los procesos
+            rafaga = i.rafagaCPU.split("-")
+            rafaga_final = []
+            for j in rafaga: #toda la rafaga de un proceso
+                if len(j) == 2: # 'C1' ejemplo
+                    if int(j[1])>0: #para verificar que el numero ingresado sea mayor a 0
+                        elemento = (j[0],int(j[1]))
+                        rafaga_final.append(elemento)
+                elif len(j) == 3: # 'C23' ejemplo
+                    if int(j[1]+j[2])>0:
+                        elemento = (j[0],int(j[1]+j[2]))
+                        rafaga_final.append(elemento)
+                i.rafagaCPU = rafaga_final
+
         # alg_planificacion = preset.algoritmo_as  # agregar luego como un valor de preset, traer de la BD
-        cola_listos_principal = ColaListos()
         
         self.memoria = Memoria(preset.tamMemoria, preset.fija_variable,
                                preset.algoritmo_as, preset.sistOpMem,particiones)  # tamano, fija_variable
@@ -318,7 +356,6 @@ class Procesador:  # contendra gran parte de las tareas generales
             print("Algoritmo Planificacion "+str(alg_planificacion))
             print("Quantum "+str(quantum))
             while len(self.cola_terminados) < self.cant_procesos and not self.salir:
-                # esta llamada deberia funcionar ya
                 intprocesos = self.cargar_cola_nuevos(intprocesos,quantum,alg_planificacion)
                 self.cargar_cola_listos(alg_planificacion, quantum, self.memoria)
                 if self.proceso_actual != None:
@@ -329,16 +366,34 @@ class Procesador:  # contendra gran parte de las tareas generales
                 self.generar_tabla()
                 self.generar_mapa(self.cubo)
                 self.cuenta_tiempo()
-                self.memoria.imprime_particiones()
+                #self.memoria.imprime_particiones()
+                if alg_planificacion ==3:
+                    if self.estadoMLQ==1:
+                        self.cola1=[]
+                    elif self.estadoMLQ==2:
+                        self.cola2=[]
+                    for x in self.procesos_listos.get_cola_listos():
+                        if x.get_prioridad()==1:
+                            self.cola1.append(x)
+                        if x.get_prioridad()==2:
+                            self.cola2.append(x)
+                    self.procesos_listos.purge_list()
+                print("Cola 1:")
+                for x in self.cola1:
+                    print(x.get_id())
+                print("Cola 2:")
+                for x in self.cola2:
+                    print(x.get_id())
                 print("CLK: "+str(self.reloj_total))
                 print(
                     "-------------------------------------------------------------------------")
                 
                 self.reloj_total += 1
                 #time.sleep(1)
+
             self.imprime_cubo()
             mapa1 = Mapa_memoria()
-            #mapa1.mapa_memoria(self.tabla_memoria)
+            mapa1.mapa_memoria(self.tabla_memoria, preset.tamMemoria)
             
             gantt1 = Gantt()
             gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)
