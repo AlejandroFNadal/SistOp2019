@@ -45,40 +45,52 @@ class Mapa_memoria:
 			lista_labels =[]
 			lista_tamano.append(0)
 			lista_labels.append('0')
+			lista_procesos =[]
+			mem =(0,tamMemoria)
+			gnt.broken_barh([mem], Alt, color = '#FBFCF7')
 			for x in i:
 				print("====")
-				color = self.get_color(x['proceso'])
+				if x['proceso']==0:
+					color = '#A4E4C4'
+				else:
+					color = self.get_color(x['proceso'])
+		
 				tam= (x['dir_ini'], x['tama']) #Donde inicia la particion y su tamaño
 				coordenada = (x['dir_ini']+1,18)
 				tam_part = str(x['tama'])
-				mem =(0,tamMemoria)
-				#gnt.broken_barh(mem, Alt, color = '#FBFCF7')
+				
+				
 				print("Dir inicio: " +str(x['dir_ini'])+ "  tamaño: " +str(x['tama']) + " Estado: "+ str(x['estado']) + " Proceso " +str(x['proceso']) )
 				gnt.annotate(tam_part,(coordenada), 
-				fontsize=10,horizontalalignment='center',verticalalignment='center')
+				fontsize=10,horizontalalignment='center',verticalalignment='center', color = 'black')
 				lista_tamano.append(x['tama'])
 				lista_labels.append(str(x['dir_fin']))
-				if x['estado']:
+				if x['estado'] and x['proceso'] not in lista_procesos:
 					gnt.broken_barh([tam], Alt, color = color)
 					if x['proceso'] ==0:
 						leyenda.append(mpatches.Patch(color = color, label ='SO '))
+						
 					else:
 						leyenda.append(mpatches.Patch(color = color, label ='P '+ str(x['proceso'])))
+					lista_procesos.append(x['proceso'])
 				else:
 					gnt.broken_barh([tam], Alt, color = '#FBFCF7')
-					leyenda.append(mpatches.Patch(color = '#FBFCF7', label ='Vacio'))
+					leyenda.append(mpatches.Patch(color = '#FBFCF7', label =''))
 				#plt.pause(0.5)
 				#ult_col += 1
 			#plt.legend(handles=leyenda)
 			#Distancia entre cada linea vertical y su label
 			#gnt.set_xticks(lista_tamano)
 			#gnt.set_xticklabels(lista_labels)
+			
 			plt.figlegend(handles =leyenda,loc ='best' )
 			print("Ruta mapa: " + FILE_MAPA+str(clk)+'.png')
 			plt.savefig(FILE_MAPA +str(clk)+'.png')
+			
 			plt.pause(0.5)
 			clk +=1
-	#plt.show()
+		#plt.show()
+		
         
     
      
