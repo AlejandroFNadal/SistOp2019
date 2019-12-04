@@ -70,6 +70,9 @@
         <height>281</height>
        </rect>
       </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
       <property name="columnCount">
        <number>5</number>
       </property>
