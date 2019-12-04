@@ -153,10 +153,22 @@ class ColaListos:
                     procesador.imprime_cola_bloqueados()
                     procesador.imprime_cola_listos()
             else:
-                procesador.bloqueados_listos()
-                procesador.listos_ejecucion()
-                procesador.imprime_cola_bloqueados()
-                procesador.imprime_cola_listos()
+                if procesador.cola3!=[]:
+                    procesador.set_estadoMLQ(3)
+                    self.purge_list()
+                    for x in procesador.cola3:
+                        self.cola_listos.append(x)
+                    procesador.listos_ejecucion()
+                    procesador.bloqueados_listos()
+                    if procesador.get_proceso_actual() == None:
+                        procesador.listos_ejecucion()
+                    procesador.imprime_cola_listos()
+                    procesador.imprime_cola_bloqueados()
+                else:
+                    procesador.bloqueados_listos()
+                    procesador.listos_ejecucion()
+                    procesador.imprime_cola_bloqueados()
+                    procesador.imprime_cola_listos()
 
     '''
     def multinivel(self, procesador):

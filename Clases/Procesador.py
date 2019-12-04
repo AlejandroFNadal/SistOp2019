@@ -372,11 +372,15 @@ class Procesador:  # contendra gran parte de las tareas generales
                         self.cola1=[]
                     elif self.estadoMLQ==2:
                         self.cola2=[]
+                    elif self.estadoMLQ==3:
+                        self.cola3=[]
                     for x in self.procesos_listos.get_cola_listos():
                         if x.get_prioridad()==1:
                             self.cola1.append(x)
                         if x.get_prioridad()==2:
                             self.cola2.append(x)
+                        if x.get_prioridad()==3:
+                            self.cola3.append(x)
                     self.procesos_listos.purge_list()
                 print("Cola 1:")
                 for x in self.cola1:

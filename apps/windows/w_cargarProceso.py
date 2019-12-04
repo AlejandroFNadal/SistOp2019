@@ -61,61 +61,57 @@ class W_cargarProceso(QMainWindow):
 		
 
 	def agregarProceso(self):
-						
-						for i in reversed(range(self.ventana.tW_procesos.rowCount())):
-							
-						  self.ventana.tW_procesos.removeRow(i)
-							
-						
-						rafaga = ""
-						#recorro la tabla de rafagas y voy armando el string
-						for row in range(self.ventana.tW_procesos.rowCount()):
-							if self.ventana.tW_procesos.cellWidget(row, 0).currentText() == "CPU":
-								accion = "C"
-							else:
-								accion = "E"
+		
+		rafaga = ""
+		#recorro la tabla de rafagas y voy armando el string
+		for row in range(self.ventana.tW_procesos.rowCount()):
+			if self.ventana.tW_procesos.cellWidget(row, 0).currentText() == "CPU":
+				accion = "C"
+			else:
+				accion = "E"
 
-							raf = self.ventana.tW_procesos.cellWidget(row, 1).value()
-							if rafaga == "":
-								rafaga = accion  + str(raf)
-							else:
-								rafaga = rafaga + "-" + accion  + str(raf)
-						print( rafaga )
-						
-						nombre=self.ventana.lineEdit_Nombre.text()	
-						
-						if self.first_load and rafaga != None:
-							self.first_load=False
-							self.ventana.lineEdit_Nombre.setEnabled(False)
-						arribo=self.ventana.spinBox_Arribo.value()
-						tamano_proc=self.ventana.sBTamanoProceso.value()
-						prio=self.ventana.sB_Prioridad.value()
-						descripcionMemoria = self.ventana.comboBox_seleccionPreConf.currentText()#preset
-						mem = session.query(Presets).filter(Presets.descripcion == descripcionMemoria).first()
-						if mem.fija_variable == "fija":
-							consult = session.query(Particiones).filter(Particiones.batch == descripcionMemoria).order_by(desc(Particiones.tam_part)).first()
-							tamano_m = consult.tam_part
-						else:
-							 tamano_m = (mem.tamMemoria - mem.sistOpMem)
-				
-						
-				
-						if rafaga == None:
-							print("carga exitosa")
-						elif tamano_proc <= tamano_m:
-							#self.ventana.label_2.setVisible(0)
-							self.ventana.label_error_tam.setVisible(0)
-							datos=[nombre,tamano_proc,prio,rafaga,arribo, descripcionMemoria]
-							
-							self.cargarProcBD(datos)
-							
-							#rafaga=self.ventana.lineEdit_rcpu.clear()
-							arribo=self.ventana.spinBox_Arribo.setValue(0)
-							tamano_proc=self.ventana.sBTamanoProceso.setValue(1)
-							prio=self.ventana.sB_Prioridad.setValue(1)
-						else:
-							 #print("Error tamaño")
-							 self.ventana.label_error_tam.setVisible(1)
+			raf = self.ventana.tW_procesos.cellWidget(row, 1).value()
+			if rafaga == "":
+				rafaga = accion  + str(raf)
+			else:
+				rafaga = rafaga + "-" + accion  + str(raf)
+		print( rafaga )
+		for i in reversed(range(self.ventana.tW_procesos.rowCount())):
+			self.ventana.tW_procesos.removeRow(i)
+		nombre=self.ventana.lineEdit_Nombre.text()	
+		
+		if self.first_load and rafaga != None:
+			self.first_load=False
+			self.ventana.lineEdit_Nombre.setEnabled(False)
+		arribo=self.ventana.spinBox_Arribo.value()
+		tamano_proc=self.ventana.sBTamanoProceso.value()
+		prio=self.ventana.sB_Prioridad.value()
+		descripcionMemoria = self.ventana.comboBox_seleccionPreConf.currentText()#preset
+		mem = session.query(Presets).filter(Presets.descripcion == descripcionMemoria).first()
+		if mem.fija_variable == "fija":
+			consult = session.query(Particiones).filter(Particiones.batch == descripcionMemoria).order_by(desc(Particiones.tam_part)).first()
+			tamano_m = consult.tam_part
+		else:
+				tamano_m = (mem.tamMemoria - mem.sistOpMem)
+
+		
+
+		if rafaga == None:
+			print("carga exitosa")
+		elif tamano_proc <= tamano_m:
+			#self.ventana.label_2.setVisible(0)
+			self.ventana.label_error_tam.setVisible(0)
+			datos=[nombre,tamano_proc,prio,rafaga,arribo, descripcionMemoria]
+			
+			self.cargarProcBD(datos)
+			
+			#rafaga=self.ventana.lineEdit_rcpu.clear()
+			arribo=self.ventana.spinBox_Arribo.setValue(0)
+			tamano_proc=self.ventana.sBTamanoProceso.setValue(1)
+			prio=self.ventana.sB_Prioridad.setValue(1)
+		else:
+				#print("Error tamaño")
+				self.ventana.label_error_tam.setVisible(1)
 					
 	def add_row(self):# agrega una fila a la tabla
 		rowPosition = self.ventana.tW_procesos.rowCount()
