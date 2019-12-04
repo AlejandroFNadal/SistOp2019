@@ -33,6 +33,7 @@ class Ui_MainWindow(object):
         self.tab.setObjectName("tab")
         self.tableWidget = QtWidgets.QTableWidget(self.tab)
         self.tableWidget.setGeometry(QtCore.QRect(0, 30, 621, 281))
+        self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidget.setColumnCount(5)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setRowCount(0)

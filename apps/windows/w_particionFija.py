@@ -23,7 +23,8 @@ class W_ParticionFija(QMainWindow):
 		self.cant_mem_rest = int( int(ventana.spinBoxTamMemo.text()) - self.mem_SO	 )
 		self.ventana.label_NombreConf.setText(ventana.lineEdit_Nombre.text()) #seteo los campos
 		self.ventana.label_MemoriaRes.setText(str(self.cant_mem_rest))
-		self.ventana.label_cantPart.setText(str(ventana.spinBox_cantParticion.text()))
+		self.ventana.label_cantPart.setText(str(ventana.spinBox_cantParticion.text())) 	
+		self.ventana.label_mensaje.setVisible(0)
 
 		self.cant_part_rest = int(ventana.spinBox_cantParticion.text()) # se le resta 1 por que una particion es del SO
 		self.lista_particiones = []
@@ -68,26 +69,33 @@ class W_ParticionFija(QMainWindow):
 				print("- Particiones restantes: ", self.cant_part_rest)
 				print("\n")
 			else:
+				self.ventana.label_mensaje.setText("Particion supera el max de memoria disponible")
 				print("<<< El tamaño colocado para la particion supera el disponible en la memoria >>>")
 
-			#para colocar en la ultima particion toda la memoria restante
 			if self.cant_part_rest == 1:
 				self.ultima_part()
-				self.close()
 
 		elif self.cant_part_rest == 1:
 				self.ultima_part()
-				self.close()
 		else:
+			self.ventana.label_mensaje.setText("Cantidad maxima de particiones colocadas")
+			self.ventana.label_mensaje.setVisible(1)
 			print("<<< Cantidad maxima de particiones colocadas >>> " )
-			self.pasar_datos()
-			self.close()
 
 	def reiniciar(self):
 		self.cant_mem_rest = self.cant_mem
 		self.ventana.label_MemoriaRes.setText(str(self.cant_mem_rest))
 		self.cant_part_rest = self.cant_part
 		self.ventana.label_numPart.setText(str(1 + self.cant_part - self.cant_part_rest))
+		self.ventana.tW_ParticionFija.clearContents()
+		for x in range(0,self.ventana.tW_ParticionFija.rowCount()+1):
+			self.ventana.tW_ParticionFija.removeRow(x)
+		self.ventana.tW_ParticionFija.removeRow(0)#No sabemos porque es necesario rehacer esto
+		for x in range(0,self.ventana.tW_ParticionFija.rowCount()+1):
+			self.ventana.tW_ParticionFija.removeRow(x)
+		self.ventana.tW_ParticionFija.removeRow(0)#No sabemos porque es necesario rehacer esto
+
+		#no se por que tengo q hacer 2 veces el for, de esa forma se limpia si o si
 		self.reset_lista_particiones()
 
 	def terminar(self):
@@ -116,11 +124,7 @@ class W_ParticionFija(QMainWindow):
 
 		#2
 		if self.cant_part_rest == 1:
-			self.cargar_lista(self.cant_mem_rest)
-			self.cant_mem_rest = 0
-			self.cant_part_rest -= 1 
-			print("- Memoria restante: ", self.cant_mem_rest)
-			print("- Particiones restantes: ", self.cant_part_rest)
+			self.ultima_part()
 		
 		self.pasar_datos()
 		self.close()
@@ -141,13 +145,19 @@ class W_ParticionFija(QMainWindow):
 
 	def ultima_part(self):
 		self.cargar_lista(self.cant_mem_rest) #mi tam_part seria la cant de mem restante
+		rowPosition = self.ventana.tW_ParticionFija.rowCount()
+		self.ventana.tW_ParticionFija.insertRow(rowPosition)
+		self.ventana.tW_ParticionFija.setItem(rowPosition , 1, QtWidgets.QTableWidgetItem(str(self.cant_mem_rest)))
 		self.cant_mem_rest = 0
-		self.cant_part_rest -= 1 
+		self.cant_part_rest -= 1
+		self.ventana.label_MemoriaRes.setText(str(self.cant_mem_rest))
+		self.ventana.label_numPart.setText(str(1 + self.cant_part - self.cant_part_rest))
 		print("- Memoria restante: ", self.cant_mem_rest)
 		print("- Particiones restantes: ", self.cant_part_rest)
 		print("\n")
+		self.ventana.label_mensaje.setText("Ultima particion autocompletada")
+		self.ventana.label_mensaje.setVisible(1)
 		print("<<< Cantidad maxima de particiones colocadas >>> " )
-		self.pasar_datos()
 
 	def cargar_lista(self,tam_part):
 		batch = self.ventana.label_NombreConf.text()

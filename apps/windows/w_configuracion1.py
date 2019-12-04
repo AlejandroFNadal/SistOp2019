@@ -106,13 +106,13 @@ class W_Configuracion1(QMainWindow):
 
 		print(p.descripcion)
 		#aca falta hacer que grabe en la BD
-	def reiniciar(self):
-		self.ventana.lineEdit_Nombre.setText(" ")
-		self.ventana.spinBoxTamMemo.setValue(1)
-		self.ventana.spinBoxTamSo.setValue(5)
-		self.ventana.radioButtonFija.setAutoExclusive(False)
-		self.ventana.radioButtonFija.setChecked(False)
-		self.ventana.radioButtonVariable.setAutoExclusive(False)
-		self.ventana.radioButtonVariable.setChecked(False)
-		self.ventana.spinBox_cantParticion.setValue(1)
-
+	"""def reiniciar(self):
+					self.ventana.lineEdit_Nombre.setText(" ")
+					self.ventana.spinBoxTamMemo.setValue(1)
+					self.ventana.spinBoxTamSo.setValue(5)
+					self.ventana.radioButtonFija.setAutoExclusive(False)
+					self.ventana.radioButtonFija.setChecked(False)
+					self.ventana.radioButtonVariable.setAutoExclusive(False)
+					self.ventana.radioButtonVariable.setChecked(False)
+					self.ventana.spinBox_cantParticion.setValue(1)
+			"""

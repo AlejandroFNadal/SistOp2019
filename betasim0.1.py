@@ -23,7 +23,7 @@ if __name__ == '__main__':
     proc1.id_batch=1
     proc1.tam_proc=10
     proc1.prioridad=1
-    proc1.rafagaCPU="C8-E2-C3"
+    proc1.rafagaCPU= "C1"
     proc1.tiempo_arribo=1
 
     proc2=Proceso()
@@ -31,15 +31,15 @@ if __name__ == '__main__':
     proc2.id_batch=1
     proc2.tam_proc=10
     proc2.prioridad=1
-    proc2.rafagaCPU="C6-E6-C6"
-    proc2.tiempo_arribo=2
+    proc2.rafagaCPU= "C10-E2-C42-C1-E2-C52"
+    proc2.tiempo_arribo=4
 
     proc3=Proceso()
     proc3.id_proc=3
     proc3.id_batch=1
     proc3.tam_proc=10
     proc3.prioridad=2
-    proc3.rafagaCPU="C4-E3-C1"
+    proc3.rafagaCPU="C3-E2-C22"
     proc3.tiempo_arribo=3
     
     proc4=Proceso()
@@ -47,16 +47,8 @@ if __name__ == '__main__':
     proc4.id_batch=1
     proc4.tam_proc=10
     proc4.prioridad=2
-    proc4.rafagaCPU="C3-E1-C2"
+    proc4.rafagaCPU= "C1-E2-C99"
     proc4.tiempo_arribo=4
-
-    proc5=Proceso()
-    proc5.id_proc=5
-    proc5.id_batch=1
-    proc5.tam_proc=10
-    proc5.prioridad=1
-    proc5.rafagaCPU="C1-E1-C1"
-    proc5.tiempo_arribo=5
 
     part1=Particiones()
     part1.id_part=1
@@ -78,9 +70,14 @@ if __name__ == '__main__':
     part3.tam_part=60
     part3.dir_ini=71
     part3.dir_fin=131
-    procesos=[proc1,proc2,proc3,proc4,proc5]
+    procesos=[proc1,proc2,proc3]
     particiones=[part1,part2]
 
 
-    Core.Simular(preset,procesos,particiones,3,1)
+    Core.Simular(preset,procesos,particiones,3,2)
+
+    #simular(preset,procesos,particiones,alg_planificacion,quantum)
+
+    #alg_planificacion 
+    # 0 = FCFS , 1 = RR , 2 = PRIORIDADES , 3 = MQL , 4 = SJF , 5 = SRTF 
 

@@ -65,7 +65,6 @@ class Procesador:  # contendra gran parte de las tareas generales
             if proc.tiempo_arribo == self.reloj_total:
                 auxdatos = [proc.id_proc, proc.tam_proc,proc.prioridad,proc.rafagaCPU,proc.tiempo_arribo]
                 auxproc = Procesos(auxdatos)
-                auxproc.split_rafaga_tot()
                 #funcion para realizar carga de quamtum al proceso
                 #primer IF son FCFS,PRIORIDADES,SJF,SRTF
                 if alg_planificacion==0 or alg_planificacion==2 or alg_planificacion==4 or alg_planificacion==5:
@@ -329,6 +328,22 @@ class Procesador:  # contendra gran parte de las tareas generales
             proc_gantt.append(str(p))
             gantt_amplitud.append(p*10)
             p+=1
+
+        #For para generar la rafagaCPU
+        for i in intprocesos: #todos los procesos
+            rafaga = i.rafagaCPU.split("-")
+            rafaga_final = []
+            for j in rafaga: #toda la rafaga de un proceso
+                if len(j) == 2: # 'C1' ejemplo
+                    if int(j[1])>0: #para verificar que el numero ingresado sea mayor a 0
+                        elemento = (j[0],int(j[1]))
+                        rafaga_final.append(elemento)
+                elif len(j) == 3: # 'C23' ejemplo
+                    if int(j[1]+j[2])>0:
+                        elemento = (j[0],int(j[1]+j[2]))
+                        rafaga_final.append(elemento)
+                i.rafagaCPU = rafaga_final
+
         # alg_planificacion = preset.algoritmo_as  # agregar luego como un valor de preset, traer de la BD
         
         self.memoria = Memoria(preset.tamMemoria, preset.fija_variable,
@@ -358,11 +373,15 @@ class Procesador:  # contendra gran parte de las tareas generales
                         self.cola1=[]
                     elif self.estadoMLQ==2:
                         self.cola2=[]
+                    elif self.estadoMLQ==3:
+                        self.cola3=[]
                     for x in self.procesos_listos.get_cola_listos():
                         if x.get_prioridad()==1:
                             self.cola1.append(x)
                         if x.get_prioridad()==2:
                             self.cola2.append(x)
+                        if x.get_prioridad()==3:
+                            self.cola3.append(x)
                     self.procesos_listos.purge_list()
                 print("Cola 1:")
                 for x in self.cola1:

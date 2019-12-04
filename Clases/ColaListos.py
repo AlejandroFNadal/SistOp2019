@@ -153,10 +153,22 @@ class ColaListos:
                     procesador.imprime_cola_bloqueados()
                     procesador.imprime_cola_listos()
             else:
-                procesador.bloqueados_listos()
-                procesador.listos_ejecucion()
-                procesador.imprime_cola_bloqueados()
-                procesador.imprime_cola_listos()
+                if procesador.cola3!=[]:
+                    procesador.set_estadoMLQ(3)
+                    self.purge_list()
+                    for x in procesador.cola3:
+                        self.cola_listos.append(x)
+                    procesador.listos_ejecucion()
+                    procesador.bloqueados_listos()
+                    if procesador.get_proceso_actual() == None:
+                        procesador.listos_ejecucion()
+                    procesador.imprime_cola_listos()
+                    procesador.imprime_cola_bloqueados()
+                else:
+                    procesador.bloqueados_listos()
+                    procesador.listos_ejecucion()
+                    procesador.imprime_cola_bloqueados()
+                    procesador.imprime_cola_listos()
 
     '''
     def multinivel(self, procesador):
@@ -344,5 +356,6 @@ class ColaListos:
     def modificar_rafaga_total(self,proceso,tiempo_restante):
         num_rafaga = proceso.get_num_rafaga_actual()
         rafaga_total = proceso.get_rafaga_tot()
-        rafaga_total[num_rafaga] = "C"+str(tiempo_restante)
+        # rafaga_total[num_rafaga] = "C"+str(tiempo_restante) code viejo
+        rafaga_total[num_rafaga] = ("C",tiempo_restante)
         proceso.set_rafaga_total(rafaga_total)
