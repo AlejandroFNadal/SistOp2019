@@ -33,7 +33,7 @@
    <widget class="QLabel" name="sB_Arribo">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>190</y>
       <width>111</width>
       <height>41</height>
@@ -51,7 +51,7 @@
    <widget class="QSpinBox" name="spinBox_Arribo">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>120</x>
       <y>200</y>
       <width>71</width>
       <height>41</height>
@@ -99,8 +99,8 @@
    <widget class="QSpinBox" name="sBTamanoProceso">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>340</y>
+      <x>120</x>
+      <y>270</y>
       <width>71</width>
       <height>41</height>
      </rect>
@@ -118,8 +118,8 @@
    <widget class="QSpinBox" name="sB_Prioridad">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>270</y>
+      <x>370</x>
+      <y>200</y>
       <width>71</width>
       <height>41</height>
      </rect>
@@ -163,8 +163,8 @@
    <widget class="QLabel" name="tamMem_8">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>250</y>
+      <x>270</x>
+      <y>190</y>
       <width>111</width>
       <height>41</height>
      </rect>
@@ -178,22 +178,12 @@
      <string>Prioridad:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_rcpu">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>400</y>
-      <width>211</width>
-      <height>41</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="tamSo_2">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>330</y>
-      <width>111</width>
+      <x>20</x>
+      <y>260</y>
+      <width>91</width>
       <height>41</height>
      </rect>
     </property>
@@ -209,8 +199,8 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>410</y>
+      <x>10</x>
+      <y>350</y>
       <width>81</width>
       <height>20</height>
      </rect>
@@ -227,9 +217,9 @@
    <widget class="QLabel" name="tamMem_2">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>140</y>
-      <width>71</width>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -239,54 +229,17 @@
      </font>
     </property>
     <property name="text">
-     <string>Nombre:</string>
+     <string>Nombre del Batch:</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_Nombre">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>200</x>
       <y>150</y>
-      <width>171</width>
+      <width>281</width>
       <height>22</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>23</x>
-      <y>490</y>
-      <width>381</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Ej:E4-C2-S4-C1 (siempre debe terminar en rafaga de CPU</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>450</y>
-      <width>191</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
-    <property name="text">
-     <string>Formato rafaga erroneo</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -398,8 +351,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>340</y>
+      <x>200</x>
+      <y>270</y>
       <width>301</width>
       <height>20</height>
      </rect>
@@ -419,8 +372,8 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>360</y>
+      <x>200</x>
+      <y>290</y>
       <width>31</width>
       <height>16</height>
      </rect>
@@ -434,6 +387,58 @@
     </property>
     <property name="text">
      <string>Kb</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tW_procesos">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>320</y>
+      <width>281</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>ACCION</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>RAFAGA</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPushButton" name="btn_add">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>330</y>
+      <width>91</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(221, 221, 221);</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_rm">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>380</y>
+      <width>91</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(221, 221, 221);</string>
+    </property>
+    <property name="text">
+     <string>-</string>
     </property>
    </widget>
   </widget>
