@@ -44,14 +44,20 @@ class W_cargarProceso(QMainWindow):
 
 	def listarTam(self): # Lista configuracion de memoria y tamaño maximo de la particion fija y variable
 		descripcionMemoria = self.ventana.comboBox_seleccionPreConf.currentText()#preset
-		mem = session.query(Presets).filter(Presets.descripcion == descripcionMemoria).one()
-		if mem.fija_variable == "fija":
-			tamano = session.query(Particiones).filter(Particiones.batch == descripcionMemoria).order_by(desc(Particiones.tam_part)).first()
-			self.ventana.label_tamMax.setText(str(tamano.tam_part))
-		else:
-			 self.ventana.label_tamMax.setText(str(mem.tamMemoria - mem.sistOpMem))
+		mem = None
+		try:
+			mem = session.query(Presets).filter(Presets.descripcion == descripcionMemoria).one()
+		except Exception as e:
+			pass
 		
-		self.ventana.label_particion.setText(str(mem.fija_variable))
+		if mem:
+			if mem.fija_variable == "fija":
+				tamano = session.query(Particiones).filter(Particiones.batch == descripcionMemoria).order_by(desc(Particiones.tam_part)).first()
+				self.ventana.label_tamMax.setText(str(tamano.tam_part))
+			else:
+				 self.ventana.label_tamMax.setText(str(mem.tamMemoria - mem.sistOpMem))
+			
+			self.ventana.label_particion.setText(str(mem.fija_variable))
 		
 
 	def agregarProceso(self):

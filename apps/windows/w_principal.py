@@ -34,10 +34,11 @@ class W_Main(QMainWindow):
 		self.ventana.setupUi(self)
 		
 		self.dialogs = list()
-
+		self.ventana.PB_crearProcesos.setEnabled(False)
+		
 		self.ventana.actionCrear_procesos.triggered.connect(self.crearProceso)
 		self.ventana.PB_crearProcesos.clicked.connect(self.crearProceso)
-		self.ventana.PB_crearProcesos.setEnabled(False)
+		
 		self.ventana.actionConfiguracion_2.triggered.connect(self.menuConfiguracion1)
 		self.ventana.PB_nuevaMemoria.clicked.connect(self.menuConfiguracion1)
 		self.ventana.actionSalir.triggered.connect(self.salir)
@@ -75,14 +76,16 @@ class W_Main(QMainWindow):
 
 
 	def mostrarDesc(self, presets):
-		if presets != None:
+		if presets:
+			
 			self.ventana.actionCrear_procesos.setEnabled(True)
 			self.ventana.PB_crearProcesos.setEnabled(True)
-		for p in presets: #recorre presets y lista descripcion
-			
-			self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
+			for p in presets: #recorre presets y lista descripcion
+				
+				self.ventana.comboBox_seleccionPreConf.addItem(str(p.descripcion))
 
-		self.listarConf()
+			self.listarConf()
+
 	
 	def mostrarProc(self):
 		self.ventana.comboBox_cargarProceso.clear()
@@ -207,6 +210,7 @@ class W_Main(QMainWindow):
 			self.ventana.tableWidget.setItem(rowPosition , 2, QtWidgets.QTableWidgetItem(str(l.prioridad)))
 			self.ventana.tableWidget.setItem(rowPosition , 3, QtWidgets.QTableWidgetItem(str(l.tam_proc)))
 			self.ventana.tableWidget.setItem(rowPosition , 4, QtWidgets.QTableWidgetItem(str(l.rafagaCPU)))
+			self.ventana.tableWidget.resizeColumnsToContents()
 
 	def listarConf(self):
 		self.mostrarProc()
