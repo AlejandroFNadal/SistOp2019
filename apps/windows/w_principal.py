@@ -111,6 +111,10 @@ class W_Main(QMainWindow):
 		ventanaConfig.show()
 		
 	def actualizar(self):
+
+		self.ventana.actionCrear_procesos.setEnabled(True)
+		self.ventana.PB_crearProcesos.setEnabled(True)
+		
 		presets = session.query(Presets).all()
 		self.ventana.comboBox_seleccionPreConf.clear()
 		for p in presets: #recorre presets y lista descripcion
@@ -195,12 +199,16 @@ class W_Main(QMainWindow):
 		'''
 
 	def listar(self):
+		
+		for i in reversed(range(self.ventana.tableWidget.rowCount())):
+			
+			self.ventana.tableWidget.removeRow(i)
 		i = self.ventana.comboBox_cargarProceso.currentText()
 		#self.ventana.tableWidget.clear()
-		self.ventana.tableWidget.clearContents()
-		for x in range(0,self.ventana.tableWidget.rowCount()+1):
-			self.ventana.tableWidget.removeRow(x)
-		self.ventana.tableWidget.removeRow(0)#No sabemos porque es necesario rehacer esto
+		"""self.ventana.tableWidget.clearContents()
+								for x in range(0,self.ventana.tableWidget.rowCount()+1):
+									self.ventana.tableWidget.removeRow(x)
+								self.ventana.tableWidget.removeRow(0)"""#No sabemos porque es necesario rehacer esto
 		q = session.query(Proceso).filter(Proceso.id_batch == i).all()
 		for l in q:
 			rowPosition = self.ventana.tableWidget.rowCount()

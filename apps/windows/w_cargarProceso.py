@@ -62,9 +62,11 @@ class W_cargarProceso(QMainWindow):
 
 	def agregarProceso(self):
 						
-						#rafaga=self.ventana.lineEdit_rcpu.text()
-						#p=re.compile('(((E\d)|(C\d)|(S\d))-)*(C\d)') #expresion regular de las rafaga
-						#crea una lista vacia luego recorre la tabla y va creando una tupla
+						for i in reversed(range(self.ventana.tW_procesos.rowCount())):
+							
+						  self.ventana.tW_procesos.removeRow(i)
+							
+						
 						rafaga = ""
 						#recorro la tabla de rafagas y voy armando el string
 						for row in range(self.ventana.tW_procesos.rowCount()):
