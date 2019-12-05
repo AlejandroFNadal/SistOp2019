@@ -73,10 +73,12 @@ class W_ParticionFija(QMainWindow):
 				print("<<< El tamaño colocado para la particion supera el disponible en la memoria >>>")
 
 			if self.cant_part_rest == 1:
-				self.ultima_part()
+				pass
+				#self.ultima_part()
 
 		elif self.cant_part_rest == 1:
-				self.ultima_part()
+			pass
+			#self.ultima_part()
 		else:
 			self.ventana.label_mensaje.setText("Cantidad maxima de particiones colocadas")
 			self.ventana.label_mensaje.setVisible(1)
@@ -124,7 +126,8 @@ class W_ParticionFija(QMainWindow):
 
 		#2
 		if self.cant_part_rest == 1:
-			self.ultima_part()
+			pass
+			#self.ultima_part()
 		
 		self.pasar_datos()
 		self.close()

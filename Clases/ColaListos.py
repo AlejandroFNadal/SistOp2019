@@ -40,7 +40,7 @@ class ColaListos:
     def multinivel(self,procesador,quantum):
         aux = procesador.get_proceso_actual()
         if procesador.cola1 != []:
-            quantum=3
+            quantum=5
             procesador.set_estadoMLQ(1)
             #Magic here
             self.purge_list()
@@ -101,6 +101,7 @@ class ColaListos:
         else:
             if procesador.cola2 != []: #rr 2
                 procesador.set_estadoMLQ(2)
+                quantum=3
                 self.purge_list()
                 for x in procesador.cola2:
                     self.cola_listos.append(x)
@@ -169,48 +170,6 @@ class ColaListos:
                     procesador.listos_ejecucion()
                     procesador.imprime_cola_bloqueados()
                     procesador.imprime_cola_listos()
-
-    '''
-    def multinivel(self, procesador):
-        #se ordena por prioridad
-        self.cola_listos.sort(key=lambda x: x.get_prioridad(), reverse=True)
-
-        if self.get_cola_listos() != []:
-                if procesador.get_proceso_actual() == None:
-                    #misma porcion de codigo de listos_ejecucion procesador vacio
-                    pos = self.get_cola_listos()[0].get_num_rafaga_actual()
-                    rafaga_proc = self.get_cola_listos()[0].get_rafaga_tot()
-                    if rafaga_proc[pos][0] == "C":
-                        if self.get_cola_listos()[0].get_prioridad() == 3: #alta prioridad
-                            self.round_robin(3,procesador)
-                        elif self.get_cola_listos()[0].get_prioridad() == 2: #media prioridad
-                            self.round_robin(5,procesador)
-                        else: #prioridad == 1, baja prioridad
-                            self.fcfs(procesador)
-                else:
-                    #misma porcion de codigo de listos_ejecucion procesador vacio
-                    pos = self.get_cola_listos()[0].get_num_rafaga_actual()
-                    rafaga_proc = self.get_cola_listos()[0].get_rafaga_tot()
-                    if rafaga_proc[pos][0] == "C":
-                        if self.get_cola_listos()[0].get_prioridad() == 3: #alta prioridad
-                            self.round_robin(3,procesador)
-                        elif self.get_cola_listos()[0].get_prioridad() == 2: #media prioridad
-                            self.round_robin(5,procesador)
-                        else: #prioridad == 1, baja prioridad
-                            self.fcfs(procesador)
-        else:
-            if procesador.get_proceso_actual() == None:
-                procesador.bloqueados_listos()
-                if self.get_cola_listos() != []:
-                    prioridad_proc_colalistos = self.get_cola_listos()[0].get_prioridad() #ya pasamos a bloqueados antes los procesos
-                    if prioridad_proc_colalistos == 3:
-                        procesador.listos_ejecucion()
-                    elif prioridad_proc_colalistos == 2:
-                        procesador.listos_ejecucion()
-                    else:
-                        procesador.listos_ejecucion()                 
-        '''
-
 
     def elimina_elemento(self, num):
         self.cola_listos.pop(num)
