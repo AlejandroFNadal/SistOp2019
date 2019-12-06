@@ -1,5 +1,6 @@
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5 import QtCore
 from crearDB import Presets, Base, Particiones, Proceso
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -37,7 +38,8 @@ class W_ParticionFija(QMainWindow):
 		self.ventana.btn_agregar.clicked.connect(self.agregarParticion)
 		self.ventana.btn_terminar.clicked.connect(self.terminar)
 		self.ventana.btn_reiniciar.clicked.connect(self.reiniciar)
-
+		self.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+		self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
 	def get_lista_particiones(self):
 		return self.lista_particiones
 

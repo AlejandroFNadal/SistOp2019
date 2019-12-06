@@ -356,6 +356,8 @@ class Procesador:  # contendra gran parte de las tareas generales
             print("Datos simulacion")
             print("Algoritmo Planificacion "+str(alg_planificacion))
             print("Quantum "+str(quantum))
+
+
             while len(self.cola_terminados) < self.cant_procesos and not self.salir:
                 intprocesos = self.cargar_cola_nuevos(intprocesos,quantum,alg_planificacion)
                 self.cargar_cola_listos(alg_planificacion, quantum, self.memoria)
@@ -399,14 +401,14 @@ class Procesador:  # contendra gran parte de las tareas generales
             self.imprime_cubo()
             tiempo_espera = Estadisticas()
             tiempo_espera.est_T_E(self.cubo)
+            tiempo_espera.est_T_R(self.cubo)
             mapa1 = Mapa_memoria()
             mapa1.mapa_memoria(self.tabla_memoria, preset.tamMemoria)
             
             gantt1 = Gantt()
             gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)
 
-            tiempo_retorno = Estadisticas()
-            tiempo_retorno.est_T_R(self.cubo)
+            
             
 
             

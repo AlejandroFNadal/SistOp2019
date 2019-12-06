@@ -74,7 +74,6 @@ class W_Configuracion1(QMainWindow):
 			else:
 				particion = "variable"
 				
-
 			datos = [nombreConf, tamanoMemoria,tamanoSO, particion, cant_part, algoritmo]
 			self.grabarPresetBD(datos)
 			self.close()
