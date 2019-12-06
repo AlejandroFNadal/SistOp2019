@@ -10,6 +10,8 @@ from apps.windows.w_cargarProceso import W_cargarProceso
 from apps.windows.w_configuracion1 import W_Configuracion1 
 
 from apps.windows.w_gantt import W_image_gantt
+from apps.windows.w_estadistica1 import W_Estadistica1
+from apps.windows.w_estadistica2 import W_Estadistica2
 
 from apps.windows.w_instruccionesDeUso import W_instruccionesDeUso
 
@@ -48,6 +50,9 @@ class W_Main(QMainWindow):
 		self.ventana.actionCrear_procesos.setEnabled(False)
 		self.ventana.pushButton.clicked.connect(self.actualizar)
 		self.ventana.btn_gantt.clicked.connect(self.mostrarGantt)
+
+		self.ventana.btn_estadistica1.clicked.connect(self.mostrarEstadisitca1)
+		self.ventana.btn_estadistica2.clicked.connect(self.mostrarEstadisitca2)
 
 		self.ventana.spinBox_quantum.setEnabled(False)
 		
@@ -136,6 +141,18 @@ class W_Main(QMainWindow):
 		ventanaConfig = W_image_gantt()
 		self.dialogs.append(ventanaConfig)
 		ventanaConfig.show()
+
+	def mostrarEstadisitca1(self):
+		ventanaEstadistica1 = W_Estadistica1()
+		self.dialogs.append(ventanaEstadistica1)
+		ventanaEstadistica1.show()
+
+	def mostrarEstadisitca2(self):
+		ventanaEstadistica2 = W_Estadistica2()
+		self.dialogs.append(ventanaEstadistica2)
+		ventanaEstadistica2.show()
+	
+
 
 	def salir(self):
 		self.close()

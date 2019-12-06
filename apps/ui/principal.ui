@@ -316,7 +316,7 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>830</x>
+      <x>810</x>
       <y>160</y>
       <width>79</width>
       <height>25</height>
@@ -329,7 +329,7 @@
    <widget class="QPushButton" name="btn_gantt">
     <property name="geometry">
      <rect>
-      <x>930</x>
+      <x>900</x>
       <y>160</y>
       <width>79</width>
       <height>25</height>
@@ -384,6 +384,32 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt; font-weight:600;&quot;&gt;Ano: &lt;/span&gt;&lt;span style=&quot; font-size:7pt;&quot;&gt;2019&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt; font-weight:600;&quot;&gt;Integrantes: &lt;/span&gt;&lt;span style=&quot; font-size:7pt;&quot;&gt;Ferandez,Giselle; Stride, Eric; Nadal, Alejandro; Michelson, Nicolas&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt; font-weight:600;&quot;&gt;Profesores:&lt;/span&gt;&lt;span style=&quot; font-size:7pt;&quot;&gt; Cuenca Pletsch, Liliana; Ristoff, Alberto&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_estadistica1">
+    <property name="geometry">
+     <rect>
+      <x>988</x>
+      <y>160</y>
+      <width>81</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>T. de espera</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_estadistica2">
+    <property name="geometry">
+     <rect>
+      <x>1078</x>
+      <y>160</y>
+      <width>81</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>T. Ejecucion</string>
     </property>
    </widget>
   </widget>
