@@ -12,7 +12,7 @@ class W_Estadistica2(QMainWindow):
 		self.dialogs = list()
 
 		#-- aca genera la imagen en principal
-		#pixmap = QtGui.QPixmap('apps/windows/Gantt.png')
-		#self.ventana.label_gantt.setPixmap(pixmap)
+		pixmap = QtGui.QPixmap('apps/windows/Tiempo_Retorno.png')
+		self.ventana.label_gantt.setPixmap(pixmap)
 		
-		# -- 
+		
