@@ -231,7 +231,7 @@ class Ui_MainWindow(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:7pt; font-weight:600;\">Integrantes: </span><span style=\" font-size:7pt;\">Ferandez,Giselle; Stride, Eric; Nadal, Alejandro; Michelson, Nicolas</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:7pt; font-weight:600;\">Profesores:</span><span style=\" font-size:7pt;\"> Cuenca Pletsch, Liliana; Ristoff, Alberto</span></p></body></html>"))
         self.btn_estadistica1.setText(_translate("MainWindow", "T. de espera"))
-        self.btn_estadistica2.setText(_translate("MainWindow", "T. Ejecucion"))
+        self.btn_estadistica2.setText(_translate("MainWindow", "T. Retorno"))
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.menuAyuda.setTitle(_translate("MainWindow", "Ayuda"))
         self.actionSalir.setText(_translate("MainWindow", "Salir"))

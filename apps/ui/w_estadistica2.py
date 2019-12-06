@@ -34,4 +34,4 @@ class Ui_Estadistica2(object):
 
     def retranslateUi(self, Estadistica2):
         _translate = QtCore.QCoreApplication.translate
-        Estadistica2.setWindowTitle(_translate("Estadistica2", "Tiempo De Ejecucion"))
+        Estadistica2.setWindowTitle(_translate("Estadistica2", "Tiempo De Retorno"))
