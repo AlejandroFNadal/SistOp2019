@@ -57,7 +57,7 @@ class Memoria:
         first_part = None
         pos = 1 #ignorar part SO
         while first_part == None and (pos < len(self.lista_particiones)):
-            if self.lista_particiones[pos].get_tamano() > proc.get_tamano_proc() and self.lista_particiones[pos].get_estado()==False:
+            if self.lista_particiones[pos].get_tamano() >= proc.get_tamano_proc() and self.lista_particiones[pos].get_estado()==False:
                 first_part = pos
             pos += 1
         if first_part != None:
@@ -69,7 +69,7 @@ class Memoria:
             pos=1
             while pos < len(self.lista_particiones) and bandera == False:
                 #print(str(self.lista_particiones[pos])+str())
-                if self.lista_particiones[pos].get_tamano() > proc.get_tamano_proc():
+                if self.lista_particiones[pos].get_tamano() >= proc.get_tamano_proc():
                     bandera = True
                 pos += 1
             if bandera==False:

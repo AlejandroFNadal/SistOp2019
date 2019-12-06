@@ -204,7 +204,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Procesos"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Mapa Memoria"))
         self.label_2.setText(_translate("MainWindow", "Algoritmo de Planificacion:"))
-        self.label_3.setText(_translate("MainWindow", "Planificador de Procesos Version 1.0"))
+        self.label_3.setText(_translate("MainWindow", "NEGASIM"))
         item = self.tableWidget_2.verticalHeaderItem(0)
         item.setText(_translate("MainWindow", "Algoritmo"))
         item = self.tableWidget_2.verticalHeaderItem(1)

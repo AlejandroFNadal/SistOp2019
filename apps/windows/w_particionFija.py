@@ -1,5 +1,6 @@
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5 import QtCore
 from crearDB import Presets, Base, Particiones, Proceso
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -37,7 +38,8 @@ class W_ParticionFija(QMainWindow):
 		self.ventana.btn_agregar.clicked.connect(self.agregarParticion)
 		self.ventana.btn_terminar.clicked.connect(self.terminar)
 		self.ventana.btn_reiniciar.clicked.connect(self.reiniciar)
-
+		self.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+		self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
 	def get_lista_particiones(self):
 		return self.lista_particiones
 
@@ -73,12 +75,10 @@ class W_ParticionFija(QMainWindow):
 				print("<<< El tamaño colocado para la particion supera el disponible en la memoria >>>")
 
 			if self.cant_part_rest == 1:
-				pass
-				#self.ultima_part()
+				self.ultima_part()
 
 		elif self.cant_part_rest == 1:
-			pass
-			#self.ultima_part()
+			self.ultima_part()
 		else:
 			self.ventana.label_mensaje.setText("Cantidad maxima de particiones colocadas")
 			self.ventana.label_mensaje.setVisible(1)
@@ -104,8 +104,8 @@ class W_ParticionFija(QMainWindow):
 		#Aca deberiamos tener en cuenta si el usuario no completo las particiones.
 		#Podriamos hacer que si pulsa en terminar las particiones se creen automaticas
 		#con igual tamaño todas (o casi todas, la ultima podria tener un poquito mas)
-		
-		tam_part = self.cant_mem_rest//self.cant_part_rest
+		if self.cant_part_rest>0:
+			tam_part = self.cant_mem_rest//self.cant_part_rest
 		#1
 		while self.cant_part_rest > 1:
 			if (tam_part*self.cant_part_rest) == self.cant_part_rest:
@@ -126,9 +126,8 @@ class W_ParticionFija(QMainWindow):
 
 		#2
 		if self.cant_part_rest == 1:
-			pass
-			#self.ultima_part()
-		
+			self.ultima_part()
+
 		self.pasar_datos()
 		self.close()
 

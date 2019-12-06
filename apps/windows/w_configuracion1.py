@@ -44,12 +44,7 @@ class W_Configuracion1(QMainWindow):
 			vent.spinBox_cantParticion.setEnabled(True)
 		if vent.radioButtonVariable.isChecked():
 			vent.spinBox_cantParticion.setEnabled(False)
-	
-	def reiniciar(self):
-		ventana = W_Configuracion1()
-		ventana.show()
 
-	
 
 	def config(self):
 
@@ -79,7 +74,6 @@ class W_Configuracion1(QMainWindow):
 			else:
 				particion = "variable"
 				
-
 			datos = [nombreConf, tamanoMemoria,tamanoSO, particion, cant_part, algoritmo]
 			self.grabarPresetBD(datos)
 			self.close()
@@ -106,13 +100,14 @@ class W_Configuracion1(QMainWindow):
 
 		print(p.descripcion)
 		#aca falta hacer que grabe en la BD
-	"""def reiniciar(self):
-					self.ventana.lineEdit_Nombre.setText(" ")
-					self.ventana.spinBoxTamMemo.setValue(1)
-					self.ventana.spinBoxTamSo.setValue(5)
-					self.ventana.radioButtonFija.setAutoExclusive(False)
-					self.ventana.radioButtonFija.setChecked(False)
-					self.ventana.radioButtonVariable.setAutoExclusive(False)
-					self.ventana.radioButtonVariable.setChecked(False)
-					self.ventana.spinBox_cantParticion.setValue(1)
-			"""
+	def reiniciar(self):
+		self.ventana.lineEdit_Nombre.setText(" ")#nombreConf
+		self.ventana.spinBoxTamMemo.setValue(1)
+		self.ventana.spinBoxTamSo.setValue(5)
+		self.ventana.radioButtonFija.setAutoExclusive(True)
+		self.ventana.radioButtonFija.setChecked(False)
+		self.ventana.radioButtonVariable.setAutoExclusive(True)
+		self.ventana.radioButtonVariable.setChecked(True)
+		self.ventana.spinBox_cantParticion.setValue(2)
+		self.ventana.spinBox_cantParticion.setMinimum(2)
+		self.ventana.spinBox_cantParticion.setEnabled(False)
