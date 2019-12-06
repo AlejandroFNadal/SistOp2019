@@ -44,7 +44,9 @@ class W_Main(QMainWindow):
 		self.ventana.actionConfiguracion_2.triggered.connect(self.menuConfiguracion1)
 		self.ventana.PB_nuevaMemoria.clicked.connect(self.menuConfiguracion1)
 		self.ventana.actionSalir.triggered.connect(self.salir)
-		self.ventana.actionAyuda.triggered.connect(self.ayuda)
+		
+		self.ventana.actionInstruccion_de_Uso.triggered.connect(self.ayuda)
+		
 		self.ventana.actionAcerca_de.triggered.connect(self.AcercaDe)
 		self.ventana.btn_comenzar.clicked.connect(self.comenzar)
 		self.ventana.actionCrear_procesos.setEnabled(False)

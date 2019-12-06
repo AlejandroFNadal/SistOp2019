@@ -16,6 +16,10 @@ class Ui_Estadistica2(object):
         Estadistica2.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(Estadistica2)
         self.centralwidget.setObjectName("centralwidget")
+        self.label_estadistica2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_estadistica2.setGeometry(QtCore.QRect(20, 10, 761, 511))
+        self.label_estadistica2.setText("")
+        self.label_estadistica2.setObjectName("label_estadistica2")
         Estadistica2.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(Estadistica2)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
@@ -30,4 +34,4 @@ class Ui_Estadistica2(object):
 
     def retranslateUi(self, Estadistica2):
         _translate = QtCore.QCoreApplication.translate
-        Estadistica2.setWindowTitle(_translate("Estadistica2", "Tiempo De Ejecucion"))
+        Estadistica2.setWindowTitle(_translate("Estadistica2", "Tiempo De Retorno"))

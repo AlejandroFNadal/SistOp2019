@@ -409,7 +409,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="text">
-     <string>T. Ejecucion</string>
+     <string>T. Retorno</string>
     </property>
    </widget>
   </widget>
@@ -428,15 +428,12 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="separator"/>
     <addaction name="separator"/>
-    <addaction name="actionConfiguracion_2"/>
-    <addaction name="actionCrear_procesos"/>
     <addaction name="actionSalir"/>
    </widget>
    <widget class="QMenu" name="menuAyuda">
     <property name="title">
      <string>Ayuda</string>
     </property>
-    <addaction name="actionAyuda"/>
     <addaction name="actionInstruccion_de_Uso"/>
     <addaction name="actionAcerca_de"/>
    </widget>
