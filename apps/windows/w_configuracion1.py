@@ -25,7 +25,7 @@ class W_Configuracion1(QMainWindow):
 		self.ventana.radioButtonFija.setChecked(False)
 		self.ventana.radioButtonVariable.setAutoExclusive(True)
 		self.ventana.radioButtonVariable.setChecked(True)
-		
+		self.ventana.selectAlg.addItems(["FirstFit", "WorsFit"])
 		self.ventana.spinBox_cantParticion.setValue(2)
 		self.ventana.spinBox_cantParticion.setMinimum(2)
 		self.ventana.spinBox_cantParticion.setEnabled(False)
@@ -41,9 +41,13 @@ class W_Configuracion1(QMainWindow):
 
 	def cambiarSpinbox(self,vent):
 		if vent.radioButtonFija.isChecked():
+			self.ventana.selectAlg.clear()
 			vent.spinBox_cantParticion.setEnabled(True)
+			self.ventana.selectAlg.addItems(["BestFit", "FirstFit"])
 		if vent.radioButtonVariable.isChecked():
+			self.ventana.selectAlg.clear()
 			vent.spinBox_cantParticion.setEnabled(False)
+			self.ventana.selectAlg.addItems(["FirstFit", "WorsFit"])
 
 
 	def config(self):
