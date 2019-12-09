@@ -41,7 +41,10 @@ class Procesos:  # Contiene los datos esenciales de un proceso
         return self.tiempo_arribo
 
     def get_prioridad(self):
-        return self.prioridad
+        if self.prioridad == None:
+            return -1
+        else:
+            return self.prioridad
 
     def get_tamano_proc(self):
         return self.tamano_proc

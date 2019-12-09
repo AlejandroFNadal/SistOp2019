@@ -37,16 +37,32 @@ class ColaListos:
     def imprimir_consola(self):
         for x in self.cola_listos:
             x.print_proceso_fake()
-    def multinivel(self,procesador,quantum):
+    def multinivel(self,procesador):
         aux = procesador.get_proceso_actual()
-        if procesador.cola1 != []:
+        self.purge_list()
+        if procesador.cola1 != [] or (procesador.get_proceso_actual() != None and procesador.get_proceso_actual().get_prioridad()==1):
             quantum=5
             procesador.set_estadoMLQ(1)
             #Magic here
-            self.purge_list()
             for x in procesador.cola1:
                 self.cola_listos.append(x)
             #Magic here
+            if aux != None and aux.get_prioridad() == 3:
+                aux.set_estado(2) #listo
+                tiempo_r_fcfs = aux.get_tiempo_restante()
+                self.modificar_rafaga_total(aux,tiempo_r_fcfs)
+                self.cola_listos.append(aux)
+                procesador.set_proceso_actual(None)
+                procesador.listos_ejecucion()
+                aux = procesador.get_proceso_actual()
+            if aux != None and aux.get_prioridad() == 2:
+                aux.set_estado(2) #listo
+                tiempo_r_rr2 = aux.get_tiempo_restante()
+                self.modificar_rafaga_total(aux,tiempo_r_rr2)
+                self.cola_listos.append(aux)
+                procesador.set_proceso_actual(None)
+                procesador.listos_ejecucion()
+                aux = procesador.get_proceso_actual()
             if aux != None:
                 tiempo_r = aux.get_tiempo_restante()
                 q = procesador.get_proceso_actual().get_quantum()
@@ -64,8 +80,13 @@ class ColaListos:
                     #print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
                     # se añade el proceso a la cola de listos
                     self.modificar_rafaga_total(aux,tiempo_r)
-                    aux.set_quantum(quantum)
                     aux.set_estado(2) #LISTO
+                    if aux.get_prioridad() == 1:
+                        aux.set_quantum(5)
+                    elif aux.get_prioridad() == 2:
+                        aux.set_quantum(3)
+                    elif aux.get_prioridad() == 3:
+                        aux.set_quantum(None)
                     self.anade_proceso(aux)
                     self.imprime_cola_listos()
                     # Le aplicamos un expropiese venezolano
@@ -80,7 +101,12 @@ class ColaListos:
                     if tiempo_r == 0:
                         #print("pasa a bloqueado o terminado")
                         #aca va a salir el proceso por que TR=0, entonces seteamos el quantum antes que salga
-                        procesador.get_proceso_actual().set_quantum(quantum)
+                        if procesador.get_proceso_actual().get_prioridad() == 1:
+                            procesador.get_proceso_actual().set_quantum(5)
+                        elif procesador.get_proceso_actual().get_prioridad() == 2:
+                            procesador.get_proceso_actual().set_quantum(3)
+                        elif procesador.get_proceso_actual().get_prioridad() == 3:
+                            procesador.get_proceso_actual().set_quantum(None)
                         procesador.listos_ejecucion()
                         procesador.bloqueados_listos()
                         if procesador.get_proceso_actual() == None:
@@ -96,16 +122,21 @@ class ColaListos:
                 procesador.imprime_cola_listos()
             #Magic here again
             print(procesador.cola1)
-            
-            return self.cola_listos
         else:
-            if procesador.cola2 != []: #rr 2
+            if procesador.cola2 != [] or (procesador.get_proceso_actual() != None and procesador.get_proceso_actual().get_prioridad()==2): #rr 2
                 procesador.set_estadoMLQ(2)
                 quantum=3
-                self.purge_list()
                 for x in procesador.cola2:
                     self.cola_listos.append(x)
                 #Magic here
+                if aux != None and aux.get_prioridad() == 3:
+                    aux.set_estado(2) #listo
+                    tiempo_r_fcfs = aux.get_tiempo_restante()
+                    self.modificar_rafaga_total(aux,tiempo_r_fcfs)
+                    self.cola_listos.append(aux)
+                    procesador.set_proceso_actual(None)
+                    procesador.listos_ejecucion()
+                    aux = procesador.get_proceso_actual()
                 if aux != None:
                     tiempo_r = aux.get_tiempo_restante()
                     q = procesador.get_proceso_actual().get_quantum()
@@ -123,8 +154,13 @@ class ColaListos:
                         #print("Tiempo restante del proceso actual : " +str(aux.get_tiempo_restante()))
                         # se añade el proceso a la cola de listos
                         self.modificar_rafaga_total(aux,tiempo_r)
-                        aux.set_quantum(quantum)
                         aux.set_estado(2) #LISTO
+                        if aux.get_prioridad() == 1:
+                            aux.set_quantum(5)
+                        elif aux.get_prioridad() == 2:
+                            aux.set_quantum(3)
+                        elif aux.get_prioridad() == 3:
+                            aux.set_quantum(None)
                         self.anade_proceso(aux)
                         self.imprime_cola_listos()
                         # Le aplicamos un expropiese venezolano
@@ -139,7 +175,12 @@ class ColaListos:
                         if tiempo_r == 0:
                             #print("pasa a bloqueado o terminado")
                             #aca va a salir el proceso por que TR=0, entonces seteamos el quantum antes que salga
-                            procesador.get_proceso_actual().set_quantum(quantum)
+                            if procesador.get_proceso_actual().get_prioridad() == 1:
+                                procesador.get_proceso_actual().set_quantum(5)
+                            elif procesador.get_proceso_actual().get_prioridad() == 2:
+                                procesador.get_proceso_actual().set_quantum(3)
+                            elif procesador.get_proceso_actual().get_prioridad() == 3:
+                                procesador.get_proceso_actual().set_quantum(None)
                             procesador.listos_ejecucion()
                             procesador.bloqueados_listos()
                             if procesador.get_proceso_actual() == None:
@@ -154,7 +195,7 @@ class ColaListos:
                     procesador.imprime_cola_bloqueados()
                     procesador.imprime_cola_listos()
             else:
-                if procesador.cola3!=[]:
+                if procesador.cola3!=[] or (procesador.get_proceso_actual() != None and procesador.get_proceso_actual().get_prioridad()==3):
                     procesador.set_estadoMLQ(3)
                     self.purge_list()
                     for x in procesador.cola3:
@@ -166,6 +207,11 @@ class ColaListos:
                     procesador.imprime_cola_listos()
                     procesador.imprime_cola_bloqueados()
                 else:
+                    print(">>>> ACA NO TIENE QUE ENTRAR  <<<<")
+                    print(">>>> ACA NO TIENE QUE ENTRAR  <<<<")
+                    print("Solo entra en la 1ra vuelta")
+                    print(">>>> ACA NO TIENE QUE ENTRAR  <<<<")
+                    print(">>>> ACA NO TIENE QUE ENTRAR  <<<<")
                     procesador.bloqueados_listos()
                     procesador.listos_ejecucion()
                     procesador.imprime_cola_bloqueados()
@@ -295,7 +341,7 @@ class ColaListos:
         if algoritmo == 2:
             self.prioridades(procesador) 
         if algoritmo == 3:
-            self.multinivel(procesador,3)
+            self.multinivel(procesador)
         if algoritmo == 4:
             self.sjf(procesador,False)
         if algoritmo == 5:

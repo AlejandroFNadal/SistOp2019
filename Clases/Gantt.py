@@ -52,6 +52,8 @@ class Gantt:
                     gnt.broken_barh([(clk, 10)], (col, 10), facecolors =('tab:orange'))
                 elif x[1]==3: #En estado bloqueado
                     gnt.broken_barh([(clk, 10)], (col, 10), facecolors =('tab:red'))
+                elif x[1] == 2:
+                    gnt.broken_barh([(clk, 10)], (col, 10), facecolors =('tab:blue'))
                 col +=10
                 #e_y +=1
                 
@@ -79,6 +81,7 @@ class Gantt:
         
         leyenda.append(mpatches.Patch(color='tab:orange', label = 'Ejecución'))
         leyenda.append(mpatches.Patch(color='tab:red', label = 'Bloqueado'))
+        leyenda.append(mpatches.Patch(color='tab:blue', label = 'Listo'))
         plt.legend(handles= leyenda)
         
         plt.savefig(FILE_GANTT)

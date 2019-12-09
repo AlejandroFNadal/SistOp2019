@@ -77,7 +77,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                         auxproc.set_quantum(5)
                     elif auxproc.get_prioridad() == 2:
                         auxproc.set_quantum(3)
-                    else:
+                    elif auxproc.get_prioridad() == 3:
                         auxproc.set_quantum(None)
                 #auxproc.set_quantum(quantum)
                 auxproc.set_estado(1) #Nuevo
@@ -366,9 +366,7 @@ class Procesador:  # contendra gran parte de las tareas generales
                           " tiempo restante "+str(self.proceso_actual.get_tiempo_restante()))
                 else:
                     print(self.proceso_actual)
-                self.generar_tabla()
-                self.generar_mapa(self.cubo)
-                self.cuenta_tiempo()
+                
                 #self.memoria.imprime_particiones()
                 if alg_planificacion ==3:
                     if self.estadoMLQ==1:
@@ -385,11 +383,25 @@ class Procesador:  # contendra gran parte de las tareas generales
                         if x.get_prioridad()==3:
                             self.cola3.append(x)
                     self.procesos_listos.purge_list()
+                    for i in self.cola1:
+                        self.procesos_listos.anade_proceso(i)
+                    for i in self.cola2:
+                        self.procesos_listos.anade_proceso(i)
+                    for i in self.cola3:
+                        self.procesos_listos.anade_proceso(i)
+                #No limpio la cola de listos aca por que se limpia al principio de MLQ
+                self.generar_tabla()
+                self.generar_mapa(self.cubo)
+                self.cuenta_tiempo()
+
                 print("Cola 1:")
                 for x in self.cola1:
                     print(x.get_id())
                 print("Cola 2:")
                 for x in self.cola2:
+                    print(x.get_id())
+                print("Cola 3: ")
+                for x in self.cola3:
                     print(x.get_id())
                 print("CLK: "+str(self.reloj_total))
                 print(
@@ -399,16 +411,16 @@ class Procesador:  # contendra gran parte de las tareas generales
                 #time.sleep(1)
 
             self.imprime_cubo()
-            tiempo_espera = Estadisticas()
-            tiempo_espera.est_T_E(self.cubo)
+            #tiempo_espera = Estadisticas()
+            #tiempo_espera.est_T_E(self.cubo)
             #tiempo_espera.est_T_R(self.cubo)
-            mapa1 = Mapa_memoria()
-            mapa1.mapa_memoria(self.tabla_memoria, preset.tamMemoria)
+            #mapa1 = Mapa_memoria()
+            #mapa1.mapa_memoria(self.tabla_memoria, preset.tamMemoria)
             
             gantt1 = Gantt()
             gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)
 
-            tiempo_espera.est_T_R(self.cubo)
+            #tiempo_espera.est_T_R(self.cubo)
             
 
             
