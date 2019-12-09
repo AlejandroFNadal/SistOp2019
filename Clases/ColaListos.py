@@ -26,7 +26,7 @@ class ColaListos:
 
         
     def prioridades(self, procesador):
-        self.cola_listos.sort(key=lambda x: x.get_prioridad(), reverse=True)
+        self.cola_listos.sort(key=lambda x: x.get_prioridad())
         procesador.listos_ejecucion()
         procesador.bloqueados_listos()
         if procesador.get_proceso_actual() == None:

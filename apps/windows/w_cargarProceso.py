@@ -76,13 +76,21 @@ class W_cargarProceso(QMainWindow):
 			else:
 				rafaga = rafaga + "-" + accion  + str(raf)
 		print( rafaga )
-		for i in reversed(range(self.ventana.tW_procesos.rowCount())):
-			self.ventana.tW_procesos.removeRow(i)
+		
+		
 		nombre=self.ventana.lineEdit_Nombre.text()	
 		
-		if self.first_load and rafaga != None:
+		if nombre == "" or rafaga == "":
+			QMessageBox.about(self, "Alerta", "Completar campos vacios")#agrga un alert
+			return 0
+		elif self.first_load and rafaga != "":
 			self.first_load=False
 			self.ventana.lineEdit_Nombre.setEnabled(False)
+
+		"""if self.first_load and rafaga != None:
+									self.first_load=False
+									self.ventana.lineEdit_Nombre.setEnabled(False)"""
+		
 		arribo=self.ventana.spinBox_Arribo.value()
 		tamano_proc=self.ventana.sBTamanoProceso.value()
 		prio=self.ventana.sB_Prioridad.value()
@@ -98,7 +106,7 @@ class W_cargarProceso(QMainWindow):
 
 		if rafaga == None:
 			print("carga exitosa")
-		elif tamano_proc <= tamano_m:
+		elif tamano_proc <= tamano_m and rafaga != "":
 			#self.ventana.label_2.setVisible(0)
 			self.ventana.label_error_tam.setVisible(0)
 			datos=[nombre,tamano_proc,prio,rafaga,arribo, descripcionMemoria]
@@ -109,6 +117,8 @@ class W_cargarProceso(QMainWindow):
 			arribo=self.ventana.spinBox_Arribo.setValue(0)
 			tamano_proc=self.ventana.sBTamanoProceso.setValue(1)
 			prio=self.ventana.sB_Prioridad.setValue(1)
+			for i in reversed(range(self.ventana.tW_procesos.rowCount())):
+				self.ventana.tW_procesos.removeRow(i)
 		else:
 				#print("Error tamaño")
 				self.ventana.label_error_tam.setVisible(1)
@@ -155,8 +165,6 @@ class W_cargarProceso(QMainWindow):
 
 	# Funcion para Boton
 	def delete(self):
-		
-
 		items_selected = [item.row() for item in self.ventana.tW_procesos.selectedIndexes()]
 
 		for i in reversed(range(self.ventana.tW_procesos.rowCount())):
@@ -164,7 +172,9 @@ class W_cargarProceso(QMainWindow):
 				self.ventana.tW_procesos.removeRow(i)
 
 	def reiniciarProceso(self):
-		rafaga=self.ventana.lineEdit_rcpu.clear()
+		for i in reversed(range(self.ventana.tW_procesos.rowCount())):
+			self.ventana.tW_procesos.removeRow(i)
+		rafaga=""
 		nombre=self.ventana.lineEdit_Nombre.clear()
 		self.ventana.lineEdit_Nombre.setEnabled(True)
 		arribo=self.ventana.spinBox_Arribo.setValue(0)
