@@ -222,21 +222,6 @@
     <property name="editable">
      <bool>false</bool>
     </property>
-    <item>
-     <property name="text">
-      <string>BestFit</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>FirstFit</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Worstfit</string>
-     </property>
-    </item>
    </widget>
    <widget class="QRadioButton" name="radioButtonVariable">
     <property name="geometry">
