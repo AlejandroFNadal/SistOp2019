@@ -121,11 +121,12 @@ class Estadisticas:
             l_id.append('P'+str(l['id_p']))
             l_tiempo.append(l['tiempo'])
 
-               
+        pyplot.figure(200) 
         pyplot.pie(l_tiempo, colors= lista_colores,labels = l_id, autopct=lambda pct: self.func(pct, l_tiempo) )
         pyplot.axis('equal')
         pyplot.title(titulo+'\n\nTiempo total = '+str(clk)+' Porcentaje CPU = '+str(round(porc_cpu,2))+'%')
         pyplot.savefig(FILE)
+        print("fin")
     
     def dibujar_retorno(self, lista, lista_colores, titulo,clk,porc_cpu, FILE):
         # se realiza una lista para las id y otra para los tiempos
