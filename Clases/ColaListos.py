@@ -39,8 +39,8 @@ class ColaListos:
             x.print_proceso_fake()
     def multinivel(self,procesador):
         aux = procesador.get_proceso_actual()
-        self.purge_list()
         if procesador.cola1 != [] or (procesador.get_proceso_actual() != None and procesador.get_proceso_actual().get_prioridad()==1):
+            self.purge_list()
             quantum=5
             procesador.set_estadoMLQ(1)
             #Magic here
@@ -124,6 +124,8 @@ class ColaListos:
             print(procesador.cola1)
         else:
             if procesador.cola2 != [] or (procesador.get_proceso_actual() != None and procesador.get_proceso_actual().get_prioridad()==2): #rr 2
+                print("procesador.cola2 == vacio o proc actual cat==2")
+                self.purge_list()
                 procesador.set_estadoMLQ(2)
                 quantum=3
                 for x in procesador.cola2:
@@ -172,7 +174,8 @@ class ColaListos:
                         procesador.imprime_cola_bloqueados()
                         procesador.imprime_cola_listos()
                     else:
-                        if tiempo_r == 0:
+                        if tiempo_r <= 0:
+                            print("Prioridad 2 tiempo_r == 0")
                             #print("pasa a bloqueado o terminado")
                             #aca va a salir el proceso por que TR=0, entonces seteamos el quantum antes que salga
                             if procesador.get_proceso_actual().get_prioridad() == 1:
@@ -181,6 +184,8 @@ class ColaListos:
                                 procesador.get_proceso_actual().set_quantum(3)
                             elif procesador.get_proceso_actual().get_prioridad() == 3:
                                 procesador.get_proceso_actual().set_quantum(None)
+                            if tiempo_r < 0:
+                                procesador.get_proceso_actual().set_tiempo_restante(0)
                             procesador.listos_ejecucion()
                             procesador.bloqueados_listos()
                             if procesador.get_proceso_actual() == None:
@@ -200,8 +205,12 @@ class ColaListos:
                     self.purge_list()
                     for x in procesador.cola3:
                         self.cola_listos.append(x)
-                    procesador.listos_ejecucion()
+                    if procesador.get_proceso_actual()!= None and procesador.get_proceso_actual().get_tiempo_restante()<0 and procesador.get_proceso_actual().get_estado()==5:
+                        procesador.get_proceso_actual().set_tiempo_restante(0)
                     procesador.bloqueados_listos()
+                    procesador.listos_ejecucion()
+                    
+                    
                     if procesador.get_proceso_actual() == None:
                         procesador.listos_ejecucion()
                     procesador.imprime_cola_listos()

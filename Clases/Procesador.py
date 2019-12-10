@@ -177,11 +177,11 @@ class Procesador:  # contendra gran parte de las tareas generales
                 self.procesos_listos.elimina_elemento(0)
 
         elif self.proceso_actual != None:
-            #print("LE2")
+            print("LE2")
             part = self.proceso_actual.get_particion_proc()
             # si el tiempo del proceso actual es 0
             if self.proceso_actual.get_tiempo_restante() == 0 and self.procesos_listos.get_cola_listos() != []:
-                #print("LE2-1")
+                print("LE2-1")
                 if self.proceso_actual.get_num_rafaga_actual() < len(self.proceso_actual.get_rafaga_tot())-1:
                     self.proceso_actual.increment_num_rafaga_actual() #LN
                     pos = self.proceso_actual.get_num_rafaga_actual()
@@ -429,8 +429,8 @@ class Procesador:  # contendra gran parte de las tareas generales
             gantt1 = Gantt()
             
             gantt1.gantt(self.cubo, proc_gantt, gantt_amplitud)
-            tiempo_espera = Estadisticas()
-            tiempo_espera.est_T_R(self.cubo)
+            #tiempo_espera = Estadisticas()
+            #tiempo_espera.est_T_R(self.cubo)
             
 
             
